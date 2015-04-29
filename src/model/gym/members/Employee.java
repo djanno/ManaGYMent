@@ -53,7 +53,7 @@ public class Employee extends AbstractGymMember implements IEmployee {
 
     @Override
     public Object[] createRow() {
-        return new Object[]{this.getName(),this.getSurname(),this.getFiscalCode(),this.getAddress(),this.getEmail(),this.getNumber(),this.getSalary()};
+        return new Object[]{this.getName(),this.getSurname(),this.getFiscalCode(),this.getAddress(),this.getNumber(),this.getEmail(),this.getSalary()};
     }
 
 }

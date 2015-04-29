@@ -69,7 +69,7 @@ public class Subscriber extends AbstractGymMember implements ISubscriber {
     
     @Override
     public Object[] createRow() {
-        return new Object[]{this.getName(),this.getSurname(),this.getFiscalCode(),this.getAddress(),this.getEmail(),this.getNumber(),this.getExpirationDate()};
+        return new Object[]{this.getName(),this.getSurname(),this.getFiscalCode(),this.getAddress(),this.getNumber(),this.getEmail(),this.getExpirationDate()};
 
     }
 }
