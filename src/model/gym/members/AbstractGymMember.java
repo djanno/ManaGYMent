@@ -32,6 +32,11 @@ public abstract class AbstractGymMember implements IGymMember {
 //    aggiunto
     public abstract Object[] createRow();
  
+//  aggiunto
+    public String alternativeToString(){
+        return this.getName()+" "+this.getSurname()+" "+this.getFiscalCode();
+    }
+  
     @Override
     public String getName(){
         return this.name;

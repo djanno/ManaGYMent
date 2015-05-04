@@ -32,5 +32,7 @@ public interface IGymMember {
     void setNumber(final String number);
     
     void setCourses(final List<ICourse> corsi);
+    
+    String alternativeToString();
 
 }
