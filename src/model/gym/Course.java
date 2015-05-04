@@ -100,7 +100,8 @@ public class Course implements ICourse {
 
     @Override
     public void removeMember(final ISubscriber member) throws IllegalArgumentException {
-    	if(! this.members.contains(member)) {
+//      potrebbero essere inutili i controlli nel nostro caso
+        if(! this.members.contains(member)) {
     		throw new IllegalArgumentException("Iscritto non trovato.");
     	}
     	else {
@@ -110,6 +111,7 @@ public class Course implements ICourse {
     
     @Override
     public void removeCoach(final int indexOfCoach) throws IllegalArgumentException {
+//        potrebbero essere inutili i controlli nel nostro caso
         if(this.coaches.get(indexOfCoach)==null) {
                 throw new IllegalArgumentException("Coach non trovato.");
         }

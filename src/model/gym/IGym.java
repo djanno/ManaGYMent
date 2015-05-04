@@ -1,5 +1,6 @@
 package model.gym;
 
+import java.awt.Color;
 import java.util.List;
 
 import model.gym.members.IEmployee;
@@ -20,6 +21,8 @@ public interface IGym {
     List<ICourse> getCoursesWithCoaches();
     
     ICourse getCourseByName(String name);
+    
+    ICourse getCourseByColor(Color color);
     
     double getSale();
 

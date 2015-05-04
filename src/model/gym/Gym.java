@@ -1,5 +1,6 @@
 package model.gym;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -62,12 +63,12 @@ public class Gym implements IGym {
     
     @Override
     public ICourse getCourseByName(String name){
-        Optional<ICourse> course= this.courses.stream().filter(c->c.getCourseName().equals(name)).findAny();
-        if(course.isPresent()){
-            return  course.get();
-        }else{
-            throw new IllegalArgumentException();
-        }
+        return this.courses.stream().filter(c->c.getCourseName().equals(name)).findAny().orElseThrow(()-> new IllegalArgumentException());
+    }
+    
+    @Override
+    public ICourse getCourseByColor(Color color) {
+        return this.courses.stream().filter(c->c.getCourseColor().equals(color)).findAny().orElseThrow(()-> new IllegalArgumentException());
     }
 
     @Override
