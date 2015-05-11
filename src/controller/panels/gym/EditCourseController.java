@@ -61,9 +61,7 @@ public class EditCourseController extends AddCourseController implements
             this.model.getUser(this.frame.getActiveUser()).getGym().removeCourse(this.courseToEdit);
             super.checkError(courseName, courseColor, price, maxMembers);
             final ICourse newCourse = new Course(courseName, courseColor, Double.parseDouble(price), Integer.parseInt(maxMembers));
-            for (final IEmployee employee : this.courseToEdit.getCoaches()) {
-                newCourse.addCoach(employee);
-            }
+            this.courseToEdit.getCoaches().forEach(empl->newCourse.addCoach(empl));
             this.model.getUser(this.frame.getActiveUser()).getGym().addCourse(indexInList, newCourse);
         } catch (final Exception exc) {
             this.view.showError(exc.getMessage());

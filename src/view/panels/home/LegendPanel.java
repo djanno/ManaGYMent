@@ -1,4 +1,4 @@
-package view.panels;
+package view.panels.home;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -52,7 +52,7 @@ public class LegendPanel extends JScrollPane {
         gbcButtons.gridx = 0;
         gbcButtons.gridy = 0;
         for (final ICourse course : list) {
-            final JButtonCourse legendCourse = new JButtonCourse(course.getCourseName(),course.getColor(),120, 25, BUTTONFONT);
+            final JButtonCourse legendCourse = new JButtonCourse(course.getCourseName(),course.getCourseColor(),120, 25, BUTTONFONT);
             this.buttons.add(legendCourse);
             this.wrapperPanel.add(legendCourse, gbcButtons);
             gbcButtons.gridx++;

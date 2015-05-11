@@ -210,7 +210,6 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         this.courseHourTo.setEnabled(isSelected);
         this.coachesPerCourse.setEnabled(isSelected);
         this.table.setEnabled(isSelected);
-        this.back.setEnabled(isSelected);
         this.add.setEnabled(isSelected);
     }
      
