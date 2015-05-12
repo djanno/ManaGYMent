@@ -12,23 +12,25 @@ import exceptions.CourseIsFullException;
 
 public class Course implements ICourse, Serializable {
 	
-	private static final long serialVersionUID = 6012814332577508826L;
-	
-	private final String name;
+    private static final long serialVersionUID = 6012814332577508826L;
+    private static final String COACH_ALREDY_PRESENT = "Questo coach insegna già in questo corso";
+
+    private final String name;
     private double price;
     private final List<ISubscriber> members;
     private final List<IEmployee> coaches;
     private int maxMembers;
     private final Color color;
 
-    public Course(final String name,  final Color color, final double price, final int maxMembers){
-    	super();
-    	this.name = name;
-    	this.price = price;
-    	this.color = color;
-    	this.maxMembers = maxMembers;
-    	this.members = new ArrayList<>();
-    	this.coaches = new ArrayList<>();
+    public Course(final String name, final Color color, final double price,
+            final int maxMembers) {
+        super();
+        this.name = name;
+        this.price = price;
+        this.color = color;
+        this.maxMembers = maxMembers;
+        this.members = new ArrayList<>();
+        this.coaches = new ArrayList<>();
     }
 
     @Override
@@ -99,7 +101,11 @@ public class Course implements ICourse, Serializable {
     @Override
     public void addCoach(final IEmployee coach){
     	//facciamo in modo che gli impiegati possano svolgere solo determinati corsi?
-    	this.coaches.add(coach);
+        if(coaches.contains(coach)){
+            throw new IllegalArgumentException(COACH_ALREDY_PRESENT);
+        }else{
+           this.coaches.add(coach); 
+        }
     }
 
     @Override
