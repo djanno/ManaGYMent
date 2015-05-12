@@ -13,8 +13,10 @@ import view.panels.gym.GymPanel;
 public class GymPanelController implements IGymPanelController {
 
 	private static final String DIALOG_TITLE = "Aggiungi corso: ";
-	private static final int DIALOG_WIDTH = 400;
-	private static final int DIALOG_HEIGHT = 300;
+	private static final int DIALOG_WIDTH_ADD = 350;
+	private static final int DIALOG_HEIGHT_ADD = 245;
+	private static final int DIALOG_WIDTH_EDIT = 501;
+        private static final int DIALOG_HEIGHT_EDIT = 405;
 	
 	private final IModel model;
 	private final PrimaryFrame frame;
@@ -40,14 +42,14 @@ public class GymPanelController implements IGymPanelController {
 	public void cmdAddCourse() {
 		final AddCoursePanel panel = new AddCoursePanel(this.view.getBackgroundPath());
 		new AddCourseController(this.frame, this.model, panel, this);
-		this.frame.new DialogWindow(DIALOG_TITLE, DIALOG_WIDTH, DIALOG_HEIGHT, this.frame, panel);
+		this.frame.new DialogWindow(DIALOG_TITLE, DIALOG_WIDTH_ADD, DIALOG_HEIGHT_ADD, this.frame, panel);
 	}
 
 	@Override
 	public void cmdEditCourse(final int index) {
 		final EditCoursePanel panel = new EditCoursePanel(this.view.getBackgroundPath());
 		final IEditCourseController observer = new EditCourseController(this.frame, this.model, panel, this, this.model.getGym(this.frame.getActiveUser()).getCourses().get(index));
-		this.frame.new DialogWindow(DIALOG_TITLE, DIALOG_WIDTH, DIALOG_HEIGHT, this.frame, panel);
+		this.frame.new DialogWindow(DIALOG_TITLE, DIALOG_WIDTH_EDIT, DIALOG_HEIGHT_EDIT, this.frame, panel);
 		observer.loadData();
 	}
 

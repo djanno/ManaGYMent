@@ -7,6 +7,7 @@ import static java.awt.GridBagConstraints.NORTH;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -50,32 +51,34 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
     private final JSpinner courseHourTo;
     private final JComboBox<String> coachesPerCourse;
     private final JButton add;
-    private final JButton back;
-    private final JButton save;
+    private final JButton remove;
+    private final JButton end;
     private final JScrollPane scroll;
     private ISetCalendarController observer;
 
     public SetCalendarPanel(final String path) {
-    	super(new Object[]{"DA","A","NOME CORSO","COACH","CF DEL COACH"},path);
+        super(new Object[]{"DA","A","NOME CORSO","COACH","CF DEL COACH"},path);
         this.lblDay = new JLabel();
+        this.lblDay.setFont(new Font("Serif", Font.PLAIN, 25));
+        this.lblDay.setForeground(Color.RED);
         this.isOpened = new JCheckBox();
         
         this.gymOpenFrom = new JSpinner(new SpinnerNumberModel(8, 1, 24, 1));
         this.gymOpenTo = new JSpinner(new SpinnerNumberModel(8, 1, 24, 1));
         this.courseHourFrom = new JSpinner(new SpinnerNumberModel(8, 1, 23, 1));
         this.courseHourTo = new JSpinner(new SpinnerNumberModel(8, 1, 24, 1));
-        
+
         
         this.courses = new JComboBox<String>();
         this.coachesPerCourse = new JComboBox<String>();
         this.add = new JButton("Aggiungi corso");
-        this.back = new JButton("Rimuovi");
-        this.back.setEnabled(false);
-        this.save = new JButton("Fine");
+        this.remove = new JButton("Rimuovi");
+        this.remove.setEnabled(false);
+        this.end = new JButton("Fine");
        
         this.scroll=new JScrollPane(this.table);
         
-        this.scroll.setPreferredSize(new Dimension(600, 400));
+        this.scroll.setPreferredSize(new Dimension(400, 200));
         final Border border = BorderFactory.createLineBorder(Color.BLACK);
         this.scroll.setBorder(BorderFactory.createTitledBorder(border,PROGRAM_OF_A_DAY));
         
@@ -93,32 +96,29 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         
         final GridBagLayout gbl = new GridBagLayout();
         this.setLayout(gbl);
-        final JLabel days = new JLabel("Giorno");
-        final GridBagConstraints gbconstDay = new GridBagConstraints(0,0,1,1,0.0,0.0,CENTER,NONE,insetsGeneral,1,1);
-        this.add(days, gbconstDay);
 
-        final GridBagConstraints gbconstLblDay = new GridBagConstraints(1,0,1,1,0.0,0.0,LINE_START,NONE,insetsGeneral,1,1);
+        final GridBagConstraints gbconstLblDay = new GridBagConstraints(0,0,8,1,0.0,0.0,GridBagConstraints.CENTER,NONE,insetsGeneral,1,1);
         this.add(lblDay, gbconstLblDay);
         
         final JLabel open = new JLabel("Aperta");
-        final GridBagConstraints gbconstLblOpen = new GridBagConstraints(2,0,1,1,0.0,0.0,CENTER,NONE,insetsGeneral,1,1); 
+        final GridBagConstraints gbconstLblOpen = new GridBagConstraints(2,1,1,1,0.0,0.0,CENTER,NONE,insetsGeneral,1,1); 
         this.add(open, gbconstLblOpen);
 
-        final GridBagConstraints gbconstCheckOpen = new GridBagConstraints(3,0,1,1,0.0,0.0,LINE_START,NONE,insetsGeneral,1,1);
+        final GridBagConstraints gbconstCheckOpen = new GridBagConstraints(3,1,1,1,0.0,0.0,LINE_START,NONE,insetsGeneral,1,1);
         this.add(isOpened, gbconstCheckOpen);
 
-        final JLabel lblFrom = new JLabel("Ora apertura:");
-        final GridBagConstraints gbconstLblFrom = new GridBagConstraints(4,0,1,1,0.0,0.0,CENTER,NONE,insetsGeneral,1,1);
+        final JLabel lblFrom = new JLabel("apertura:");
+        final GridBagConstraints gbconstLblFrom = new GridBagConstraints(4,1,1,1,0.0,0.0,CENTER,NONE,insetsGeneral,1,1);
         this.add(lblFrom, gbconstLblFrom);
 
-        final GridBagConstraints gbconstCheckFrom = new GridBagConstraints(5,0,1,1,0.0,0.0,LINE_START,NONE,insetsGeneral,1,1);
+        final GridBagConstraints gbconstCheckFrom = new GridBagConstraints(5,1,1,1,0.0,0.0,LINE_START,NONE,insetsGeneral,1,1);
         this.add(gymOpenFrom, gbconstCheckFrom);
 
-        final JLabel lblTo = new JLabel("Ora chiusura:");
-        final GridBagConstraints gbconstLblTo = new GridBagConstraints(6,0,1,1,0.0,0.0,CENTER,NONE,insetsGeneral,1,1);
+        final JLabel lblTo = new JLabel("chiusura:");
+        final GridBagConstraints gbconstLblTo = new GridBagConstraints(6,1,1,1,0.0,0.0,CENTER,NONE,insetsGeneral,1,1);
         this.add(lblTo, gbconstLblTo);
 
-        final GridBagConstraints gbconstCheckTo = new GridBagConstraints(7,0,1,1,0.0,0.0,LINE_START,NONE,insetsGeneral,1,1);
+        final GridBagConstraints gbconstCheckTo = new GridBagConstraints(7,1,1,1,0.0,0.0,LINE_START,NONE,insetsGeneral,1,1);
         this.add(gymOpenTo, gbconstCheckTo);
 
         final JLabel lblCourses = new JLabel("Corsi");
@@ -150,17 +150,14 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         this.add(courseHourTo, gbconstCheckToC);
 
         final GridBagConstraints gbconstBAdd = new GridBagConstraints(7,3,1,1,0.0,0.0,NORTH,NONE,insetsGeneral,1,1);
-        this.add(createVerticalPanel(add,back), gbconstBAdd);
+        this.add(createVerticalPanel(add,remove), gbconstBAdd);
 
         final GridBagConstraints gbconstArea = new GridBagConstraints(0,3,7,1,0.0,0.0,CENTER,NONE,insetsGeneral,1,1);
         this.add(scroll, gbconstArea);
 
-        final GridBagConstraints gbconstBSave = new GridBagConstraints(0,4,6,1,0.0,0.0,CENTER,NONE,insetsGeneral,1,1);
-        this.add(save, gbconstBSave);
+        final GridBagConstraints gbconstBSave = new GridBagConstraints(0,4,8,1,0.0,0.0,CENTER,NONE,insetsGeneral,20,10);
+        this.add(end, gbconstBSave);
 
-//        final GridBagConstraints gbconstBBack = new GridBagConstraints(5,3,1,1,0.0,0.0,CENTER,NONE,insetsGeneral,1,1);
-//        this.add(back, gbconstBBack);
-        
         disenableIfNotOpen();
         
         setHandlers();
@@ -220,21 +217,21 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         this.add.addActionListener(e->this.observer.addPairInHoursCmd((String)this.courses.getSelectedItem(),(String)this.coachesPerCourse.getSelectedItem(),(Integer)this.courseHourFrom.getValue(),
                 (Integer) this.courseHourTo.getValue(), (Integer)this.gymOpenFrom.getValue(), (Integer)this.gymOpenTo.getValue()));
  
-        this.back.addActionListener(e->{
+        this.remove.addActionListener(e->{
             final int selectedRow=this.table.getSelectedRow();
             this.observer.removePairInHourCmd((Integer)((DefaultTableModel)this.table.getModel()).getValueAt(selectedRow, 0),
                     (String)((DefaultTableModel)this.table.getModel()).getValueAt(selectedRow, 2),
                     (String)((DefaultTableModel)this.table.getModel()).getValueAt(selectedRow, 4));
         });
         
-        this.save.addActionListener(e->this.observer.endCmd(this.isOpened.isSelected(), (Integer)this.gymOpenFrom.getValue(), (Integer) this.gymOpenTo.getValue()));
+        this.end.addActionListener(e->this.observer.endCmd(this.isOpened.isSelected(), (Integer)this.gymOpenFrom.getValue(), (Integer) this.gymOpenTo.getValue()));
         this.isOpened.addItemListener(e->disenableIfNotOpen());
         
         this.courses.addItemListener(e->{
                                     this.coachesPerCourse.setModel(new DefaultComboBoxModel<String>(UtilitiesPanels.createComboBoxValues(this.observer.loadCoachesByCourseName((String)this.courses.getSelectedItem()))));
         });
         
-        UtilitiesPanels.setListListenerTable((DefaultTableModel)this.table.getModel(), this.table, this.back);
+        UtilitiesPanels.setListListenerTable((DefaultTableModel)this.table.getModel(), this.table, this.remove);
 
     }
 
