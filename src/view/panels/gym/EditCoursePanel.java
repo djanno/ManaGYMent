@@ -18,40 +18,40 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-import view.panels.members.GenericTable;
 import model.gym.ICourse;
 import model.gym.members.IEmployee;
+import view.panels.Background;
+import view.panels.GenericTable;
+import view.panels.UtilitiesPanels;
 import controller.panels.gym.EditCourseController;
-import controller.panels.gym.IAddCourseObserver;
+import controller.panels.gym.IAddCourseController;
 
 public class EditCoursePanel extends GenericTable implements ActionListener,IEditCoursePanel{
     
     private static final long serialVersionUID = -899228555149893619L;
-            
+    
     private final JButton confirm;
     private final JButton addCoach;
     private final JButton removeCoach;
     private final JComboBox<String> coaches;
     private final JScrollPane panelList;
-    private IAddCourseObserver observer;
+    private IAddCourseController observer;
     private final EssentialPanelCourse principalPanel;
     
     public EditCoursePanel(final String path) {
-        super(new Object[]{"NOME","COGNOME","ID"},path);
+        super(new Object[]{"NOME","COGNOME","ID"}, path);
         this.confirm=new JButton("Conferma");
         this.addCoach=new JButton("Aggiungi Coach");
         this.removeCoach=new JButton("Rimuovi coach");
         this.removeCoach.setEnabled(false);
         this.addCoach.setEnabled(false);
         
-        this.principalPanel=new EssentialPanelCourse();
+        this.principalPanel=new EssentialPanelCourse(path);
         
         this.coaches=new JComboBox<String>();
         
@@ -104,8 +104,9 @@ public class EditCoursePanel extends GenericTable implements ActionListener,IEdi
         }
     }
     
-    private JPanel createSecondPanel(){
-        final JPanel secondPanel=new JPanel(new GridBagLayout());
+    private Background createSecondPanel(){
+        final Background secondPanel=new Background(this.getBackgroundPath());
+        secondPanel.setLayout(new GridBagLayout());
         final Insets insets=new Insets(6, 8, 6, 8);
         
         final JLabel lblCoaches=new JLabel("Insegnanti:");
@@ -131,13 +132,8 @@ public class EditCoursePanel extends GenericTable implements ActionListener,IEdi
     }
     
     @Override
-    public void attachViewObserver(final IAddCourseObserver observer) {
+    public void attachViewObserver(final IAddCourseController observer) {
         this.observer=observer;
-    }
-
-    @Override
-    public void showError(final String message) {
-        JOptionPane.showMessageDialog(this, message, "An error occurred", JOptionPane.ERROR_MESSAGE);
     }
     
 }

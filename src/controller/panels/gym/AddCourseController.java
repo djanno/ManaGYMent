@@ -8,7 +8,7 @@ import model.gym.ICourse;
 import view.PrimaryFrame;
 import view.panels.gym.IAddCoursePanel;
 
-public class AddCourseController implements IAddCourseObserver{
+public class AddCourseController implements IAddCourseController{
 
     
     private static final String NO_INSERT_STRING ="I campi Prezzo e Membri massimi non devono contenere stringhe ";
@@ -20,12 +20,14 @@ public class AddCourseController implements IAddCourseObserver{
     protected IModel model;
     protected IAddCoursePanel view;
     protected PrimaryFrame frame;
+    protected GymPanelController gymPanelController;
     
-    public AddCourseController(final PrimaryFrame frame,final IModel model,final IAddCoursePanel view) {
+    public AddCourseController(final PrimaryFrame frame, final IModel model, final IAddCoursePanel view, final GymPanelController gymPanelController) {
         super();
-        this.model=model;
-        this.view=view;
-        this.frame=frame;
+        this.model = model;
+        this.view = view;
+        this.frame = frame;
+        this.gymPanelController = gymPanelController;
         this.view.attachViewObserver(this);
     }   
 
@@ -36,12 +38,14 @@ public class AddCourseController implements IAddCourseObserver{
                 this.checkError(courseName, courseColor, price, maxMembers);
                 final ICourse course=new Course(courseName,  courseColor, Integer.parseInt(price), Integer.parseInt(maxMembers));
                 this.model.getUser(this.frame.getActiveUser()).getGym().addCourse(course);
+                this.gymPanelController.loadCoursesTable();
+                this.frame.getChild().closeDialog();
             }catch(Exception exc){
-                this.view.showError(exc.getMessage());
+                this.view.displayError(exc.getMessage());
             }
     }
     
-    protected void checkError(final String courseName, final Color courseColor, final String price, final String maxMembers) throws Exception{
+    protected void checkError(final String courseName, final Color courseColor, final String price, final String maxMembers) throws IllegalArgumentException, NumberFormatException{
         if (price.isEmpty() || maxMembers.isEmpty() || courseName.isEmpty()) {
             throw new IllegalArgumentException(NO_EMPTY_FIELDS);
         }
@@ -55,7 +59,7 @@ public class AddCourseController implements IAddCourseObserver{
             Double.parseDouble(price);
             Integer.parseInt(maxMembers);
         } catch (final NumberFormatException parseErr) {
-            throw new NumberFormatException(NO_INSERT_STRING);
+           this.view.displayError(NO_INSERT_STRING);
         }
     }
     

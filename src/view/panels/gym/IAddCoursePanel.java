@@ -1,9 +1,10 @@
 package view.panels.gym;
 
-import controller.panels.gym.IAddCourseObserver;
+import view.panels.IBackground;
+import controller.panels.gym.IAddCourseController;
 
-public interface IAddCoursePanel {
-    void attachViewObserver(final IAddCourseObserver observer);
+public interface IAddCoursePanel extends IBackground {
+	
+    void attachViewObserver(final IAddCourseController observer);
     
-    void showError(final String message);
 }

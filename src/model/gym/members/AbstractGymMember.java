@@ -1,13 +1,16 @@
 package model.gym.members;
 
+import java.io.Serializable;
 import java.util.List;
 
 import model.gym.ICourse;
 import model.gym.IGym;
 
-public abstract class AbstractGymMember implements IGymMember {
+public abstract class AbstractGymMember implements IGymMember, Serializable {
 	
-    private final String name;
+	private static final long serialVersionUID = 5354356285190012285L;
+	
+	private final String name;
     private final String surname;
     private final String fiscalCode;
     private String address;

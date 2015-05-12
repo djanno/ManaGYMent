@@ -1,20 +1,22 @@
 package model.gym;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import model.gym.members.IEmployee;
 import model.gym.members.ISubscriber;
 
-public class Gym implements IGym {
+public class Gym implements IGym, Serializable {
 	
-    private final String gymName;
+	private static final long serialVersionUID = 3617529257067437822L;
+	
+	private final String gymName;
     private final List<ISubscriber> subscribers;
     private final List<IEmployee> employees;
     private IGymCalendar calendar;
@@ -62,12 +64,12 @@ public class Gym implements IGym {
     }
     
     @Override
-    public ICourse getCourseByName(String name){
+    public ICourse getCourseByName(final String name){
         return this.courses.stream().filter(c->c.getCourseName().equals(name)).findAny().orElseThrow(()-> new IllegalArgumentException());
     }
     
     @Override
-    public ICourse getCourseByColor(Color color) {
+    public ICourse getCourseByColor(final Color color) {
         return this.courses.stream().filter(c->c.getCourseColor().equals(color)).findAny().orElseThrow(()-> new IllegalArgumentException());
     }
 
@@ -105,18 +107,18 @@ public class Gym implements IGym {
     }
     
     @Override
-    public void removeCourse(final ICourse course){
-    	this.courses.remove(course);
+    public void removeCourse(final int courseIndex){
+    	this.courses.remove(courseIndex);
     }
 
     @Override
-    public void removeSubscriber(final ISubscriber subscriber){
-    	this.subscribers.remove(subscriber);
+    public void removeSubscriber(final int subscriberIndex){
+    	this.subscribers.remove(subscriberIndex);
     }
 
     @Override
-    public void removeEmployee(final IEmployee employee){
-    	this.employees.remove(employee);
+    public void removeEmployee(final int employeeIndex){
+    	this.employees.remove(employeeIndex);
     }
 
     @Override
