@@ -18,8 +18,8 @@ public class HomePanelController implements IHomePanelController {
 
 	private static final String BACKGROUND_PATH = "/background.png";
 	private static final String DIALOG_TITLE = "Modifica l'orario della giornata: ";
-	private static final int DIALOG_WIDTH = 400;
-	private static final int DIALOG_HEIGHT = 300;
+	private static final int DIALOG_WIDTH = 714;
+	private static final int DIALOG_HEIGHT = 411;
 	
 	private final IModel model;
 	private final PrimaryFrame frame;
