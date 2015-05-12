@@ -1,5 +1,6 @@
 package model.gym.members;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,9 +11,11 @@ import java.util.Set;
 import model.gym.ICourse;
 import model.gym.IGym;
 
-public class Employee extends AbstractGymMember implements IEmployee {
+public class Employee extends AbstractGymMember implements IEmployee, Serializable {
 	
-    private double salary;
+	private static final long serialVersionUID = 4856734291021213699L;
+	
+	private double salary;
     private final Map<Integer, Set<Integer>> workingHours;
 
     //Deciso di utilizzare Integer invece dell'enum Day (utilizzeremo i campi

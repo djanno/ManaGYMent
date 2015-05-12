@@ -1,5 +1,7 @@
 package model.gym;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +12,11 @@ import java.util.stream.IntStream;
 import model.gym.members.IEmployee;
 
 
-public class Schedule {
+public class Schedule implements Serializable {
     
-    private boolean opened;
+	private static final long serialVersionUID = 2683209797124765098L;
+	
+	private boolean opened;
     private Optional<Integer> openingHour;
     private Optional<Integer> closingHour;
     private Map<Integer, List<Pair<ICourse,IEmployee>>> program;
@@ -48,6 +52,23 @@ public class Schedule {
             return this.closingHour;
     }
     
+    public List<ICourse> getCoursesInHour(final Integer hour) {
+		final List<ICourse> list = new ArrayList<>();
+		if(this.closingHour.isPresent() && hour < this.closingHour.get() && this.openingHour.isPresent() && hour >= this.openingHour.get()) {
+			for (final Pair<ICourse, IEmployee> pair : this.program.get(hour)) {
+				list.add(pair.getX());
+			}
+		}
+		return list;
+	}
+    
+    public boolean isGymOpenedAt(final Integer hour) {
+		if (this.openingHour.isPresent() && this.openingHour.get() <= hour && this.closingHour.isPresent() && this.closingHour.get() > hour) {
+			return true;
+		}
+		return false;
+	}
+    
     public void removePairInHour(Pair<ICourse,IEmployee> pair, Integer hour){
         this.program.get(hour).remove(pair);
     }
@@ -65,6 +86,23 @@ public class Schedule {
         });
     }
     
+    public void deletePairsWithCourse(final ICourse course) {
+    	final List<Pair<ICourse, IEmployee>> pairsToDelete = new ArrayList<>();
+    	for(final List<Pair<ICourse, IEmployee>> list : this.program.values()) {
+    		for(final Pair<ICourse, IEmployee> pair : list) {
+    			if(pair.getX().equals(course)) {
+    				pairsToDelete.add(pair);
+    			}
+    		}
+    	}
+    	
+    	for(final Pair<ICourse, IEmployee> pair : pairsToDelete) {
+    		this.program.keySet().forEach( key -> {
+        		this.program.get(key).remove(pair);
+        	});
+    	}
+    }
+    
     public Map<Integer, List<Pair<ICourse,IEmployee>>> getProgram(){
             return new TreeMap<Integer, List<Pair<ICourse,IEmployee>>>(this.program);
     }
@@ -72,23 +110,21 @@ public class Schedule {
     public void setOpened(final boolean opened){
             this.opened = opened;
             if(!this.opened){
-                    this.setOpeningHour(null);
-                    this.setClosingHour(null);
+                    this.setOpeningHourAndClosingHour(null, null);
                     this.program = new TreeMap<>();
             }
     }
     
-    public void setOpeningHour(final Integer openingHour){
-            //è giusto non fare controlli perchè da noi non è modificabile se opened = false?
-            this.openingHour = Optional.ofNullable(openingHour);
-    }
-    
-    public void setClosingHour(final Integer closingHour){
-            this.closingHour = Optional.ofNullable(closingHour);
-    }
+    public void setOpeningHourAndClosingHour(final Integer openingHour, final Integer closingHour) {
+		this.openingHour = Optional.ofNullable(openingHour);
+		this.closingHour = Optional.ofNullable(closingHour);
+		for(Integer i = openingHour; i < closingHour; i++) {
+			this.program.putIfAbsent(i, new ArrayList<Pair<ICourse, IEmployee>>());
+		}
+	}
     
     public void setProgram(final Map<Integer, List<Pair<ICourse,IEmployee>>> program){
-            this.program = program;
+            program.forEach((key, value) -> this.program.put(key, value));
     }
 
     @Override
@@ -108,6 +144,6 @@ public class Schedule {
             }
 
         }
-
     }
+    
 }

@@ -1,13 +1,16 @@
 package model.gym;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GymCalendar implements IGymCalendar {
+public class GymCalendar implements IGymCalendar, Serializable {
 	
-    private final Map<DaysOfWeek, Schedule> calendar;
+	private static final long serialVersionUID = 1198724186646197873L;
+	
+	private final Map<DaysOfWeek, Schedule> calendar;
 
     public GymCalendar(){
     	super();
@@ -22,11 +25,11 @@ public class GymCalendar implements IGymCalendar {
     }
 
     @Override
-    public HashMap<DaysOfWeek, Schedule> getCalendar(){
+    public Map<DaysOfWeek, Schedule> getCalendar(){
     	return new HashMap<DaysOfWeek, Schedule>(this.calendar); 
     }
     
-    public void setSchedule(DaysOfWeek day,Schedule schedule){
+    public void setSchedule(final DaysOfWeek day, final Schedule schedule){
         calendar.put(day,schedule);
     }
     
@@ -46,12 +49,12 @@ public class GymCalendar implements IGymCalendar {
             return this.name;
         }
         
-        private DaysOfWeek(String name){
+        private DaysOfWeek(final String name){
             this.name=name;
         }
         
-        public static DaysOfWeek getValueByName(String name){
-            for(DaysOfWeek day:DaysOfWeek.values()){
+        public static DaysOfWeek getValueByName(final String name){
+            for(final DaysOfWeek day:DaysOfWeek.values()){
                 if(day.getName().equals(name)){
                     return day;
                 }

@@ -23,7 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
@@ -33,9 +32,9 @@ import model.gym.GymCalendar.DaysOfWeek;
 import model.gym.ICourse;
 import model.gym.Schedule;
 import model.gym.members.IEmployee;
-import view.panels.gym.UtilitiesPanels;
-import view.panels.members.GenericTable;
-import controller.panels.home.ISetCalendarObserver;
+import view.panels.GenericTable;
+import view.panels.UtilitiesPanels;
+import controller.panels.home.ISetCalendarController;
 
 public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
 
@@ -54,7 +53,7 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
     private final JButton back;
     private final JButton save;
     private final JScrollPane scroll;
-    private ISetCalendarObserver observer;
+    private ISetCalendarController observer;
 
     public SetCalendarPanel(final String path) {
     	super(new Object[]{"DA","A","NOME CORSO","COACH","CF DEL COACH"},path);
@@ -197,7 +196,7 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
     }
     
     @Override
-    public void attachViewObserver(final ISetCalendarObserver observer) {
+    public void attachViewObserver(final ISetCalendarController observer) {
         this.observer = observer;
     }
     

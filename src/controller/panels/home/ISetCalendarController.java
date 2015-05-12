@@ -4,9 +4,9 @@ import java.util.List;
 
 import model.gym.members.IEmployee;
 
-public interface ISetCalendarObserver {
+public interface ISetCalendarController {
 
-	void loadData();
+	void loadData() throws IllegalArgumentException;
 
 	List<IEmployee> loadCoachesByCourseName(final String courseName);
 	

@@ -1,5 +1,6 @@
 package model.gym.members;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -10,14 +11,16 @@ import model.gym.ICourse;
 import model.gym.IGym;
 
 
-public class Subscriber extends AbstractGymMember implements ISubscriber {
+public class Subscriber extends AbstractGymMember implements ISubscriber, Serializable {
 	
-    private Calendar subscriptionDate;
+	private static final long serialVersionUID = -1414275393882247088L;
+	
+	private Calendar subscriptionDate;
     private Calendar expirationDate;
     private boolean expired;
 
     //Deciso di utilizzare Calendar invece di Date.
-    public Subscriber(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber, final String email, final IGym gym, final Calendar expirationDate, List<ICourse> corsi){
+    public Subscriber(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber, final String email, final IGym gym, final Calendar expirationDate, final List<ICourse> corsi){
     	super(name, surname, fiscalCode, address, phoneNumber, email, gym, corsi);
     	this.subscriptionDate = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
     	this.expirationDate = expirationDate;
