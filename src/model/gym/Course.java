@@ -1,23 +1,27 @@
 package model.gym;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import model.gym.members.IEmployee;
 import model.gym.members.ISubscriber;
 //import exceptions.CourseIsFullException;
+import exceptions.CourseIsFullException;
 
-public class Course implements ICourse {
+public class Course implements ICourse, Serializable {
 	
-    private final String name;
+	private static final long serialVersionUID = 6012814332577508826L;
+	
+	private final String name;
     private double price;
     private final List<ISubscriber> members;
     private final List<IEmployee> coaches;
     private int maxMembers;
-    private Color color;
+    private final Color color;
 
-    public Course(final String name,  Color color, final double price, final int maxMembers){
+    public Course(final String name,  final Color color, final double price, final int maxMembers){
     	super();
     	this.name = name;
     	this.price = price;
@@ -73,8 +77,8 @@ public class Course implements ICourse {
     }
 
     @Override
-    public IEmployee getCoachByFiscalCode(String fiscalCode) {
-        for(IEmployee employee: this.coaches){
+    public IEmployee getCoachByFiscalCode(final String fiscalCode) {
+        for(final IEmployee employee: this.coaches){
             if(employee.getFiscalCode().equalsIgnoreCase(fiscalCode)){
                 return employee;
             }
@@ -83,9 +87,9 @@ public class Course implements ICourse {
     }
     
     @Override
-    public void addMember(final ISubscriber member) throws Exception{ //CourseIsFullException {
+    public void addMember(final ISubscriber member) throws CourseIsFullException{ //CourseIsFullException {
     	if(this.members.size() == this.maxMembers) { 
-    		throw new Exception(); //CourseIsFullException("Impossibile aggiungere altri iscritti al corso. Numero massimo di iscritti al corso raggiunto.");
+    		throw new CourseIsFullException("Impossibile aggiungere altri iscritti al corso. Numero massimo di iscritti al corso raggiunto."); //CourseIsFullException("Impossibile aggiungere altri iscritti al corso. Numero massimo di iscritti al corso raggiunto.");
     	}
     	else {
     		this.members.add(member);
@@ -119,7 +123,19 @@ public class Course implements ICourse {
                 this.coaches.remove(indexOfCoach);
         }
     }
-
+    
+    @Override
+    public boolean equals(final Object obj) {
+    	if(obj instanceof Course) {
+    		final Course course = (Course) obj;
+    		if(this.name.equals(course.getCourseName()) && this.color.equals(course.getCourseColor()) && 
+    				this.price == course.getCoursePrice() && this.maxMembers == course.getMaxMembers() &&
+    				this.coaches.equals(course.getCoaches()) && this.members.equals(course.getCurrentMembers())) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 
 
     

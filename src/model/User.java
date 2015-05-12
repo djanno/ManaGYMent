@@ -1,11 +1,15 @@
 package model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import model.gym.IGym;
 
-public class User implements IUser {
-    private final String name;
+public class User implements IUser, Serializable {
+	
+	private static final long serialVersionUID = -3416885631818258828L;
+	
+	private final String name;
     private final String surname;
     private final String username;
     private char[] password;
@@ -21,38 +25,47 @@ public class User implements IUser {
     	this.email = email;
     }
 
+    @Override
     public String getName(){
         return this.name;
     }
 
+    @Override
     public String getSurname(){
         return this.surname;
     }
 
+    @Override
     public String getUsername(){
         return this.username;
     }
 
+    @Override
     public char[] getPassword(){
         return this.password;
     }
 
+    @Override
     public IGym getGym(){
         return this.gym;
     }
 
+    @Override
     public String getEmail(){
         return this.email;
     }
 
+    @Override
     public void setPassword(final char[] psw){
     	this.password = psw;
     }
 
+    @Override
     public void setEmail(final String email){
     	this.email = email;
     }
     
+    @Override
     public void sendEmail(final List<String> emailAddresses){
     	
     }

@@ -2,7 +2,8 @@ package controller.panels.gym;
 
 import java.awt.Color;
 
-public interface IEditCourseObserver {
+public interface IEditCourseController {
+	
     void loadData();
     
     void formTable();

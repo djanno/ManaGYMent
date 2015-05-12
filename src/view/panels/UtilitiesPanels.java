@@ -1,4 +1,4 @@
-package view.panels.gym;
+package view.panels;
 
 import java.util.List;
 import java.util.stream.Collectors;

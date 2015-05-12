@@ -13,10 +13,11 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class EssentialPanelCourse extends JPanel implements IEssentialPanelCourse{
+import view.panels.Background;
+
+public class EssentialPanelCourse extends Background implements IEssentialPanelCourse{
 
     private static final long serialVersionUID = 8205150569897367407L;
     private static final int LONG_TEXT_FIELD=10;
@@ -28,8 +29,9 @@ public class EssentialPanelCourse extends JPanel implements IEssentialPanelCours
     private  JDialog dialog;
     private final JColorChooser dialJColorChooser;
     
-    public EssentialPanelCourse() {
-
+    public EssentialPanelCourse(final String path) {
+    	super(path);
+    	
         this.courseName=new JTextField(LONG_TEXT_FIELD);
         this.price=new JTextField(LONG_TEXT_FIELD);
         this.maxMember=new JTextField(LONG_TEXT_FIELD);

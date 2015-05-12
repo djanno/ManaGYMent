@@ -20,8 +20,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import view.panels.gym.UtilitiesPanels;
-import controller.panels.member.AbstractTableMemberController;
+import view.panels.GenericTable;
+import view.panels.UtilitiesPanels;
+import controller.panels.members.AbstractTableMemberController;
 
 public class TableMemberPanel extends GenericTable implements IAbstractTablePanel{
     

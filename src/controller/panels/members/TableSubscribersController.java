@@ -1,9 +1,8 @@
-package controller.panels.member;
+package controller.panels.members;
 
 import model.IModel;
 import model.gym.members.ISubscriber;
 import view.PrimaryFrame;
-import view.panels.members.SubscriberPanel;
 import view.panels.members.TableMemberPanel;
 
 public class TableSubscribersController extends AbstractTableMemberController{

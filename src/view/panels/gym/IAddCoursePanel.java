@@ -1,9 +1,9 @@
 package view.panels.gym;
 
-import controller.panels.gym.IAddCourseObserver;
+import controller.panels.gym.IAddCourseController;
 
 public interface IAddCoursePanel {
-    void attachViewObserver(final IAddCourseObserver observer);
+	
+    void attachViewObserver(final IAddCourseController observer);
     
-    void showError(final String message);
 }

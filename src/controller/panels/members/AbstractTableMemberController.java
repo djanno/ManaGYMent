@@ -1,4 +1,4 @@
-package controller.panels.member;
+package controller.panels.members;
 
 import java.util.List;
 
