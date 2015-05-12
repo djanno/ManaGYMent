@@ -1,20 +1,29 @@
 package model.gym;
 
+import java.io.Serializable;
 
-public class Pair<X,Y>{
-    private X x;
-    private Y y;
-    public Pair(X x, Y y) {
+public class Pair<X,Y> implements Serializable {
+	
+
+	private static final long serialVersionUID = 6209827569491880779L;
+	
+	private final X x;
+    private final Y y;
+    
+    public Pair(final X x, final Y y) {
             super();
             this.x = x;
             this.y = y;
     }
+    
     public X getX() {
             return x;
     }
+    
     public Y getY() {
             return y;
     }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -26,24 +35,32 @@ public class Pair<X,Y>{
     
     @SuppressWarnings("rawtypes")
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        
+        if (obj == null || this.getClass() != obj.getClass()) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        
+        final Pair other = (Pair) obj;
+        if (this.x == null && other.x != null) {
             return false;
-        Pair other = (Pair) obj;
-        if (x == null) {
-            if (other.x != null)
-                return false;
-        } else if (!x.equals(other.x))
+        }
+        
+        if (!this.x.equals(other.x)) {
             return false;
-        if (y == null) {
-            if (other.y != null)
-                return false;
-        } else if (!y.equals(other.y))
+        }
+        
+        if (y == null && other.y != null) {
             return false;
+        }
+        
+        if (!this.y.equals(other.y)) {
+            return false;
+        }
+        
         return true;
     }
     

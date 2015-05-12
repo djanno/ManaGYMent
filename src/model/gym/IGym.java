@@ -36,11 +36,11 @@ public interface IGym {
     
     void addCourse(final int index,final ICourse course);
 
-    public void removeCourse(ICourse course);
+    void removeCourse(final int courseIndex);
 
-    void removeSubscriber(ISubscriber subscriber);
+    void removeSubscriber(final int subscriberIndex);
 
-    void removeEmployee(IEmployee employee);
+    void removeEmployee(final int employeeIndex);
 
     double computeMonthlyIncome();
 

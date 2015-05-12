@@ -5,21 +5,22 @@ import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import controller.panels.gym.IAddCourseObserver;
+import view.panels.Background;
+import controller.panels.gym.IAddCourseController;
 
-public class AddCoursePanel extends JPanel implements IAddCoursePanel{
+public class AddCoursePanel extends Background implements IAddCoursePanel{
 
     private static final long serialVersionUID = -487645402800341192L;
     private final EssentialPanelCourse pCenter;
     private final JButton addCourse;
-    private IAddCourseObserver observer;
+    private IAddCourseController observer;
 
-    public AddCoursePanel() {
-        this.pCenter = new EssentialPanelCourse();
+    public AddCoursePanel(final String path) {
+    	super(path);
+        this.pCenter = new EssentialPanelCourse(path);
         
         this.addCourse = new JButton("Aggiungi Corso");
 
@@ -39,12 +40,8 @@ public class AddCoursePanel extends JPanel implements IAddCoursePanel{
 
 
     @Override
-    public void attachViewObserver(final IAddCourseObserver observer) {
+    public void attachViewObserver(final IAddCourseController observer) {
         this.observer = observer;
-    }
-    
-    public void showError(final String message) {
-        JOptionPane.showMessageDialog(this, message, "An error occurred", JOptionPane.ERROR_MESSAGE);
     }
     
     private void setHandlers(){

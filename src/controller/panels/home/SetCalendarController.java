@@ -12,7 +12,7 @@ import model.gym.members.IEmployee;
 import view.PrimaryFrame;
 import view.panels.home.SetCalendarPanel;
 
-public class SetCalendarController implements ISetCalendarObserver {
+public class SetCalendarController implements ISetCalendarController {
 
 	private static final String WRONG_COURSE_HOUR = "L'ora di fine corso deve essere maggiore rispetto a quella di inizio corso";
 	private static final String NOT_VALID_START_HOUR_COURSE = "L'ora di inizio corso non coincidere con l'orario di aperura della palestra.\n Selezionare un'ora di inizio corso maggiore oppure modificare l'orario di apertura della palestra ";
@@ -23,11 +23,11 @@ public class SetCalendarController implements ISetCalendarObserver {
 	private final IModel model;
 	private final PrimaryFrame frame;
 	private final SetCalendarPanel view;
-	private final IHomeController homeController;
+	private final IHomePanelController homeController;
 	private final DaysOfWeek day;
 
 	public SetCalendarController(final IModel model, final PrimaryFrame frame,
-			final SetCalendarPanel view, final IHomeController homeController, final DaysOfWeek day) {
+			final SetCalendarPanel view, final IHomePanelController homeController, final DaysOfWeek day) {
 		super();
 		this.model = model;
 		this.view = view;
@@ -38,7 +38,7 @@ public class SetCalendarController implements ISetCalendarObserver {
 	}
 
 	@Override
-	public void loadData() {
+	public void loadData() throws IllegalArgumentException {
 		final List<ICourse> courseWithCoaches = this.model.getUser(this.frame.getActiveUser()).getGym().getCoursesWithCoaches();
 		if (courseWithCoaches.isEmpty()) {
 //		    io direi di creare un eccezione specifica e non un illegalargument
@@ -110,6 +110,8 @@ public class SetCalendarController implements ISetCalendarObserver {
 			if (isOpen) {
 				sch.setOpened(isOpen);
 				sch.setOpeningHourAndClosingHour(openingTime, closingTime);
+				this.homeController.loadCalendar();
+				this.frame.getChild().closeDialog();
 			} else {
 				new Schedule();
 			}

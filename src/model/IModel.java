@@ -1,15 +1,17 @@
 package model;
 
 import model.gym.IGym;
-//import exceptions.UserAlreadyExistsException;
-//import exceptions.WrongUsernameException;
+import exceptions.UserAlreadyExistsException;
+import exceptions.WrongCredentialsException;
 
 public interface IModel {
 
-    boolean checkAccount(final String username, final char[] psw) throws Exception;//WrongUsernameException;
+    boolean checkAccount(final String username, final char[] psw) throws WrongCredentialsException;
 
-    void addUser(final IUser user) throws Exception;//UserAlreadyExistsException;
-    
     IUser getUser(String username);
-
+    
+    IGym getGym(final String userLogged);
+    
+    void addUser(final IUser user) throws UserAlreadyExistsException;
+    
 }

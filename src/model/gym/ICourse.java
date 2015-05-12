@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.gym.members.IEmployee;
 import model.gym.members.ISubscriber;
-//import exceptions.CourseIsFullException;
+import exceptions.CourseIsFullException;
 
 public interface ICourse {
 
@@ -29,7 +29,7 @@ public interface ICourse {
     
     IEmployee getCoachByFiscalCode(String fiscalCode);
 
-    void addMember(final ISubscriber member) throws Exception;//CourseIsFullException;
+    void addMember(final ISubscriber member) throws CourseIsFullException;
 
     void addCoach(final IEmployee coach);
 
