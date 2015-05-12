@@ -14,22 +14,27 @@ import model.gym.members.IEmployee;
 
 public class Schedule implements Serializable {
     
-	private static final long serialVersionUID = 2683209797124765098L;
-	
-	private boolean opened;
+    private static final long serialVersionUID = 2683209797124765098L;
+    private static final String COURSE_ALREADY_PRESENT_IN_HOUR = "Corso già presente nella fascia oraria selezionata";
+    private static final String EMPLOYEE_ALREADY_PRESENT_IN_HOUR = "L'istruttore che si vuole inserire insegna già un altro corso in quella fascia oraria" ;
+
+    private boolean opened;
     private Optional<Integer> openingHour;
     private Optional<Integer> closingHour;
-    private Map<Integer, List<Pair<ICourse,IEmployee>>> program;
-    //considerare l'opzione Map<ICourse, InnerPair<IEmployee, Set<Integer>>
-    //in tale mappa sarebbero salvati corso -> coppia impiegato ore lavorative
-    //se si vuole salvare il nome del coach nel calendario.
-    
-    public Schedule(final Boolean opened, final Integer openingHour, final Integer closingHour, final Map<Integer,List<Pair<ICourse,IEmployee>>> program2){
-            super();
-            this.opened = opened;
-            this.openingHour = Optional.ofNullable(openingHour);
-            this.closingHour = Optional.ofNullable(closingHour);
-            this.program = program2;
+    private Map<Integer, List<Pair<ICourse, IEmployee>>> program;
+
+    // considerare l'opzione Map<ICourse, InnerPair<IEmployee, Set<Integer>>
+    // in tale mappa sarebbero salvati corso -> coppia impiegato ore lavorative
+    // se si vuole salvare il nome del coach nel calendario.
+
+    public Schedule(final Boolean opened, final Integer openingHour,
+            final Integer closingHour,
+            final Map<Integer, List<Pair<ICourse, IEmployee>>> program2) {
+        super();
+        this.opened = opened;
+        this.openingHour = Optional.ofNullable(openingHour);
+        this.closingHour = Optional.ofNullable(closingHour);
+        this.program = program2;
     }
     
     public Schedule(){
@@ -76,11 +81,7 @@ public class Schedule implements Serializable {
     public void putPairInHour(Pair<ICourse,IEmployee> pair, Integer hourFrom, Integer hourTo) throws IllegalArgumentException{
         isAlreadyPresentInHour(pair, hourFrom, hourTo);
         IntStream.rangeClosed(hourFrom, hourTo-1).forEach(hour->{
-//                        List<Pair<ICourse,IEmployee>> list = this.program.getOrDefault(hourTo, new LinkedList<Pair<ICourse,IEmployee>>());
-            List<Pair<ICourse,IEmployee>> list=this.program.get(hour);
-                if(list==null){
-                    list=new LinkedList<Pair<ICourse,IEmployee>>();
-                }
+                        List<Pair<ICourse,IEmployee>> list = this.program.getOrDefault(hourTo, new LinkedList<Pair<ICourse,IEmployee>>());
                         list.add(pair);
                         this.program.put(hour, list);
         });
@@ -139,7 +140,12 @@ public class Schedule implements Serializable {
             List<Pair<ICourse, IEmployee>> list = this.program.getOrDefault(i, new LinkedList<Pair<ICourse, IEmployee>>());
             for (Pair<ICourse, IEmployee> existingPair : list) {
                 if (existingPair.getX().equals(pair.getX()) || existingPair.getY().equals(pair.getY())) {
-                    throw new IllegalArgumentException("Corso già presente nella fascia oraria selezionata");
+                    if(existingPair.getX().equals(pair.getX())){
+                        throw new IllegalArgumentException(COURSE_ALREADY_PRESENT_IN_HOUR);
+                    }else{
+                        throw new IllegalArgumentException(EMPLOYEE_ALREADY_PRESENT_IN_HOUR);
+                    }
+                    
                 }
             }
 
