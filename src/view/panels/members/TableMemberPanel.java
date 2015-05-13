@@ -1,7 +1,14 @@
 package view.panels.members;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -10,12 +17,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -74,6 +83,7 @@ public class TableMemberPanel extends GenericTable implements IAbstractTablePane
         this.sorter=new TableRowSorter<TableModel>(table.getModel());
         this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.table.setRowSorter(sorter);
+		table.setDefaultRenderer(Calendar.class, new TblRenderer());
         
         buildLayout();
         
@@ -137,6 +147,37 @@ public class TableMemberPanel extends GenericTable implements IAbstractTablePane
         this.add.addActionListener(e->this.observer.addMemberCmd());
         this.remove.addActionListener(e->this.observer.deleteMemberCmd(table.convertRowIndexToModel(table.getSelectedRow())));
         this.edit.addActionListener(e->this.observer.editMemberCmd(table.convertRowIndexToModel(table.getSelectedRow())));
+    }
+	
+    static class TblRenderer extends DefaultTableCellRenderer {
+
+        private static final long serialVersionUID = -5256501248149933809L;
+
+        public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean selected, final boolean focused, final int row, final int column) {
+                if (value != null) {
+                    final Calendar c = (Calendar) value;
+                    final Date newDate = c.getTime();
+                    final Date dora=Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY).getTime();
+                    if(newDate.before(dora)){
+                        setBackground(Color.RED);
+                    }else{
+                        setBackground(Color.WHITE);
+                    }
+                    if (selected) {
+                       setForeground(table.getSelectionForeground());
+                       setBackground(table.getSelectionBackground());
+                    }
+                    final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ITALY);
+                    setText(df.format(c.getTime().getTime()).toString());
+                }
+
+                setBorder(null);
+
+                setForeground(Color.black);
+
+                return this;
+
+        }
     }
 
 }

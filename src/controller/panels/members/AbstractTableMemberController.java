@@ -12,14 +12,16 @@ import view.panels.members.TableMemberPanel;
 public abstract class AbstractTableMemberController {
     
     private static final String CONFIRM = "Sei sicuro di voler cancellare il membro selezionato?";
+    protected static final int WIDTH_PANEL=455;
+    protected static final int HEIGHT_PANEL=360;
     protected final PrimaryFrame frame;
     protected final IModel model;
     private final TableMemberPanel view;
     
     
-    public AbstractTableMemberController(final PrimaryFrame frame, final IModel model, final TableMemberPanel view) {
-            this.frame = frame;
+    public AbstractTableMemberController(final IModel model, final PrimaryFrame frame,  final TableMemberPanel view) {
             this.model = model;
+            this.frame = frame;
             this.view = view;
             this.view.attachViewObserver(this);
     }
