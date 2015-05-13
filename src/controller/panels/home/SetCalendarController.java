@@ -147,10 +147,8 @@ public class SetCalendarController implements ISetCalendarController {
 			firstHour = iterator.next();
 			lastHour = firstHour;
 		} else {
-			throw new IllegalArgumentException(
-					"Impossibile impostare una schedule senza inserire corsi");
+			throw new IllegalArgumentException("Impossibile impostare una schedule senza inserire corsi");
 		}
-
 		if (openingTime >= closingTime) {
 			throw new IllegalArgumentException(NOT_VALID_END_HOUR_COURSE);
 		}

@@ -188,8 +188,8 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         this.observer.formTable();
         this.courses.setModel(new DefaultComboBoxModel<String>(UtilitiesPanels.createComboBoxValues(gymCourses))); 
         this.coachesPerCourse.setModel(new DefaultComboBoxModel<String>(UtilitiesPanels.createComboBoxValues(gymCoaches)));
-        schedule.getOpeningHour().ifPresent(hour->this.gymOpenFrom.setValue(hour));
-        schedule.getClosingHour().ifPresent(hour->this.gymOpenTo.setValue(hour));
+        this.gymOpenFrom.setValue(schedule.getOpeningHour().orElse(8));
+        this.gymOpenTo.setValue(schedule.getClosingHour().orElse(22));
     }
     
     @Override
