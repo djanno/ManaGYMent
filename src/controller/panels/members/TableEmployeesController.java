@@ -2,8 +2,8 @@ package controller.panels.members;
 
 
 import model.IModel;
-import model.gym.members.IEmployee;
 import view.PrimaryFrame;
+import view.panels.members.EmployeePanel;
 import view.panels.members.TableMemberPanel;
 
 public class TableEmployeesController extends AbstractTableMemberController{
