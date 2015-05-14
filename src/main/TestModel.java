@@ -81,7 +81,7 @@ public class TestModel {
 		program2.put(10, list1);
 		program2.put(11, list2);
 		Schedule sch = new Schedule();
-		// sch.setOpened(true);
+		sch.setOpened(true);
 		sch.setOpeningHourAndClosingHour(10, 22);
 		sch.setProgram(program2);
 		List<IGymMember> lista = Arrays.asList(e1, e2, e3);

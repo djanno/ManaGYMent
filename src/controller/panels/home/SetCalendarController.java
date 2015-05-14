@@ -3,6 +3,8 @@ package controller.panels.home;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.IModel;
 import model.gym.GymCalendar.DaysOfWeek;
 import model.gym.ICourse;
@@ -14,17 +16,18 @@ import view.panels.home.SetCalendarPanel;
 
 public class SetCalendarController implements ISetCalendarController {
 
-	private static final String WRONG_COURSE_HOUR = "L'ora di fine corso deve essere maggiore rispetto a quella di inizio corso";
-	private static final String NOT_VALID_START_HOUR_COURSE = "L'ora di inizio corso non coincidere con l'orario di aperura della palestra.\n Selezionare un'ora di inizio corso maggiore oppure modificare l'orario di apertura della palestra ";
-	private static final String NOT_VALID_END_HOUR_COURSE = "L'ora di fine corso non coincidere con l'orario di chiusura della palestra.\nSelezionare un'ora di fine corso minore oppure modificare l'orario di chiusura della palestra";
+	private static final String WRONG_COURSE_HOUR = "L'ora di fine corso deve essere maggiore rispetto a quella di inizio corso.";
+	private static final String NOT_VALID_START_HOUR_COURSE = "L'ora di inizio corso non coincide con l'orario di aperura della palestra.\n Selezionare un'ora di inizio corso maggiore oppure modificare l'orario di apertura della palestra.";
+	private static final String NOT_VALID_END_HOUR_COURSE = "L'ora di fine corso non coincide con l'orario di chiusura della palestra.\n Selezionare un'ora di fine corso minore oppure modificare l'orario di chiusura della palestra.";
 	private static final String HOUR_NOT_COMBINE = "L'ora in cui sono stati introdotti i corsi non coincide con l'apertura della palestra."
-			+ "Modificare o l'orario di apertura/chiusura oppure rimuovere i corsi inseriti nelle ore in cui la palestra risulta chiusa";
+			+ " Modificare o l'orario di apertura/chiusura oppure rimuovere i corsi inseriti nelle ore in cui la palestra risulta chiusa.";
 
 	private final IModel model;
 	private final PrimaryFrame frame;
 	private final SetCalendarPanel view;
 	private final IHomePanelController homeController;
 	private final DaysOfWeek day;
+	private final Schedule temp;
 
 	public SetCalendarController(final IModel model, final PrimaryFrame frame,
 			final SetCalendarPanel view, final IHomePanelController homeController, final DaysOfWeek day) {
@@ -34,34 +37,36 @@ public class SetCalendarController implements ISetCalendarController {
 		this.homeController = homeController;
 		this.frame = frame;
 		this.day = day;
+		final Schedule schedule = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar().get(this.day);
+		this.temp = new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour().orElse(null), schedule.getProgram());
 		this.view.attachViewObserver(this);
 	}
 
 	@Override
 	public void loadData() throws IllegalArgumentException {
-		final List<ICourse> courseWithCoaches = this.model.getUser(this.frame.getActiveUser()).getGym().getCoursesWithCoaches();
+		final List<ICourse> courseWithCoaches = this.model.getGym(this.frame.getActiveUser()).getCoursesWithCoaches();
 		if (courseWithCoaches.isEmpty()) {
 //		    io direi di creare un eccezione specifica e non un illegalargument
 			throw new IllegalArgumentException("Non esistono corsi con degli insegnanti");
 		} else {
 			view.loadFields(day,
-        			        this.model.getUser(this.frame.getActiveUser()).getGym().getProgram().getCalendar().get(this.day),
+        			        this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar().get(this.day),
         			        courseWithCoaches,
         			        courseWithCoaches.get(0).getCoaches());
 		}
 	}
 
 	public List<IEmployee> loadCoachesByCourseName(final String courseName) {
-		return this.model.getUser(this.frame.getActiveUser()).getGym().getCourseByName(courseName)
+		return this.model.getGym(this.frame.getActiveUser()).getCourseByName(courseName)
 				.getCoaches();
 	}
 
 	public void formTable() {
 		this.view.refreshTable();
-		final Schedule s = this.model.getUser(this.frame.getActiveUser()).getGym().getProgram().getCalendar()
-				.get(day);
-		for (final Integer i : s.getProgram().keySet()) {
-			for (final Pair<ICourse, IEmployee> pair : s.getProgram().get(i)) {
+		//final Schedule s = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
+		//		.get(day);
+		for (final Integer i : this.temp.getProgram().keySet()) {
+			for (final Pair<ICourse, IEmployee> pair : this.temp.getProgram().get(i)) {
 				final Object[] row = new Object[] { i, i + 1,
 						pair.getX().getCourseName(),
 						pair.getY().getName() + " " + pair.getY().getSurname(),
@@ -77,13 +82,13 @@ public class SetCalendarController implements ISetCalendarController {
 		try {
 			this.checkHours(hourFrom, hourTo, openingTime, closingTime);
 			final String fiscalCode = employeeDetails.split(" ")[2];
-			final ICourse course = this.model.getUser(this.frame.getActiveUser()).getGym().getCourseByName(
+			final ICourse course = this.model.getGym(this.frame.getActiveUser()).getCourseByName(
 					courseName);
 			final IEmployee employee = course.getCoachByFiscalCode(fiscalCode);
 			final Pair<ICourse, IEmployee> pairInHour = new Pair<>(course, employee);
-			final Schedule sch = this.model.getUser(this.frame.getActiveUser()).getGym().getProgram().getCalendar()
-					.get(day);
-			sch.putPairInHour(pairInHour, hourFrom, hourTo);
+			//final Schedule sch = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
+			//		.get(day);
+			this.temp.putPairInHour(pairInHour, hourFrom, hourTo);
 			this.formTable();
 		} catch (IllegalArgumentException exc) {
 			this.frame.displayError(exc.getMessage());
@@ -92,12 +97,12 @@ public class SetCalendarController implements ISetCalendarController {
 
 	public void removePairInHourCmd(final Integer time, final String courseName,
 			final String fiscalCode) {
-		final Schedule sch = this.model.getUser(this.frame.getActiveUser()).getGym().getProgram().getCalendar()
-				.get(day);
-		final ICourse courseToBeRemoved = this.model.getUser(this.frame.getActiveUser()).getGym().getCourseByName(courseName);
+		//final Schedule sch = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
+		//		.get(day);
+		final ICourse courseToBeRemoved = this.model.getGym(this.frame.getActiveUser()).getCourseByName(courseName);
 		final Pair<ICourse, IEmployee> pair = new Pair<>(courseToBeRemoved,
 				courseToBeRemoved.getCoachByFiscalCode(fiscalCode));
-		sch.removePairInHour(pair, time);
+		this.temp.removePairInHour(pair, time);
 		this.formTable();
 	}
 
@@ -105,16 +110,27 @@ public class SetCalendarController implements ISetCalendarController {
 	public void endCmd(final Boolean isOpen, final Integer openingTime, final Integer closingTime) {
 		try {
 			this.finalControl(openingTime, closingTime);
-			final Schedule sch = this.model.getUser(this.frame.getActiveUser()).getGym().getProgram().getCalendar()
-					.get(day);
+			//final Schedule sch = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar().get(this.day);
+			
 			if (isOpen) {
-				sch.setOpened(isOpen);
-				sch.setOpeningHourAndClosingHour(openingTime, closingTime);
+				this.temp.setOpened(isOpen);
+				this.temp.setOpeningHourAndClosingHour(openingTime, closingTime);
+				this.model.getGym(this.frame.getActiveUser()).getProgram().setSchedule(this.day, this.temp);
 				this.homeController.loadCalendar();
 				this.frame.getChild().closeDialog();
-			} else {
-				new Schedule();
+				return;
 			}
+			
+			final int n = JOptionPane.showConfirmDialog(this.frame.getChild(), "La chiusura della palestra per il giorno " + this.day.getName() + 
+					", provocherà la cancellazione del programma salvato nel giorno " + this.day.getName() + 
+					". Sicuro di voler continuare?", "Warning", JOptionPane.OK_CANCEL_OPTION);
+			
+			if(n == JOptionPane.OK_OPTION) { 
+				this.model.getGym(this.frame.getActiveUser()).getProgram().setSchedule(this.day, new Schedule());
+				this.homeController.loadCalendar();
+				this.frame.getChild().closeDialog();
+			}
+			
 		} catch (final IllegalArgumentException e) {
 			this.frame.displayError(e.getMessage());
 		}
@@ -139,8 +155,7 @@ public class SetCalendarController implements ISetCalendarController {
 
 	private void finalControl(final Integer openingTime, final Integer closingTime)
 			throws IllegalArgumentException {
-		final Iterator<Integer> iterator = this.model.getUser(this.frame.getActiveUser()).getGym().getProgram()
-				.getCalendar().get(this.day).getProgram().keySet().iterator();
+		final Iterator<Integer> iterator = this.temp.getProgram().keySet().iterator();
 		Integer firstHour;
 		Integer lastHour;
 		if (iterator.hasNext()) {

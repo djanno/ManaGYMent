@@ -29,12 +29,14 @@ public class GymCalendar implements IGymCalendar, Serializable {
     	return new HashMap<DaysOfWeek, Schedule>(this.calendar); 
     }
     
+    @Override
     public void setSchedule(final DaysOfWeek day, final Schedule schedule){
-        calendar.put(day,schedule);
+        calendar.replace(day,schedule);
     }
     
     
-    public enum DaysOfWeek {        
+    public enum DaysOfWeek implements Serializable {    
+    	
         LUNEDI("Lunedì"),
         MARTEDI("Martedì"),
         MERCOLEDI("Mercoledì"),

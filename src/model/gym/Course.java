@@ -13,6 +13,7 @@ import exceptions.CourseIsFullException;
 public class Course implements ICourse, Serializable {
 	
     private static final long serialVersionUID = 6012814332577508826L;
+    
     private static final String COACH_ALREDY_PRESENT = "Questo coach insegna già in questo corso";
 
     private final String name;
