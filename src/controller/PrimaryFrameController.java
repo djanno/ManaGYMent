@@ -12,7 +12,6 @@ import java.io.ObjectOutputStream;
 import javax.swing.JOptionPane;
 
 import model.IModel;
-import model.gym.members.Employee;
 import view.PrimaryFrame;
 import view.panels.gym.GymPanel;
 import view.panels.home.HomePanel;
@@ -61,18 +60,18 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 
 	@Override
 	public void buildSubPagePanel() {
-		final TableMemberPanel panel = new TableMemberPanel(new SubscriberStrategy(), BACKGROUND_PATH);
-		final AbstractTableMemberController observer = new TableSubscribersController(this.model, this.primaryFrame, panel);
-		this.primaryFrame.setCurrentPanel(panel);
-		observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getSubscribers());
+//		final TableMemberPanel panel = new TableMemberPanel(new SubscriberStrategy(), BACKGROUND_PATH);
+//		final AbstractTableMemberController observer = new TableSubscribersController(this.model, this.primaryFrame, panel);
+//		this.primaryFrame.setCurrentPanel(panel);
+//		observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getSubscribers());
 	}
 
 	@Override
 	public void buildEmployeePagePanel() {
-	    final TableMemberPanel panel = new TableMemberPanel(new EmployeeStrategy(), BACKGROUND_PATH);
-            final AbstractTableMemberController observer = new TableEmployeesController(this.model, this.primaryFrame, panel);
-            this.primaryFrame.setCurrentPanel(panel);
-            observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getEmployees());
+//	    final TableMemberPanel panel = new TableMemberPanel(new EmployeeStrategy(), BACKGROUND_PATH);
+//            final AbstractTableMemberController observer = new TableEmployeesController(this.model, this.primaryFrame, panel);
+//            this.primaryFrame.setCurrentPanel(panel);
+//            observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getEmployees());
 	}
 
 	@Override

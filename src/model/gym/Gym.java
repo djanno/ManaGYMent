@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import model.gym.members.IEmployee;
@@ -22,7 +24,12 @@ public class Gym implements IGym, Serializable {
     private IGymCalendar calendar;
     private final List<ICourse> courses;
     private double sale;
-
+    private final Map<String, Double> map;
+    private String month;
+    
+    private static final String SUBSCRIBER_ALREADY_EXISTING = "L'iscritto che si vuole aggiungere esiste già.";
+    private static final String EMPLOYEE_ALREADY_EXISTING = "L'impiegato che si vuole aggiungere esiste già.";
+    private static final String NEGATIVE_AMMOUNT = "L'importo deve essere positivo";
     public Gym(final String gymName){
     	super();
     	this.gymName = gymName;
@@ -31,6 +38,9 @@ public class Gym implements IGym, Serializable {
     	this.courses = new ArrayList<>();
     	this.calendar = new GymCalendar();
     	this.sale = 0.0;
+		this.map = new TreeMap<>();
+//      createMap();
+//        this.month = EnumMonths.valueOf(Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()).toUpperCase());
     }
 
     @Override
@@ -84,13 +94,21 @@ public class Gym implements IGym, Serializable {
     }
 
     @Override
-    public void addSubscriber(final ISubscriber subscriber){
-    	this.subscribers.add(subscriber);
+    public void addSubscriber(final ISubscriber subscriber) throws IllegalArgumentException{
+        if (!findSubscriber(subscriber.getFiscalCode())){
+                this.subscribers.add(subscriber);
+        }else{
+                throw new IllegalArgumentException(SUBSCRIBER_ALREADY_EXISTING);
+        }
     }
 
     @Override
-    public void addEmployee(final IEmployee employee){
-    	this.employees.add(employee);
+    public void addEmployee(final IEmployee employee) throws IllegalArgumentException{
+        if (!findEmployee(employee.getFiscalCode())){
+                this.employees.add(employee);
+        }else{
+                throw new IllegalArgumentException(EMPLOYEE_ALREADY_EXISTING);
+        }
     }
 
     public void setCalendar(final GymCalendar calendar){
@@ -137,5 +155,76 @@ public class Gym implements IGym, Serializable {
     	
         return income;
     }
+
+    /*@Override
+    public void addIncome(Double ammount) throws IllegalArgumentException{
+            if(ammount > 0){
+                    try{
+                            this.map.replace(getMonth(), this.map.get(getMonth()) + ammount);
+                    }catch (Exception e){
+                            this.map.put(getMonth(), ammount);
+                    }
+            }else{
+                    throw new IllegalArgumentException(NEGATIVE_AMMOUNT);
+            }
+    }
+
+    @Override
+    public void decreseIncome(Double ammount) throws IllegalArgumentException{
+            if(ammount > 0){
+                    try{
+                            this.map.replace(getMonth(), this.map.get(getMonth()) - ammount);
+                    }catch(Exception e){
+                            this.map.put(getMonth(), -ammount);
+                    }
+            }else{
+                    throw new IllegalArgumentException(NEGATIVE_AMMOUNT);
+            }
+    }
+
+    @Override
+    public Map<EnumMonths, Double> getIncome() {
+            return this.map;
+    }
+
+    @Override
+    public void setMonth(String monthName) {
+            this.month = EnumMonths.valueOf(monthName);
+    }
+
+    @Override
+    public EnumMonths getMonth() {
+            return this.month;
+    }
+    
+    @Override
+    public double getCurrentIncome(){
+            return this.map.get(getMonth());
+    }
+    */
+    private boolean findSubscriber(String cf){
+            for (ISubscriber s : this.subscribers){
+                    if (s.getFiscalCode().equals(cf)){
+                            return true;
+                    }
+            }
+            return false;
+    }
+    
+    private boolean findEmployee(String cf){
+            for (IEmployee e : this.employees){
+                    if (e.getFiscalCode().equals(cf)){
+                            return true;
+                    }
+            }
+            return false;
+    }
+    /*
+    private void createMap(){
+            for (EnumMonths e : EnumMonths.values()){
+                    this.map.put(e, 0.0);
+            }
+    }*/
+
 
 }

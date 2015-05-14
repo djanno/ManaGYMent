@@ -97,7 +97,7 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         final GridBagLayout gbl = new GridBagLayout();
         this.setLayout(gbl);
 
-        final GridBagConstraints gbconstLblDay = new GridBagConstraints(0,0,8,1,0.0,0.0,GridBagConstraints.CENTER,NONE,insetsGeneral,1,1);
+        final GridBagConstraints gbconstLblDay = new GridBagConstraints(0,0,8,1,0.0,0.0,CENTER,NONE,insetsGeneral,1,1);
         this.add(lblDay, gbconstLblDay);
         
         final JLabel open = new JLabel("Aperta");
@@ -190,6 +190,8 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         this.coachesPerCourse.setModel(new DefaultComboBoxModel<String>(UtilitiesPanels.createComboBoxValues(gymCoaches)));
         this.gymOpenFrom.setValue(schedule.getOpeningHour().orElse(8));
         this.gymOpenTo.setValue(schedule.getClosingHour().orElse(22));
+        this.courseHourFrom.setValue(schedule.getOpeningHour().orElse(8));
+        this.courseHourTo.setValue(schedule.getOpeningHour().orElse(8)+1);
     }
     
     @Override

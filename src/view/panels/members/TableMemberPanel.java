@@ -33,7 +33,7 @@ import view.panels.GenericTable;
 import view.panels.UtilitiesPanels;
 import controller.panels.members.AbstractTableMemberController;
 
-public class TableMemberPanel extends GenericTable implements IAbstractTablePanel{
+public class TableMemberPanel extends GenericTable{
     
     private static final long serialVersionUID = 1660901668041854994L;
     private final JPanel pNorth;

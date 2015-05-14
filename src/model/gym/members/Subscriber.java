@@ -20,9 +20,9 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     private boolean expired;
 
     //Deciso di utilizzare Calendar invece di Date.
-    public Subscriber(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber, final String email, final IGym gym, final Calendar expirationDate, final List<ICourse> corsi){
+    public Subscriber(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber, final String email, final IGym gym, final Calendar subscriptionDate, final Calendar expirationDate, List<ICourse> corsi){
     	super(name, surname, fiscalCode, address, phoneNumber, email, gym, corsi);
-    	this.subscriptionDate = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
+    	this.subscriptionDate = subscriptionDate; //Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
     	this.expirationDate = expirationDate;
     	this.expired = false;
     }
