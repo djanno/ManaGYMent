@@ -7,7 +7,7 @@ import model.gym.IGym;
 
 public interface IGymMember {
 
-    abstract Object[] createRow();
+    Object[] createRow();
     
     String getName();
 

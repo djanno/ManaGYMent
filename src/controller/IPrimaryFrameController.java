@@ -14,6 +14,8 @@ public interface IPrimaryFrameController {
 	
 	void buildProfilePagePanel();
 	
+	void buildEmailPanel();
+	
 	void cmdLogout();
 	
 	void cmdLoad(final String path);

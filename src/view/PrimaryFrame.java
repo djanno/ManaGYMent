@@ -37,12 +37,13 @@ public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListene
 	private static final int EMPLOYEE_PAGE_INDEX = 2;
 	private static final int GYM_PAGE_INDEX = 3;
 	private static final int PROFILE_INDEX = 4;
-	private static final int LOGOUT_INDEX = 5;
+	private static final int EMAIL_INDEX = 5;
+	private static final int LOGOUT_INDEX = 6;
 	
 	private static final int LOAD_INDEX = 0;
 	private static final int SAVE_INDEX = 1;
 	
-	private static final int NAVIGATION_MENU_VOICES = 6; //ADD A LOGOUT OPTION.
+	private static final int NAVIGATION_MENU_VOICES = 7; //ADD A LOGOUT OPTION.
 	private static final int OPTION_MENU_VOICES = 2;
 	
 	private String activeUser;
@@ -82,6 +83,7 @@ public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListene
 		this.navigationMenuVoices[EMPLOYEE_PAGE_INDEX] = new JMenuItem("Employees");
 		this.navigationMenuVoices[GYM_PAGE_INDEX] = new JMenuItem("Gym");
 		this.navigationMenuVoices[PROFILE_INDEX] = new JMenuItem("Profile");
+		this.navigationMenuVoices[EMAIL_INDEX] = new JMenuItem("Email");
 		this.navigationMenuVoices[LOGOUT_INDEX] = new JMenuItem("Logout");
 		
 		for(int i = 0; i < NAVIGATION_MENU_VOICES; i++){
@@ -134,6 +136,10 @@ public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListene
 		
 		else if(source == this.navigationMenuVoices[PROFILE_INDEX]) {
 			this.observer.buildProfilePagePanel();
+		}
+		
+		else if(source == this.navigationMenuVoices[EMAIL_INDEX]) {
+			this.observer.buildEmailPanel();
 		}
 		
 		else if(source == this.navigationMenuVoices[LOGOUT_INDEX]) {

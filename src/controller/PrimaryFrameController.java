@@ -1,7 +1,5 @@
 package controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -60,18 +58,18 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 
 	@Override
 	public void buildSubPagePanel() {
-//		final TableMemberPanel panel = new TableMemberPanel(new SubscriberStrategy(), BACKGROUND_PATH);
-//		final AbstractTableMemberController observer = new TableSubscribersController(this.model, this.primaryFrame, panel);
-//		this.primaryFrame.setCurrentPanel(panel);
-//		observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getSubscribers());
+		final TableMemberPanel panel = new TableMemberPanel(new SubscriberStrategy(), BACKGROUND_PATH);
+		final AbstractTableMemberController observer = new TableSubscribersController(this.model, this.primaryFrame, panel);
+		this.primaryFrame.setCurrentPanel(panel);
+		observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getSubscribers());
 	}
 
 	@Override
 	public void buildEmployeePagePanel() {
-//	    final TableMemberPanel panel = new TableMemberPanel(new EmployeeStrategy(), BACKGROUND_PATH);
-//            final AbstractTableMemberController observer = new TableEmployeesController(this.model, this.primaryFrame, panel);
-//            this.primaryFrame.setCurrentPanel(panel);
-//            observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getEmployees());
+	    final TableMemberPanel panel = new TableMemberPanel(new EmployeeStrategy(), BACKGROUND_PATH);
+        final AbstractTableMemberController observer = new TableEmployeesController(this.model, this.primaryFrame, panel);
+        this.primaryFrame.setCurrentPanel(panel);
+        observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getEmployees());
 	}
 
 	@Override
@@ -90,6 +88,13 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	}
 	
 	@Override
+	public void buildEmailPanel() {
+		final EmailPanel panel = new EmailPanel(BACKGROUND_PATH);
+		new EmailPanelController(this.model, this.primaryFrame, panel);
+		this.primaryFrame.setCurrentPanel(panel);
+	}
+	
+	@Override
 	public void cmdLogout() {
 		final int n = JOptionPane.showConfirmDialog(this.primaryFrame, "Sei sicuro di volerti scollegare?", "Logging out...", JOptionPane.YES_NO_OPTION);
 		if(n == JOptionPane.YES_OPTION) {
@@ -102,8 +107,8 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	public void cmdLoad(final String path) {
 		try {
 			if(this.isFilePresent(path == null ? SAVE_FILE_PATH : path)) {
-				final BufferedInputStream bistream = new BufferedInputStream(new FileInputStream(path == null ? SAVE_FILE_PATH : path));
-				final ObjectInputStream oistream = new ObjectInputStream(bistream);
+				//final BufferedInputStream bistream = new BufferedInputStream(new FileInputStream(path == null ? SAVE_FILE_PATH : path));
+				final ObjectInputStream oistream = new ObjectInputStream(new FileInputStream(path == null ? SAVE_FILE_PATH : path));
 				this.model = (IModel) oistream.readObject();
 				this.primaryFrame.setNavigationMenuEnabled(false);
 				this.buildLoginPanel();
@@ -111,7 +116,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 			}
 		}
 		catch(IOException | ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(this.primaryFrame, PrimaryFrameController.LOAD_ERROR, "Error", JOptionPane.OK_OPTION);
+			this.primaryFrame.displayError(LOAD_ERROR);
 		}
 		
 	}
@@ -119,13 +124,13 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	@Override
 	public void cmdSave(final String path) {
 		try {
-			final BufferedOutputStream bostream = new BufferedOutputStream(new FileOutputStream(path == null ? SAVE_FILE_PATH : path + ".gym"));
-			final ObjectOutputStream oostream = new ObjectOutputStream(bostream);
+			//final BufferedOutputStream bostream = new BufferedOutputStream(new FileOutputStream(path == null ? SAVE_FILE_PATH : path + ".gym"));
+			final ObjectOutputStream oostream = new ObjectOutputStream(new FileOutputStream(path == null ? SAVE_FILE_PATH : path + ".gym"));
 			oostream.writeObject(this.model);
 			oostream.close();
 		}
 		catch(IOException e) {
-			JOptionPane.showMessageDialog(this.primaryFrame, PrimaryFrameController.SAVE_ERROR, "Error", JOptionPane.OK_OPTION);
+			this.primaryFrame.displayError(SAVE_ERROR);
 		}
 		
 	}
