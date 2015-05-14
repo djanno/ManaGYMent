@@ -3,7 +3,6 @@ package controller.panels.members;
 
 import model.IModel;
 import view.PrimaryFrame;
-import view.panels.members.EmployeePanel;
 import view.panels.members.TableMemberPanel;
 
 public class TableEmployeesController extends AbstractTableMemberController{
@@ -22,16 +21,16 @@ public class TableEmployeesController extends AbstractTableMemberController{
     }
 
     @Override
-    public void editMemberCmd(int index) {
+    public void editMemberCmd(final int index) {
         final EmployeePanel editEmployeePanel= new EmployeePanel();
         new EmployeeEditController(this.frame,editEmployeePanel,this.model, this, index).loadData(index);
         frame.new DialogWindow("Modifica Impiegato", WIDTH_PANEL, HEIGHT_PANEL, this.frame, editEmployeePanel);
     }
 
     @Override
-    public void deleteMember(int index) {
-        this.model.getUser(this.frame.getActiveUser()).getGym().removeEmployee(index);
-        this.createTable(this.model.getUser(this.frame.getActiveUser()).getGym().getEmployees());
+    public void deleteMember(final int index) {
+        this.model.getGym(this.frame.getActiveUser()).removeEmployee(index);
+        this.createTable(this.model.getGym(this.frame.getActiveUser()).getEmployees());
     }
 
 }

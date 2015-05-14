@@ -20,8 +20,8 @@ public class Schedule implements Serializable {
     private static final String EMPLOYEE_ALREADY_PRESENT_IN_HOUR = "L'istruttore che si vuole inserire insegna già un altro corso in quella fascia oraria" ;
 
     private boolean opened;
-    private Optional<Integer> openingHour;
-    private Optional<Integer> closingHour;
+    private Integer openingHour;
+    private Integer closingHour;
     private Map<Integer, List<Pair<ICourse, IEmployee>>> program;
 
     // considerare l'opzione Map<ICourse, InnerPair<IEmployee, Set<Integer>>
@@ -33,16 +33,16 @@ public class Schedule implements Serializable {
             final Map<Integer, List<Pair<ICourse, IEmployee>>> program) {
         super();
         this.opened = opened;
-        this.openingHour = Optional.ofNullable(openingHour);
-        this.closingHour = Optional.ofNullable(closingHour);
+        this.openingHour = openingHour;
+        this.closingHour = closingHour;
         this.program = program;
     }
     
     public Schedule(){
             super();
             this.opened = false;
-            this.openingHour = Optional.empty();
-            this.closingHour = Optional.empty();
+            this.openingHour = null;
+            this.closingHour = null;
             this.program = new TreeMap<>((a, b) -> b.compareTo(a));
     }
     
@@ -51,16 +51,16 @@ public class Schedule implements Serializable {
     }
     
     public Optional<Integer> getOpeningHour(){
-            return this.openingHour;
+            return Optional.ofNullable(this.openingHour);
     }
     
     public Optional<Integer> getClosingHour(){
-            return this.closingHour;
+            return Optional.ofNullable(this.closingHour);
     }
     
     public List<ICourse> getCoursesInHour(final Integer hour) {
 		final List<ICourse> list = new ArrayList<>();
-		if(this.closingHour.isPresent() && hour < this.closingHour.get() && this.openingHour.isPresent() && hour >= this.openingHour.get()) {
+		if(this.closingHour!=null && hour < this.closingHour && this.openingHour!=null && hour >= this.openingHour) {
 			for (final Pair<ICourse, IEmployee> pair : this.program.get(hour)) {
 				list.add(pair.getX());
 			}
@@ -69,7 +69,7 @@ public class Schedule implements Serializable {
 	}
     
     public boolean isGymOpenedAt(final Integer hour) {
-		if (this.opened && this.openingHour.isPresent() && this.openingHour.get() <= hour && this.closingHour.isPresent() && this.closingHour.get() > hour) {
+		if (this.opened && this.openingHour != null && this.openingHour <= hour && this.closingHour != null && this.closingHour > hour) {
 			return true;
 		}
 		return false;
@@ -82,7 +82,7 @@ public class Schedule implements Serializable {
     public void putPairInHour(Pair<ICourse,IEmployee> pair, Integer hourFrom, Integer hourTo) throws IllegalArgumentException{
         isAlreadyPresentInHour(pair, hourFrom, hourTo);
         IntStream.rangeClosed(hourFrom, hourTo-1).forEach(hour->{
-                        List<Pair<ICourse,IEmployee>> list = this.program.getOrDefault(hourTo, new LinkedList<Pair<ICourse,IEmployee>>());
+        	List<Pair<ICourse,IEmployee>> list = this.program.getOrDefault(hour, new LinkedList<Pair<ICourse,IEmployee>>());
                         list.add(pair);
                         this.program.put(hour, list);
         });
@@ -118,8 +118,8 @@ public class Schedule implements Serializable {
     }
     
     public void setOpeningHourAndClosingHour(final Integer openingHour, final Integer closingHour) {
-		this.openingHour = Optional.ofNullable(openingHour);
-		this.closingHour = Optional.ofNullable(closingHour);
+		this.openingHour = openingHour;
+		this.closingHour = closingHour;
 		for(Integer i = openingHour; i < closingHour; i++) {
 			this.program.putIfAbsent(i, new ArrayList<Pair<ICourse, IEmployee>>());
 		}

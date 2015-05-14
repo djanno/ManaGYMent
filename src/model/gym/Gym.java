@@ -18,6 +18,10 @@ public class Gym implements IGym, Serializable {
 	
 	private static final long serialVersionUID = 3617529257067437822L;
 	
+	private static final String SUBSCRIBER_ALREADY_EXISTING = "L'iscritto che si vuole aggiungere esiste già.";
+    private static final String EMPLOYEE_ALREADY_EXISTING = "L'impiegato che si vuole aggiungere esiste già.";
+    private static final String NEGATIVE_AMMOUNT = "L'importo deve essere positivo";
+    
 	private final String gymName;
     private final List<ISubscriber> subscribers;
     private final List<IEmployee> employees;
@@ -27,9 +31,7 @@ public class Gym implements IGym, Serializable {
     private final Map<String, Double> map;
     private String month;
     
-    private static final String SUBSCRIBER_ALREADY_EXISTING = "L'iscritto che si vuole aggiungere esiste già.";
-    private static final String EMPLOYEE_ALREADY_EXISTING = "L'impiegato che si vuole aggiungere esiste già.";
-    private static final String NEGATIVE_AMMOUNT = "L'importo deve essere positivo";
+    
     public Gym(final String gymName){
     	super();
     	this.gymName = gymName;
