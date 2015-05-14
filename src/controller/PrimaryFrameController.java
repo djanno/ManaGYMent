@@ -14,15 +14,11 @@ import view.PrimaryFrame;
 import view.panels.gym.GymPanel;
 import view.panels.home.HomePanel;
 import view.panels.login.LoginPanel;
-import view.panels.members.TableMemberPanel;
 import controller.panels.gym.GymPanelController;
 import controller.panels.gym.IGymPanelController;
 import controller.panels.home.HomePanelController;
 import controller.panels.home.IHomePanelController;
 import controller.panels.login.LoginPanelController;
-import controller.panels.members.AbstractTableMemberController;
-import controller.panels.members.TableEmployeesController;
-import controller.panels.members.TableSubscribersController;
 
 public class PrimaryFrameController implements IPrimaryFrameController {
 
@@ -58,18 +54,18 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 
 	@Override
 	public void buildSubPagePanel() {
-		final TableMemberPanel panel = new TableMemberPanel(new SubscriberStrategy(), BACKGROUND_PATH);
-		final AbstractTableMemberController observer = new TableSubscribersController(this.model, this.primaryFrame, panel);
-		this.primaryFrame.setCurrentPanel(panel);
-		observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getSubscribers());
+//		final TableMemberPanel panel = new TableMemberPanel(new SubscriberStrategy(), BACKGROUND_PATH);
+//		final AbstractTableMemberController observer = new TableSubscribersController(this.model, this.primaryFrame, panel);
+//		this.primaryFrame.setCurrentPanel(panel);
+//		observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getSubscribers());
 	}
 
 	@Override
 	public void buildEmployeePagePanel() {
-	    final TableMemberPanel panel = new TableMemberPanel(new EmployeeStrategy(), BACKGROUND_PATH);
-        final AbstractTableMemberController observer = new TableEmployeesController(this.model, this.primaryFrame, panel);
-        this.primaryFrame.setCurrentPanel(panel);
-        observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getEmployees());
+//		final TableMemberPanel panel = new TableMemberPanel(new EmployeeStrategy(), BACKGROUND_PATH);
+//		final AbstractTableMemberController observer = new TableEmployeesController(this.model, this.primaryFrame, panel);
+//		this.primaryFrame.setCurrentPanel(panel);
+//		observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getEmployees());
 	}
 
 	@Override
@@ -89,9 +85,9 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	
 	@Override
 	public void buildEmailPanel() {
-		final EmailPanel panel = new EmailPanel(BACKGROUND_PATH);
-		new EmailPanelController(this.model, this.primaryFrame, panel);
-		this.primaryFrame.setCurrentPanel(panel);
+//		final EmailPanel panel = new EmailPanel(BACKGROUND_PATH);
+//		new EmailPanelController(this.model, this.primaryFrame, panel);
+//		this.primaryFrame.setCurrentPanel(panel);
 	}
 	
 	@Override

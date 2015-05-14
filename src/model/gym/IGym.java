@@ -2,7 +2,6 @@ package model.gym;
 
 import java.awt.Color;
 import java.util.List;
-import java.util.Map;
 
 import model.gym.members.IEmployee;
 import model.gym.members.ISubscriber;
@@ -21,19 +20,19 @@ public interface IGym {
 
     List<ICourse> getCoursesWithCoaches();
 
-    ICourse getCourseByName(String name);
+    ICourse getCourseByName(final String name);
 
-    ICourse getCourseByColor(Color color);
+    ICourse getCourseByColor(final Color color);
 
     double getSale();
 
-    void setSale(double sale);
+    void setSale(final double sale);
 
-    void addSubscriber(ISubscriber subscriber);
+    void addSubscriber(final ISubscriber subscriber);
 
-    void addEmployee(IEmployee employee);
+    void addEmployee(final IEmployee employee);
 
-    void addCourse(ICourse course);
+    void addCourse(final ICourse course);
 
     void addCourse(final int index, final ICourse course);
 
@@ -51,7 +50,7 @@ public interface IGym {
 
     // Map<EnumMonths, Double> getIncome();
     
-//    void setMonth(String monthName);
+    // void setMonth(String monthName);
 
     // EnumMonths getMonth();
 
