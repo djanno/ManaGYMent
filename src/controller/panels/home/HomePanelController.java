@@ -58,23 +58,42 @@ public class HomePanelController implements IHomePanelController {
 		}
 		
 		//final ManagymentTableModel tableModel = (ManagymentTableModel) this.table.getModel();
+		Object[] row = new Object[DaysOfWeek.values().length + 1];
 		
 		if(empty) {
-			this.view.addDataRow(new Object[] {"--:--", new CoursesWrapper(new ArrayList<ICourse>(), false), 
+			
+			row[0] = new String("--:--");
+			
+			for(int i = 1; i < row.length; i++) {
+				row[i] = new CoursesWrapper(new ArrayList<ICourse>(), false);
+			}
+			
+			this.view.addDataRow(row);
+			/*this.view.addDataRow(new Object[] {"--:--", new CoursesWrapper(new ArrayList<ICourse>(), false), 
 					new CoursesWrapper(new ArrayList<ICourse>(), false), new CoursesWrapper(new ArrayList<ICourse>(), false), 
 					new CoursesWrapper(new ArrayList<ICourse>(), false), new CoursesWrapper(new ArrayList<ICourse>(), false), 
-					new CoursesWrapper(new ArrayList<ICourse>(), false), new CoursesWrapper(new ArrayList<ICourse>(), false)});
+					new CoursesWrapper(new ArrayList<ICourse>(), false), new CoursesWrapper(new ArrayList<ICourse>(), false)});*/
 		}
 		
 		else { 	
 			for(int i = minHour; i < maxHour; i++) {
-				this.view.addDataRow(new Object[] {i +":00", new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.LUNEDI).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.LUNEDI).isGymOpenedAt(i)),
+				//usare due cicli annidati per evitare duplicazione di codice
+				//Object[] row = new Object[DaysOfWeek.values().length()];
+				
+				row[0] = new String(i + ":00");
+				
+				for(final DaysOfWeek day : DaysOfWeek.values()) {
+					row[day.ordinal() + 1] = new CoursesWrapper(calendar.getCalendar().get(day).getCoursesInHour(i), calendar.getCalendar().get(day).isGymOpenedAt(i));
+				}
+				
+				this.view.addDataRow(row);
+				/*this.view.addDataRow(new Object[] {i +":00", new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.LUNEDI).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.LUNEDI).isGymOpenedAt(i)),
 						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.MARTEDI).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.MARTEDI).isGymOpenedAt(i)), 
 						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.MERCOLEDI).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.MERCOLEDI).isGymOpenedAt(i)), 
 						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.GIOVEDI).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.GIOVEDI).isGymOpenedAt(i)), 
 						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.VENERDI).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.VENERDI).isGymOpenedAt(i)), 
 						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.SABATO).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.SABATO).isGymOpenedAt(i)), 
-						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.DOMENICA).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.DOMENICA).isGymOpenedAt(i))});
+						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.DOMENICA).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.DOMENICA).isGymOpenedAt(i))});*/
 			}
 		}
 	}
