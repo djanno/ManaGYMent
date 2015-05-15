@@ -173,7 +173,7 @@ public class SetCalendarController implements ISetCalendarController {
 				lastHour = current;
 			}
 		}
-		if (firstHour < openingTime || lastHour > closingTime) {
+		if (firstHour < openingTime || lastHour >= closingTime) {
 			throw new IllegalArgumentException(HOUR_NOT_COMBINE);
 		}
 	}

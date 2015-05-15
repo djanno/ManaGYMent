@@ -74,10 +74,10 @@ public class TestModel {
 		program.put(15, new ArrayList<ICourse>(Arrays.asList(c2, c4)));
 		Map<Integer, List<Pair<ICourse, IEmployee>>> program2 = new HashMap<Integer, List<Pair<ICourse, IEmployee>>>();
 		List<Pair<ICourse, IEmployee>> list1 = new ArrayList<>();
-		list1.add(new Pair<ICourse, IEmployee>(c1, e1));
-		list1.add(new Pair<ICourse, IEmployee>(c2, e2));
+		list1.add(new Pair<ICourse, IEmployee>(c1, e4));
+		list1.add(new Pair<ICourse, IEmployee>(c2, e1));
 		List<Pair<ICourse, IEmployee>> list2 = new ArrayList<>();
-		list2.add(new Pair<ICourse, IEmployee>(c3, e1));
+		list2.add(new Pair<ICourse, IEmployee>(c3, e2));
 		program2.put(10, list1);
 		program2.put(11, list2);
 		Schedule sch = new Schedule();

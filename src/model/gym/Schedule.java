@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import model.gym.members.IEmployee;
@@ -43,7 +44,7 @@ public class Schedule implements Serializable {
             this.opened = false;
             this.openingHour = null;
             this.closingHour = null;
-            this.program = new TreeMap<>((a, b) -> b.compareTo(a));
+            this.program = new TreeMap<>();
     }
     
     public boolean isOpened(){
@@ -61,7 +62,7 @@ public class Schedule implements Serializable {
     public List<ICourse> getCoursesInHour(final Integer hour) {
 		final List<ICourse> list = new ArrayList<>();
 		if(this.closingHour!=null && hour < this.closingHour && this.openingHour!=null && hour >= this.openingHour) {
-			for (final Pair<ICourse, IEmployee> pair : this.program.get(hour)) {
+			for (final Pair<ICourse, IEmployee> pair : this.program.getOrDefault(hour, new ArrayList<Pair<ICourse, IEmployee>>())) {
 				list.add(pair.getX());
 			}
 		}
@@ -77,10 +78,13 @@ public class Schedule implements Serializable {
     
     public void removePairInHour(Pair<ICourse,IEmployee> pair, Integer hour){
         this.program.get(hour).remove(pair);
+        if(this.program.get(hour).isEmpty()) {
+        	this.program.remove(hour, this.program.get(hour));
+        }
     }
     
     public void putPairInHour(Pair<ICourse,IEmployee> pair, Integer hourFrom, Integer hourTo) throws IllegalArgumentException{
-        isAlreadyPresentInHour(pair, hourFrom, hourTo);
+        this.isAlreadyPresentInHour(pair, hourFrom, hourTo);
         IntStream.rangeClosed(hourFrom, hourTo-1).forEach(hour->{
         	List<Pair<ICourse,IEmployee>> list = this.program.getOrDefault(hour, new LinkedList<Pair<ICourse,IEmployee>>());
                         list.add(pair);
@@ -106,7 +110,7 @@ public class Schedule implements Serializable {
     }
     
     public Map<Integer, List<Pair<ICourse,IEmployee>>> getProgram(){
-            return new TreeMap<Integer, List<Pair<ICourse,IEmployee>>>(this.program);
+    	return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> new LinkedList<Pair<ICourse, IEmployee>>(e.getValue())));
     }
     
     public void setOpened(final boolean opened){
@@ -120,9 +124,9 @@ public class Schedule implements Serializable {
     public void setOpeningHourAndClosingHour(final Integer openingHour, final Integer closingHour) {
 		this.openingHour = openingHour;
 		this.closingHour = closingHour;
-		for(Integer i = openingHour; i < closingHour; i++) {
+		/*for(Integer i = openingHour; i < closingHour; i++) {
 			this.program.putIfAbsent(i, new ArrayList<Pair<ICourse, IEmployee>>());
-		}
+		}*/
 	}
     
     public void setProgram(final Map<Integer, List<Pair<ICourse,IEmployee>>> program){
