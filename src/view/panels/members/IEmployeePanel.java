@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.gym.ICourse;
 import model.gym.members.IEmployee;
+import view.panels.login.LoginPanel;
 import controller.panels.members.IEmployeeAddController;
 
 public interface IEmployeePanel {

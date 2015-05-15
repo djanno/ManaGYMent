@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+
 import model.gym.ICourse;
 import model.gym.members.IGymMember;
 

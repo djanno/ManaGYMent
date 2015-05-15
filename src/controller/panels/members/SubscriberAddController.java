@@ -7,7 +7,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+
 import javax.swing.DefaultListModel;
+
 import model.IModel;
 import model.gym.ICourse;
 import model.gym.members.ISubscriber;
@@ -22,10 +24,10 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 			+ "\nL'indirizzo deve essere di almeno 7 caratteri."
 			+ "\nL'indirizzo email deve essere valido.";
 	private static final String EMPTY_LIST = "Bisogna aggiungere almeno un corso.";
-	protected static final String NULL_DATA = "La data inserita non è valida.";
-	private static final String INVALID_EXPIRATION = "Le data di scadenza non è valida.";
-	private static final String INVALID_SUBSCRIPTION = "Le data di iscrizione non è valida.";
-	private static final String REGISTERED ="L'utente inserito è stato aggiunto";
+	protected static final String NULL_DATA = "La data inserita non ï¿½ valida.";
+	private static final String INVALID_EXPIRATION = "Le data di scadenza non ï¿½ valida.";
+	private static final String INVALID_SUBSCRIPTION = "Le data di iscrizione non ï¿½ valida.";
+	private static final String REGISTERED ="L'utente inserito ï¿½ stato aggiunto";
 	
 	protected IPrimaryFrame frame;
 	protected final ISubscriberPanel view;

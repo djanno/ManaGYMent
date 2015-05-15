@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.gym.ICourse;
 import model.gym.members.ISubscriber;
+import view.panels.login.LoginPanel;
 import controller.panels.members.ISubscriberAddController;
 
 public interface ISubscriberPanel {

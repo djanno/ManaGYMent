@@ -3,7 +3,9 @@ package controller.panels.members;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.DefaultListModel;
+
 import model.gym.ICourse;
 import view.panels.members.IFormField;
 

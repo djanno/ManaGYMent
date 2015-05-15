@@ -18,11 +18,14 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import com.toedter.calendar.JDateChooser;
+
 import model.gym.ICourse;
 import model.gym.members.ISubscriber;
 import view.panels.UtilitiesPanels;
 import view.panels.members.FieldsCommon.EnumFieldsCommon;
+
+import com.toedter.calendar.JDateChooser;
+
 import controller.panels.members.ISubscriberAddController;
 
 public class SubscriberPanel extends JPanel implements ActionListener, ISubscriberPanel{
