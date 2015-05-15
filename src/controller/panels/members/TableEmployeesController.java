@@ -1,8 +1,8 @@
 package controller.panels.members;
 
-
 import model.IModel;
 import view.PrimaryFrame;
+import view.panels.members.EmployeePanel;
 import view.panels.members.TableMemberPanel;
 
 public class TableEmployeesController extends AbstractTableMemberController{
@@ -23,7 +23,7 @@ public class TableEmployeesController extends AbstractTableMemberController{
     @Override
     public void editMemberCmd(final int index) {
         final EmployeePanel editEmployeePanel= new EmployeePanel();
-        new EmployeeEditController(this.frame,editEmployeePanel,this.model, this, index).loadData(index);
+        new EmployeeEditController(this.frame,editEmployeePanel,this.model, this, index).loadData();
         frame.new DialogWindow("Modifica Impiegato", WIDTH_PANEL, HEIGHT_PANEL, this.frame, editEmployeePanel);
     }
 
