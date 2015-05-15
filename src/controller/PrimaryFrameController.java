@@ -12,15 +12,19 @@ import javax.swing.JOptionPane;
 import model.IModel;
 import view.PrimaryFrame;
 import view.panels.gym.GymPanel;
+import view.panels.gym.ProfilePanel;
 import view.panels.home.HomePanel;
+import view.panels.home.SendEmailPanel;
 import view.panels.login.LoginPanel;
 import view.panels.members.EmployeeStrategy;
 import view.panels.members.SubscriberStrategy;
 import view.panels.members.TableMemberPanel;
 import controller.panels.gym.GymPanelController;
 import controller.panels.gym.IGymPanelController;
+import controller.panels.gym.ProfilePanelController;
 import controller.panels.home.HomePanelController;
 import controller.panels.home.IHomePanelController;
+import controller.panels.home.SendEmailPanelController;
 import controller.panels.login.LoginPanelController;
 import controller.panels.members.AbstractTableMemberController;
 import controller.panels.members.TableEmployeesController;
@@ -84,16 +88,16 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 
 	@Override
 	public void buildProfilePagePanel() {
-//		final ProfilePagePanel panel = new ProfilePagePanel(BACKGROUND_PATH);
-//		new ProfilePagePanelController(this.model, this.primaryFrame, panel);
-//		this.primaryFrame.setCurrentPanel(panel);
+		final ProfilePanel panel = new ProfilePanel(BACKGROUND_PATH, this.model.getUser(this.primaryFrame.getActiveUser()).getName());
+		new ProfilePanelController(this.primaryFrame, panel, this.model);
+		this.primaryFrame.setCurrentPanel(panel);
 	}
 	
 	@Override
 	public void buildEmailPanel() {
-//		final EmailPanel panel = new EmailPanel(BACKGROUND_PATH);
-//		new EmailPanelController(this.model, this.primaryFrame, panel);
-//		this.primaryFrame.setCurrentPanel(panel);
+		final SendEmailPanel panel = new SendEmailPanel(BACKGROUND_PATH);
+		new SendEmailPanelController(this.primaryFrame, panel, this.model);
+		this.primaryFrame.setCurrentPanel(panel);
 	}
 	
 	@Override
