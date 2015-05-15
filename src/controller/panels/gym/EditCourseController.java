@@ -1,6 +1,7 @@
 package controller.panels.gym;
 
 import java.awt.Color;
+
 import model.IModel;
 import model.gym.Course;
 import model.gym.ICourse;

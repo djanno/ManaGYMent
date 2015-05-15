@@ -2,7 +2,9 @@ package controller.panels.members;
 
 import java.util.Date;
 import java.util.Map;
+
 import javax.swing.DefaultListModel;
+
 import view.panels.members.IFormField;
 
 public interface ISubscriberEditController {

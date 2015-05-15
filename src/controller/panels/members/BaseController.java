@@ -2,7 +2,9 @@ package controller.panels.members;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.DefaultListModel;
+
 import model.gym.ICourse;
 
 public class BaseController {
