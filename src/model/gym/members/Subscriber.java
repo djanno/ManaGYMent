@@ -22,7 +22,7 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     private List<ICourse> courses;
 
     //Deciso di utilizzare Calendar invece di Date.
-    public Subscriber(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber, final String email, final IGym gym, final Calendar subscriptionDate, final Calendar expirationDate, List<ICourse> courses){
+    public Subscriber(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber, final String email, final IGym gym, final Calendar subscriptionDate, final Calendar expirationDate, final List<ICourse> courses){
     	super(name, surname, fiscalCode, address, phoneNumber, email, gym);
     	this.subscriptionDate = subscriptionDate; 
     	this.expirationDate = expirationDate;
@@ -83,7 +83,7 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     }
     
     @Override
-    public void setCourses(List<ICourse> courses){
+    public void setCourses(final List<ICourse> courses){
     	this.courses = courses;
     }
 }

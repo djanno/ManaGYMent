@@ -8,6 +8,6 @@ public interface IGymPanel {
 
 	void attachObserver(final IGymPanelController observer);
 
-	IncomePanel getIncomePanel();
+	GymPanel.IncomePanel getIncomePanel();
 	
 }

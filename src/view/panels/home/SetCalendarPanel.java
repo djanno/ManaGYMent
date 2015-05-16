@@ -233,7 +233,7 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
                                     this.coachesPerCourse.setModel(new DefaultComboBoxModel<String>(UtilityClass.createComboBoxValues(this.observer.loadCoachesByCourseName((String)this.courses.getSelectedItem()))));
         });
         
-        UtilityClass.setListListenerTable((DefaultTableModel)this.table.getModel(), this.table, this.remove);
+        UtilityClass.setListListenerTable(this.table, this.remove);
 
     }
 

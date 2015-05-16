@@ -15,15 +15,16 @@ import javax.mail.internet.MimeMultipart;
 public class SenderEmail {
 	private static final String INVALID_PARAMETERS = "Tutti i parametri richiesti devono essere riempiti";
 
-	private char[] password;
+	private final char[] password;
 	private static final String GMAIL_HOST = "smtp.gmail.com";
 	private static final String YAHOO_HOST = "smtp.mail.yahoo.com";
-
+	private static final int PORT = 25;
+	
 	private String host;
-	private String user;
-	private List<String> destinatari;
-	private String oggetto;
-	private String corpo;
+	private final String user;
+	private final List<String> destinatari;
+	private final String oggetto;
+	private final String corpo;
 
 	/**
 	 * Costruttore completo, richiede i parametri di connessione al server di
@@ -45,45 +46,43 @@ public class SenderEmail {
 		this.password = password;
 		this.oggetto = oggetto;
 		this.corpo = corpo;
-		sendEmail();
 	}
 
-	private void setHost(String email) {
-		String[] parts = email.split("@");
+	private void setHost(final String email) {
+		final String[] parts = email.split("@");
 		switch (parts[1]) {
-		case "gmail.com":
-			this.host = GMAIL_HOST;
-			break;
-		  case "yahoo.com":
+			case "gmail.com":
+				this.host = GMAIL_HOST;
+				break;
+			case "yahoo.com":
 			  this.host = YAHOO_HOST;
 			  break;
-		  case "yahoo.it":
+			case "yahoo.it":
 			  this.host = YAHOO_HOST;
 			  break;
 		}
 	}
 
 	public void sendEmail() throws Exception{
-		int port = 25;
-
-		Properties props = new Properties();
+ 
+		final Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.user", user);
 		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.port", port);
+		props.put("mail.smtp.port", PORT);
 
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.socketFactory.port", port);
+		props.put("mail.smtp.socketFactory.port", PORT);
 
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.socketFactory.fallback", "false");
 
-		Session session = Session.getInstance(props, null);
+		final Session session = Session.getInstance(props, null);
 
-		MimeBodyPart messageBodyPart1 = new MimeBodyPart();
+		final MimeBodyPart messageBodyPart1 = new MimeBodyPart();
 
-		Multipart multipart = new MimeMultipart();
-		MimeMessage msg = new MimeMessage(session);
+		final Multipart multipart = new MimeMultipart();
+		final MimeMessage msg = new MimeMessage(session);
 
 		msg.setSubject(oggetto);
 		msg.setSentDate(new Date());
@@ -92,7 +91,7 @@ public class SenderEmail {
 		InternetAddress[] addressTo = new InternetAddress[destinatari
 				.size()];
 		int i = 0;
-		for (String dest : destinatari) {
+		for (final String dest : destinatari) {
 			addressTo[i] = new InternetAddress(dest);
 			i++;
 		}
@@ -103,13 +102,13 @@ public class SenderEmail {
 
 		msg.setContent(multipart);
 
-		Transport transport = session.getTransport("smtps");
-		transport.connect(host, user, (new String(password)));
+		final Transport transport = session.getTransport("smtps");
+		transport.connect(host, user, new String(password));
 		transport.sendMessage(msg, msg.getAllRecipients());
 		transport.close();
 	}
 
-	private void checkparameters(String user, char[] password, String oggetto, String corpo) {
+	private void checkparameters(final String user, final char[] password, final String oggetto, final String corpo) {
 		if (user.equals("") || password.length == 0 || password == null || oggetto.equals("") || corpo.equals("")) {
 			throw new IllegalArgumentException(INVALID_PARAMETERS);
 		}

@@ -21,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
 
 import model.gym.ICourse;
 import model.gym.members.IEmployee;

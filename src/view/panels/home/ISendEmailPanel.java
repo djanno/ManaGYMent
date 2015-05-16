@@ -4,8 +4,8 @@ import controller.panels.home.ISendEmailPanelController;
 
 public interface ISendEmailPanel {
 
-	public void attachObserver(ISendEmailPanelController observer);
+	public void attachObserver(final ISendEmailPanelController observer);
 
-	void showMessage(String s);
+	void showMessage(final String s);
 	
 }

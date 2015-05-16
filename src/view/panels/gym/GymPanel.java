@@ -19,8 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 
 import utility.UtilityClass;
@@ -125,7 +123,23 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		this.observer = observer;
 	}
 
-	public class CourseColorRenderer extends JLabel implements TableCellRenderer {
+	public class IncomePanel extends GenericTable {
+		
+		private static final long serialVersionUID = 1L;
+		
+		public IncomePanel(final String path){
+			super(new String[] {"Mese", "Guadagno"}, path);
+			this.setLayout(new BorderLayout());
+			this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			this.table.getTableHeader().setReorderingAllowed(false);
+			this.table.setRowSelectionAllowed(true);
+			this.table.setColumnSelectionAllowed(false);
+			this.add(new JScrollPane(this.table), BorderLayout.NORTH);
+		}
+
+	}
+	
+	class CourseColorRenderer extends JLabel implements TableCellRenderer {
 		
 		private static final long serialVersionUID = -4877549038078530092L;
 

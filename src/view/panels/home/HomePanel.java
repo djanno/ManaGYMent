@@ -1,18 +1,34 @@
 package view.panels.home;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import model.gym.GymCalendar.DaysOfWeek;
+import model.gym.ICourse;
 import view.panels.GenericTable;
-import view.panels.home.CoursesWrapperRenderer.CoursesWrapper;
 import controller.panels.home.IHomePanelController;
 
 public class HomePanel extends GenericTable implements IHomePanel, ActionListener {
@@ -62,7 +78,7 @@ public class HomePanel extends GenericTable implements IHomePanel, ActionListene
 
 		for(int i = 1; i < this.table.getColumnCount(); i++) { 
 			final TableColumn tc = this.table.getColumnModel().getColumn(i);
-			tc.setHeaderRenderer(new ButtonHeader(this.table.getColumnName(i), this));
+			tc.setHeaderRenderer(new ButtonHeader(this.table, this.table.getColumnName(i), this));
 		}
 		
 		this.table.setRowHeight(ROW_HEIGHT);
@@ -71,52 +87,6 @@ public class HomePanel extends GenericTable implements IHomePanel, ActionListene
 		this.add(scroll, BorderLayout.CENTER);
 		//this.loadTableData();	va lanciato dal controller
 	}
-	
-	/*@Override
-	public void loadTableData(final IGymCalendar calendar) {
-		this.refreshTable();
-		
-		int minHour = 24;
-		int maxHour = 1;
-		boolean empty = true;
-		
-		Schedule schedule = null;
-		
-		for(final DaysOfWeek day : calendar.getCalendar().keySet()) {
-			schedule = calendar.getCalendar().get(day);
-			if(schedule.getOpeningHour().isPresent() && schedule.getOpeningHour().get() < minHour) {
-				empty = false;
-				minHour = schedule.getOpeningHour().get();
-			}
-			
-			if(schedule.getClosingHour().isPresent() && schedule.getClosingHour().get() > maxHour) {
-				empty = false;
-				maxHour = schedule.getClosingHour().get();
-			}
-		}
-		
-		//final ManagymentTableModel tableModel = (ManagymentTableModel) this.table.getModel();
-		
-		if(empty) {
-			this.addDataRow(new Object[] {"--:--", new CoursesWrapper(new ArrayList<ICourse>(), false), 
-					new CoursesWrapper(new ArrayList<ICourse>(), false), new CoursesWrapper(new ArrayList<ICourse>(), false), 
-					new CoursesWrapper(new ArrayList<ICourse>(), false), new CoursesWrapper(new ArrayList<ICourse>(), false), 
-					new CoursesWrapper(new ArrayList<ICourse>(), false), new CoursesWrapper(new ArrayList<ICourse>(), false)});
-		}
-		
-		else { 	
-			for(int i = minHour; i < maxHour; i++) {
-				this.addDataRow(new Object[] {i +":00", new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.LUNEDI).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.LUNEDI).isGymOpenedAt(i)),
-						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.MARTEDI).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.MARTEDI).isGymOpenedAt(i)), 
-						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.MERCOLEDI).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.MERCOLEDI).isGymOpenedAt(i)), 
-						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.GIOVEDI).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.GIOVEDI).isGymOpenedAt(i)), 
-						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.VENERDI).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.VENERDI).isGymOpenedAt(i)), 
-						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.SABATO).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.SABATO).isGymOpenedAt(i)), 
-						new CoursesWrapper(calendar.getCalendar().get(DaysOfWeek.DOMENICA).getCoursesInHour(i), calendar.getCalendar().get(DaysOfWeek.DOMENICA).isGymOpenedAt(i))});
-			}
-		}
-		
-	}*/
 	
 	@Override
 	public void attachObserver(final IHomePanelController observer) {
@@ -129,29 +99,185 @@ public class HomePanel extends GenericTable implements IHomePanel, ActionListene
 		final String command = e.getActionCommand();
 		this.observer.cmdEditDaySchedule(command);
 	}
+	
+	public static class CoursesWrapper {
+		
+		private final List<ICourse> courses;
+		private final boolean opened;
+		
+		public CoursesWrapper(final List<ICourse> courses, final boolean opened) {
+			this.courses = new ArrayList<ICourse>(courses);
+			this.opened = opened;
+		}
+		
+		public List<ICourse> getCourses() {
+			return new ArrayList<ICourse>(this.courses);
+		}
+		
+		public boolean isOpened() {
+			return this.opened;
+		}
+	}
+	
+	class CoursesWrapperRenderer extends JPanel implements TableCellRenderer {
 
-	/*public class CalendarioTableModel extends DefaultTableModel {
-
-		private static final long serialVersionUID = 3117390914181449175L;
-
-		public CalendarioTableModel(final Object[][] data, final String[] headers) {
-			super(data, headers);
+		private static final long serialVersionUID = 7575007678292078570L;
+		
+		private static final int MAX_COLORS_PER_ROW = 3;
+		
+		public CoursesWrapperRenderer() {
+			super();
+			this.setLayout(new GridBagLayout());
+			this.setOpaque(true);
 		}
 		
 		@Override
-		public Class<?> getColumnClass(final int columnIndex) {
-			if(this.getColumnCount() > 0) {
-				return this.getValueAt(0, columnIndex).getClass();
+		public Component getTableCellRendererComponent(final JTable table, final Object object,
+				final boolean isSelected, final boolean hasFocus, final int row, final int col) {
+			
+			final CoursesWrapper courses = (CoursesWrapper) object;
+			
+			this.addCoursesToTable(courses.getCourses(), courses.isOpened());
+			
+			
+			if(isSelected) {
+				this.setBorder(BorderFactory.createMatteBorder(2, 5, 2, 5, table.getSelectionBackground()));
+			}
+			else {
+				this.setBorder(BorderFactory.createMatteBorder(2, 5, 2, 5, table.getBackground()));
 			}
 			
-			else return Object.class;
+			return this;
+		}
+		
+		private void addCoursesToTable(final List<ICourse> courses, final boolean opened) {
+			
+			this.removeAll();
+			
+			int gridx = 0;
+			int gridy = 0;
+			
+			JLabel label = null;
+			
+			final double weightx = (double) CoursesWrapperRenderer.MAX_COLORS_PER_ROW / 100;
+			final double weighty = ((double) courses.size() / CoursesWrapperRenderer.MAX_COLORS_PER_ROW) / 100;
+			
+			if(courses.isEmpty()) { //se non ci sono corsi in quell'ora, la palestra è chiusa in quell'ora -> lbl nero.
+
+				if(opened) {
+					label = this.createLabel(Color.WHITE);
+				}
+				
+				else {
+					label = this.createLabel(Color.BLACK);
+				}
+				
+				this.add(label, new GridBagConstraints(gridx, gridy, 1, 1, weightx, weighty, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
+			}
+			
+			for(final ICourse course : courses) {
+
+				label = this.createLabel(course.getCourseColor());
+				
+				this.add(label, new GridBagConstraints(gridx, gridy, 1, 1, weightx, weighty, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(2, 2, 2, 2), 0, 0));
+				
+				gridx++;
+				
+				if(gridx == CoursesWrapperRenderer.MAX_COLORS_PER_ROW) {
+					gridx = 0;
+					gridy++;
+				}
+				
+			}
+		}
+		
+		private JLabel createLabel(final Color color) {
+			final JLabel label = new JLabel();
+			label.setPreferredSize(new Dimension(5, 5));
+			label.setBackground(color);
+			label.setOpaque(true);
+			
+			return label;
+		}
+
+	}
+
+	class ButtonHeader extends JButton implements TableCellRenderer, MouseListener {
+		
+		private static final long serialVersionUID = -2671561830772836025L;
+		
+		private final JTable table;
+		private boolean click;
+		private int column;
+		
+		public ButtonHeader(final JTable table, final String text, final ActionListener listener) {
+			super(text);
+			this.table = table;
+			this.addActionListener(listener);
+			this.click = false;
+			
+			//DUPLICAZIONE DI QUESTE RIGHE -> RISOLVERE?
+			if(this.table != null && this.table.getTableHeader() != null) {
+				this.table.getTableHeader().addMouseListener(this);
+			}
+		}
+		
+
+		@Override
+		public Component getTableCellRendererComponent(final JTable table, final Object object,
+				final boolean isSelected, final boolean hasFocus, final int row, final int column) {
+			
+			if(table != null && table.getTableHeader() != null) {
+				this.setForeground(table.getTableHeader().getForeground());
+				this.setBackground(table.getTableHeader().getBackground());
+			}
+			
+			this.column = column;
+			this.setActionCommand(DaysOfWeek.values()[column - 1].getName()); //column + 1 perchè la prima colonna è vuota.
+			this.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+			return this;
+		}
+		
+		private void handleClick(final MouseEvent e) {
+			if(this.click) { 
+				click = false;
+				
+				final JTableHeader header = (JTableHeader) e.getSource();
+				final int columnIndex = header.getTable().getColumnModel().getColumnIndexAtX(e.getX());
+				
+				if(e.getClickCount() == 1 && columnIndex > 0 && column == columnIndex) { 
+					((ButtonHeader) header.getColumnModel().getColumn(columnIndex).getHeaderRenderer()).doClick();
+				}
+			}
 		}
 		
 		@Override
-		public boolean isCellEditable(final int row, final int column) {
-			return false;
+		public void mouseClicked(final MouseEvent e) {
+			this.handleClick(e);
 		}
-		
-	}*/
+
+		@Override
+		public void mouseEntered(final MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(final MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(final MouseEvent e) {
+			this.click = true;
+		}
+
+		@Override
+		public void mouseReleased(final MouseEvent e) {
+			
+		}
+
+	}
 	
 }

@@ -9,17 +9,16 @@ import model.gym.ICourse;
 import model.gym.IGymCalendar;
 import model.gym.Schedule;
 import view.PrimaryFrame;
-import view.panels.home.CoursesWrapperRenderer.CoursesWrapper;
 import view.panels.home.HomePanel;
+import view.panels.home.HomePanel.CoursesWrapper;
 import view.panels.home.LegendPanel;
 import view.panels.home.SetCalendarPanel;
 
 public class HomePanelController implements IHomePanelController {
 
-	private static final String BACKGROUND_PATH = "/background.png";
 	private static final String DIALOG_TITLE = "Modifica l'orario della giornata: ";
-	private static final int DIALOG_WIDTH = 714;
-	private static final int DIALOG_HEIGHT = 411;
+	private static final int DIALOG_WIDTH = 750;
+	private static final int DIALOG_HEIGHT = 420;
 	
 	private final IModel model;
 	private final PrimaryFrame frame;
@@ -62,7 +61,7 @@ public class HomePanelController implements IHomePanelController {
 		
 		if(empty) {
 			
-			row[0] = new String("--:--");
+			row[0] = "--:--";
 			
 			for(int i = 1; i < row.length; i++) {
 				row[i] = new CoursesWrapper(new ArrayList<ICourse>(), false);
@@ -80,7 +79,7 @@ public class HomePanelController implements IHomePanelController {
 				//usare due cicli annidati per evitare duplicazione di codice
 				//Object[] row = new Object[DaysOfWeek.values().length()];
 				
-				row[0] = new String(i + ":00");
+				row[0] = i + ":00";
 				
 				for(final DaysOfWeek day : DaysOfWeek.values()) {
 					row[day.ordinal() + 1] = new CoursesWrapper(calendar.getCalendar().get(day).getCoursesInHour(i), calendar.getCalendar().get(day).isGymOpenedAt(i));
@@ -100,7 +99,7 @@ public class HomePanelController implements IHomePanelController {
 	
 	@Override
 	public void cmdEditDaySchedule(final String day) {
-		final SetCalendarPanel panel = new SetCalendarPanel(BACKGROUND_PATH);
+		final SetCalendarPanel panel = new SetCalendarPanel(this.view.getBackgroundPath());
 		final ISetCalendarController controller = new SetCalendarController(this.model, this.frame, panel, this, DaysOfWeek.getValueByName(day));
 		try {
 			controller.loadData();
