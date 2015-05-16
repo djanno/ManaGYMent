@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import exceptions.NoCourseWithCoachesException;
 import model.IModel;
 import model.gym.GymCalendar.DaysOfWeek;
 import model.gym.ICourse;
@@ -43,11 +44,10 @@ public class SetCalendarController implements ISetCalendarController {
 	}
 
 	@Override
-	public void loadData() throws IllegalArgumentException {
+	public void loadData() throws NoCourseWithCoachesException {
 		final List<ICourse> courseWithCoaches = this.model.getGym(this.frame.getActiveUser()).getCoursesWithCoaches();
 		if (courseWithCoaches.isEmpty()) {
-//		    io direi di creare un eccezione specifica e non un illegalargument
-			throw new IllegalArgumentException("Non esistono corsi con degli insegnanti");
+		   throw new NoCourseWithCoachesException();
 		} else {
 			view.loadFields(day,
         			        this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar().get(this.day),

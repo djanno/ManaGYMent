@@ -105,7 +105,7 @@ public class HomePanelController implements IHomePanelController {
 		try {
 			controller.loadData();
 			this.frame.new DialogWindow(DIALOG_TITLE + day, DIALOG_WIDTH, DIALOG_HEIGHT, this.frame, panel);
-		} catch(final IllegalArgumentException e) {
+		} catch(final Exception e) {
 			this.frame.displayError(e.getMessage());
 		}
 	}

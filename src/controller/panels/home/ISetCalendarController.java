@@ -2,11 +2,12 @@ package controller.panels.home;
 
 import java.util.List;
 
+import exceptions.NoCourseWithCoachesException;
 import model.gym.members.IEmployee;
 
 public interface ISetCalendarController {
 
-	void loadData() throws IllegalArgumentException;
+	void loadData() throws NoCourseWithCoachesException;
 
 	List<IEmployee> loadCoachesByCourseName(final String courseName);
 	
