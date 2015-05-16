@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import utility.UtilityClass;
 import model.gym.ICourse;
 import model.gym.IGym;
 
@@ -78,7 +79,7 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     
     @Override
     public List<ICourse> getCourses(){
-    	return this.courses;
+        return UtilityClass.defend(this.courses);
     }
     
     @Override

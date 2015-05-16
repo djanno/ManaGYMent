@@ -33,8 +33,8 @@ import model.gym.GymCalendar.DaysOfWeek;
 import model.gym.ICourse;
 import model.gym.Schedule;
 import model.gym.members.IEmployee;
+import utility.UtilityClass;
 import view.panels.GenericTable;
-import view.panels.UtilitiesPanels;
 import controller.panels.home.ISetCalendarController;
 
 public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
@@ -186,8 +186,8 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         this.lblDay.setText(day.getName());
         this.isOpened.setSelected(schedule.isOpened());
         this.observer.formTable();
-        this.courses.setModel(new DefaultComboBoxModel<String>(UtilitiesPanels.createComboBoxValues(gymCourses))); 
-        this.coachesPerCourse.setModel(new DefaultComboBoxModel<String>(UtilitiesPanels.createComboBoxValues(gymCoaches)));
+        this.courses.setModel(new DefaultComboBoxModel<String>(UtilityClass.createComboBoxValues(gymCourses))); 
+        this.coachesPerCourse.setModel(new DefaultComboBoxModel<String>(UtilityClass.createComboBoxValues(gymCoaches)));
         this.gymOpenFrom.setValue(schedule.getOpeningHour().orElse(8));
         this.gymOpenTo.setValue(schedule.getClosingHour().orElse(22));
         this.courseHourFrom.setValue(schedule.getOpeningHour().orElse(8));
@@ -230,10 +230,10 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         this.isOpened.addItemListener(e->disenableIfNotOpen());
         
         this.courses.addItemListener(e->{
-                                    this.coachesPerCourse.setModel(new DefaultComboBoxModel<String>(UtilitiesPanels.createComboBoxValues(this.observer.loadCoachesByCourseName((String)this.courses.getSelectedItem()))));
+                                    this.coachesPerCourse.setModel(new DefaultComboBoxModel<String>(UtilityClass.createComboBoxValues(this.observer.loadCoachesByCourseName((String)this.courses.getSelectedItem()))));
         });
         
-        UtilitiesPanels.setListListenerTable(this.table, this.remove);
+        UtilityClass.setListListenerTable(this.table, this.remove);
 
     }
 

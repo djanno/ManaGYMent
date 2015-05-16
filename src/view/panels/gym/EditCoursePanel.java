@@ -24,9 +24,9 @@ import javax.swing.border.Border;
 
 import model.gym.ICourse;
 import model.gym.members.IEmployee;
+import utility.UtilityClass;
 import view.panels.Background;
 import view.panels.GenericTable;
-import view.panels.UtilitiesPanels;
 import controller.panels.gym.EditCourseController;
 import controller.panels.gym.IAddCourseController;
 
@@ -77,7 +77,7 @@ public class EditCoursePanel extends GenericTable implements ActionListener,IEdi
         addCoach.addActionListener(this);
         removeCoach.addActionListener(this);
         confirm.addActionListener(this);
-        UtilitiesPanels.setListListenerTable(this.table, this.removeCoach);
+        UtilityClass.setListListenerTable(this.table, this.removeCoach);
     }
     
     public void showData(final ICourse course,final List<IEmployee> employees){
@@ -85,7 +85,7 @@ public class EditCoursePanel extends GenericTable implements ActionListener,IEdi
         this.principalPanel.setCourseColor(course.getCourseColor());
         this.principalPanel.setCoursePrice(course.getCoursePrice());
         this.principalPanel.setCourseMaxMember(course.getMaxMembers());
-        this.coaches.setModel(new DefaultComboBoxModel<String>(UtilitiesPanels.createComboBoxValues(employees)));
+        this.coaches.setModel(new DefaultComboBoxModel<String>(UtilityClass.createComboBoxValues(employees)));
         this.addCoach.setEnabled(coaches.getModel().getSize()>0);
         ((EditCourseController)this.observer).formTable();
     }

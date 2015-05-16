@@ -26,12 +26,12 @@ public class Model implements IModel, Serializable {
     	if(this.users.containsKey(username) && this.users.get(username).getPassword().length == psw.length){
     		for(int i = 0; i < psw.length; i++){
     			if(this.users.get(username).getPassword()[i] != psw[i]){
-    				throw new WrongCredentialsException("I dati inseriti non sono corretti");
+    				throw new WrongCredentialsException();
     			}
     		}
     		return true;
     	}
-    	throw new WrongCredentialsException("I dati inseriti non sono corretti.");
+    	throw new WrongCredentialsException();
     }
     
     @Override
@@ -47,7 +47,7 @@ public class Model implements IModel, Serializable {
 	@Override
 	public void addUser(final IUser user) throws UserAlreadyExistsException {
 		if(this.users.containsKey(user.getUsername())){
-    		throw new UserAlreadyExistsException("Username già in uso.");
+    		throw new UserAlreadyExistsException();
     	}
     	else{
     		this.users.put(user.getUsername(), user);
