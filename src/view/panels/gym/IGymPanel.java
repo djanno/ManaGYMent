@@ -7,5 +7,7 @@ public interface IGymPanel {
 	void setHeader(final String header);
 
 	void attachObserver(final IGymPanelController observer);
+
+	GymPanel.IncomePanel getIncomePanel();
 	
 }

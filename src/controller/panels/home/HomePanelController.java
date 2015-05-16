@@ -9,16 +9,16 @@ import model.gym.ICourse;
 import model.gym.IGymCalendar;
 import model.gym.Schedule;
 import view.PrimaryFrame;
-import view.panels.home.CoursesWrapperRenderer.CoursesWrapper;
 import view.panels.home.HomePanel;
+import view.panels.home.HomePanel.CoursesWrapper;
 import view.panels.home.LegendPanel;
 import view.panels.home.SetCalendarPanel;
 
 public class HomePanelController implements IHomePanelController {
 
 	private static final String DIALOG_TITLE = "Modifica l'orario della giornata: ";
-	private static final int DIALOG_WIDTH = 714;
-	private static final int DIALOG_HEIGHT = 411;
+	private static final int DIALOG_WIDTH = 750;
+	private static final int DIALOG_HEIGHT = 420;
 	
 	private final IModel model;
 	private final PrimaryFrame frame;

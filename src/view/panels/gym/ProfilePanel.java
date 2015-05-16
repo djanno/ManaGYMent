@@ -8,13 +8,15 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
 import org.jdesktop.xswingx.PromptSupport;
+
 import view.panels.Background;
 import controller.panels.gym.IProfilePanelController;
 
@@ -126,8 +128,4 @@ public class ProfilePanel extends Background implements IProfilePanel, ActionLis
 		}
 	}
 	
-	@Override
-	public void showMessage(String s){
-		JOptionPane.showMessageDialog(this, s, "Registrazione correta", JOptionPane.INFORMATION_MESSAGE);
-	}
 }

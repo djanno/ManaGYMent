@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
-
-import javax.swing.DefaultListModel;
-
 import model.IModel;
 import model.gym.ICourse;
 import model.gym.members.Employee;
@@ -18,13 +15,13 @@ import view.panels.members.IFormField;
 
 public class EmployeeAddController extends BaseController implements IEmployeeAddController{
 
-	private static final String WRONG_PREDICATE = "Tutti i campi devono essere riempiti."
-			+ "\nIl codice fiscale deve essere di 15 caratteri. "
-			+ "\nL'indirizzo deve essere di alemno 7 caratteri."
-			+ "\nL'indirizzo emaile il numero di telefono devono essere valido.";
+	private static final String WRONG_NAME = "Il nome deve essere lungo piï¿½ di 1 carattere.";
+	private static final String WRONG_SURNAME = "Il cognome deve essere lungo piï¿½ di 1 carattere.";
+	private static final String WRONG_CF = "Il codice fiscale deve essere di 15 caratteri esatti.";
+	private static final String WRONG_ADDRESS = "L'indirizzo deve essere lungo piï¿½ di 7 caratteri.";
+	private static final String WRONG_TELEPHONE = "Il numero telefonico deve essere composto da soli numeri.";
+	private static final String WRONG_EMAIL = "L'E-mail inserita non ï¿½ valida.";
 	private static final String WRONG_SALARY = "Il campo salario deve essere un numero maggiore di 0";
-	private static final String EMPTY_LIST = "Bisogna aggiungere almeno un corso.";
-	private static final String REGISTERED = "L'utente inserito è stato aggiunto";
 	
 	protected final IEmployeePanel view;
 	protected IPrimaryFrame frame;
@@ -38,20 +35,18 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 		this.model = model;
 		this.tableEmployeesController = tableEmployeesController;
 		this.view.attachObserver(this);
-		this.view.setComboBox(this.model.getUser(this.frame.getActiveUser()).getGym().getCourses());
 	}
 	
 	@Override
-	public void cmdSave(Map<IFormField, String> mapToPass, String salario, DefaultListModel<String> list ){
+	public void cmdSave(final Map<IFormField, String> mapToPass, final String salario){
 		try{
-			IEmployee employee = createEmployee(mapToPass, salario, list);
+			final IEmployee employee = createEmployee(mapToPass, salario);
 			this.model.getUser(this.frame.getActiveUser()).getGym().addEmployee(employee);
-			System.out.println(REGISTERED);
 			tableEmployeesController.createTable(this.model.getUser(this.frame.getActiveUser()).getGym().getEmployees());
 			this.model.getUser(this.frame.getActiveUser()).getGym().setIncome(employee.getSalary(), Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));
 			this.frame.getChild().closeDialog();
-		}catch (Throwable t){
-			this.frame.displayError(t.getMessage());
+		}catch (Exception e){
+			this.frame.displayError(e.getMessage());
 		}
 	}
 	
@@ -60,7 +55,7 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 		return this.model.getUser(this.frame.getActiveUser()).getGym().getCourses();
 	}
 	
-	private Employee createEmployee(Map<IFormField, String> mapToPass, String salary, DefaultListModel<String> list) throws Throwable{
+	private Employee createEmployee(final Map<IFormField, String> mapToPass, final String salary) throws IllegalArgumentException {
 		Double doubleSalary;
 		try{
 			doubleSalary = Double.parseDouble(salary);
@@ -68,13 +63,27 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 			throw new IllegalArgumentException(WRONG_SALARY);
 		}
 		
-		for(IFormField f : mapToPass.keySet()){
-			if(! f.getPred().test(mapToPass.get(f))){
-				throw new IllegalArgumentException(WRONG_PREDICATE);
+		for(final IFormField f : mapToPass.keySet()){
+			if(! f.getPred().test(mapToPass.get(f))){	
+				if(f.getField().equals("Nome")){
+					throw new IllegalArgumentException(WRONG_NAME);
+				}
+				if(f.getField().equals("Cognome")){
+					throw new IllegalArgumentException(WRONG_SURNAME);
+				}
+				if(f.getField().equals("Codice fiscale")){
+					throw new IllegalArgumentException(WRONG_CF);
+				}
+				if(f.getField().equals("Indirizzo")){
+					throw new IllegalArgumentException(WRONG_ADDRESS);
+				}
+				if(f.getField().equals("Telefono")){
+					throw new IllegalArgumentException(WRONG_TELEPHONE);
+				}
+				if(f.getField().equals("E-Mail")){
+					throw new IllegalArgumentException(WRONG_EMAIL);
+				}
 			}
-		}
-		if(list.isEmpty()){
-			throw new IllegalArgumentException(EMPTY_LIST);
 		}
 		
 		String name = new String();
@@ -84,22 +93,24 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 		String phoneNumber = new String();
 		String email = new String();
 
-		for (IFormField f : mapToPass.keySet()){
+		for (final IFormField f : mapToPass.keySet()){
 			switch (f.getField()){
-				case "Nome":  name = new String( mapToPass.get(f));
-	            break;
-				case "Cognome":  surname = new String( mapToPass.get(f));
-	        	break;
+				case "Nome":  name = new String( mapToPass.get(f).trim());
+					break;
+				case "Cognome":  surname = new String( mapToPass.get(f).trim());
+	        		break;
 				case "Codice fiscale":  fiscalCode = new String( mapToPass.get(f));
-	        	break;
+	        		break;
 				case "Indirizzo":  address = new String( mapToPass.get(f));
-	        	break;
+	        		break;
 				case "Telefono":  phoneNumber = new String( mapToPass.get(f));
-	        	break;
+	        		break;
 				case "E-Mail":  email = new String( mapToPass.get(f));
-	        	break;
+	        		break;
+	        	default:
+	        		break;
 			}
 		}
-		return new Employee(name, surname, fiscalCode, address, phoneNumber, email, this.model.getUser(this.frame.getActiveUser()).getGym(), doubleSalary, convertList(list, this.model.getUser(this.frame.getActiveUser()).getGym().getCourses()));
+		return new Employee(name, surname, fiscalCode, address, phoneNumber, email, this.model.getUser(this.frame.getActiveUser()).getGym(), doubleSalary);
 	}
 }

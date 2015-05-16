@@ -34,16 +34,16 @@ public class TestModel {
 		try {
 		this.model.addUser(user);
 		} catch(UserAlreadyExistsException e){}
-		final List<ICourse> list = new ArrayList<>();
+		/*final List<ICourse> list = new ArrayList<>();
 		Employee e1 = new Employee("Giovanni", "Tesei", "205110658484849484",
-				"pippo", "01254878778", "giovigay@libero.it", gym, 1200, list);
+				"pippo", "01254878778", "giovigay@libero.it", gym, 1200);
 		Employee e2 = new Employee("luca", "coglione", "20511vdvvdv49484",
-				"via dei pini", "01254878778", "giovigay@libero.it", gym, 1200, list);
+				"via dei pini", "01254878778", "giovigay@libero.it", gym, 1200);
 		Employee e3 = new Employee("Elia", "gialli", "FTGTD&&///((((",
-				"via ranuzi 66", "0i9i09i09ii9", "ciao.gay.load", gym, 1800, list);
+				"via ranuzi 66", "0i9i09i09ii9", "ciao.gay.load", gym, 1800);
 		Employee e4 = new Employee("rossella", "bresca",
 				"hbhbhbhbhbhbjhbolnoi", "kmomokmo", "90i909i09k9lk",
-				"kmokmmkmokmokm", gym, 12500, list);
+				"kmokmmkmokmokm", gym, 12500);
 		gym.addEmployee(e1);
 		gym.addEmployee(e2);
 		gym.addEmployee(e3);
@@ -86,11 +86,11 @@ public class TestModel {
 		sch.setProgram(program2);
 		List<IGymMember> lista = Arrays.asList(e1, e2, e3);
 
-		// Schedule schMart = new Schedule(true, 9, 12, program2);
+		 Schedule schMart = new Schedule(true, 9, 12, program2);
 		GymCalendar gc = new GymCalendar();
-		// gc.setSchedule(DaysOfWeek.LUNEDI, sch);
+		 gc.setSchedule(DaysOfWeek.LUNEDI, sch);
 		gc.setSchedule(DaysOfWeek.MARTEDI, sch);
-		gym.setCalendar(gc);
+		gym.setCalendar(gc);*/
 	}
 	
 	public IModel getModel() {

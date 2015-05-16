@@ -5,8 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
 
 import model.gym.ICourse;
 import model.gym.members.IGymMember;
@@ -29,13 +27,15 @@ public final class UtilitiesPanels{
         return comboBoxValues;    
     }
      
-    public static void setListListenerTable(final DefaultTableModel tableModel,final JTable table,final JButton...enableButton){
-        final ListSelectionModel listSelectionModel = table.getSelectionModel();
-        listSelectionModel.addListSelectionListener(e->{
-            for(final JButton button:enableButton){
-                button.setEnabled(!listSelectionModel.isSelectionEmpty());
+    public static void setListListenerTable(final JTable table,final JButton...enableButton){
+        table.getSelectionModel().addListSelectionListener(e->{
+            if(!e.getValueIsAdjusting()) {
+                final boolean rowSelected = table.getSelectedRow() != -1;
+                for(final JButton button:enableButton){
+                    button.setEnabled(rowSelected);
+                }
             }
         });
-     }   
+    }
     
 }
