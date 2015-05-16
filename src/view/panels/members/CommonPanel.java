@@ -48,14 +48,14 @@ public class CommonPanel extends JPanel implements ICommonPanel{
 	}
 	
 	@Override
-	public void setMap(IFormField field, String value){
+	public void setMap(final IFormField field, final String value){
 		this.map.get(field).setText(value);
 	}
 	
 	@Override
 	public Map<IFormField, String> getMapToPass(){
 		final Map<IFormField, String> mapToPass = new HashMap<>();
-		for (IFormField f: map.keySet()){
+		for (final IFormField f: map.keySet()){
 			mapToPass.put(f, map.get(f).getText());
 		}
 		return mapToPass;

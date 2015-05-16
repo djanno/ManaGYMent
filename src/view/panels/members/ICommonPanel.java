@@ -4,6 +4,6 @@ import java.util.Map;
 
 
 public interface ICommonPanel {
-	void setMap(IFormField field, String value);
+	void setMap(final IFormField field, final String value);
 	Map<IFormField, String> getMapToPass();
 }
