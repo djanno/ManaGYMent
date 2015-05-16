@@ -1,6 +1,9 @@
 package model.gym.members;
 
 import java.util.Calendar;
+import java.util.List;
+
+import model.gym.ICourse;
 
 public interface ISubscriber extends IGymMember {
 
@@ -15,5 +18,9 @@ public interface ISubscriber extends IGymMember {
     void subscribe(final Calendar expirationDate);
 
     double computeFee();
+
+	List<ICourse> getCourses();
+
+	void setCourses(List<ICourse> courses);
     
 }

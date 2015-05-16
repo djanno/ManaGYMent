@@ -63,5 +63,4 @@ public class SendEmailPanelController implements ISendEmailPanelController{
 		}
 		return destinatari;
 	}
-	
 }
