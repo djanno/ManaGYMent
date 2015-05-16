@@ -37,7 +37,7 @@ public class SubscriberStrategy implements IFormStrategy{
     
     @Override
     public List<IFormField> getFields() {
-    	List<IFormField> list= new ArrayList<IFormField>(fieldsCommon.getFields());
+    	final List<IFormField> list= new ArrayList<IFormField>(fieldsCommon.getFields());
         list.addAll(Arrays.asList(EnumFieldsSubscriber.values()));
         return list;
     }
