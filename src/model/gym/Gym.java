@@ -2,8 +2,11 @@ package model.gym;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -20,7 +23,6 @@ public class Gym implements IGym, Serializable {
 	
 	private static final String SUBSCRIBER_ALREADY_EXISTING = "L'iscritto che si vuole aggiungere esiste già.";
     private static final String EMPLOYEE_ALREADY_EXISTING = "L'impiegato che si vuole aggiungere esiste già.";
-    private static final String NEGATIVE_AMMOUNT = "L'importo deve essere positivo";
     
 	private final String gymName;
     private final List<ISubscriber> subscribers;
@@ -28,9 +30,8 @@ public class Gym implements IGym, Serializable {
     private IGymCalendar calendar;
     private final List<ICourse> courses;
     private double sale;
-    private final Map<String, Double> map;
-    private String month;
-    
+    private Map<String, Double> map;
+	private DateFormat df;
     
     public Gym(final String gymName){
     	super();
@@ -40,9 +41,8 @@ public class Gym implements IGym, Serializable {
     	this.courses = new ArrayList<>();
     	this.calendar = new GymCalendar();
     	this.sale = 0.0;
-		this.map = new TreeMap<>();
-//      createMap();
-//        this.month = EnumMonths.valueOf(Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()).toUpperCase());
+    	this.df = new SimpleDateFormat("MM/YYYY", Locale.ITALY);
+    	this.map = new TreeMap<>();
     }
 
     @Override
@@ -158,52 +158,38 @@ public class Gym implements IGym, Serializable {
         return income;
     }
 
-    /*@Override
-    public void addIncome(Double ammount) throws IllegalArgumentException{
-            if(ammount > 0){
-                    try{
-                            this.map.replace(getMonth(), this.map.get(getMonth()) + ammount);
-                    }catch (Exception e){
-                            this.map.put(getMonth(), ammount);
-                    }
-            }else{
-                    throw new IllegalArgumentException(NEGATIVE_AMMOUNT);
-            }
-    }
+    @Override
+	public void setIncome(Double amount, Calendar subscriptionCalendar) throws IllegalArgumentException{
+		double prev = 0;
 
-    @Override
-    public void decreseIncome(Double ammount) throws IllegalArgumentException{
-            if(ammount > 0){
-                    try{
-                            this.map.replace(getMonth(), this.map.get(getMonth()) - ammount);
-                    }catch(Exception e){
-                            this.map.put(getMonth(), -ammount);
-                    }
-            }else{
-                    throw new IllegalArgumentException(NEGATIVE_AMMOUNT);
-            }
-    }
+//		this.df = new SimpleDateFormat("MM/YYYY", Locale.ITALY);
+		this.df.format(subscriptionCalendar.getTime());
+		if(this.map.keySet().contains(this.df.format(subscriptionCalendar.getTime()))){
+			System.out.println("PRIMA EMPLOYEE " + this.map.get(this.df.format(subscriptionCalendar.getTime())));
+			prev = this.map.get(this.df.format(subscriptionCalendar.getTime()));
+		}
+		this.map.put(this.df.format(subscriptionCalendar.getTime()), amount + prev);
+		System.out.println("DOPO EMPLOYEE " + this.map.get(this.df.format(subscriptionCalendar.getTime())));
+	}
 
-    @Override
-    public Map<EnumMonths, Double> getIncome() {
-            return this.map;
-    }
-
-    @Override
-    public void setMonth(String monthName) {
-            this.month = EnumMonths.valueOf(monthName);
-    }
-
-    @Override
-    public EnumMonths getMonth() {
-            return this.month;
-    }
-    
-    @Override
-    public double getCurrentIncome(){
-            return this.map.get(getMonth());
-    }
-    */
+	@Override
+	public Map<String, Double> getIncome() {
+		return this.map;
+	}
+	
+	@Override
+	public double getCurrentIncome(){
+		try{
+			return this.map.get(this.df.format(this.getCurrentDate()));
+		}catch(Exception e){
+			return 0.0;
+		}
+	}
+	
+	private Date getCurrentDate() {
+		return Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY).getTime();
+	}
+	
     private boolean findSubscriber(String cf){
             for (ISubscriber s : this.subscribers){
                     if (s.getFiscalCode().equals(cf)){
@@ -221,12 +207,4 @@ public class Gym implements IGym, Serializable {
             }
             return false;
     }
-    /*
-    private void createMap(){
-            for (EnumMonths e : EnumMonths.values()){
-                    this.map.put(e, 0.0);
-            }
-    }*/
-
-
 }

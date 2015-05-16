@@ -1,7 +1,6 @@
 package main;
 
 import model.IModel;
-import model.Model;
 import view.PrimaryFrame;
 import controller.IPrimaryFrameController;
 import controller.PrimaryFrameController;

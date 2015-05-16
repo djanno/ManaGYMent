@@ -1,7 +1,9 @@
 package model.gym;
 
 import java.awt.Color;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import model.gym.members.IEmployee;
 import model.gym.members.ISubscriber;
@@ -44,16 +46,11 @@ public interface IGym {
 
     double computeMonthlyIncome();
 
-    // void addIncome(Double ammount) throws IllegalArgumentException;
+	double getCurrentIncome();
 
-    // void decreseIncome(Double ammount) throws IllegalArgumentException;
+	Map<String, Double> getIncome();
 
-    // Map<EnumMonths, Double> getIncome();
-    
-    // void setMonth(String monthName);
-
-    // EnumMonths getMonth();
-
-    // double getCurrentIncome();
+	void setIncome(Double amount, Calendar subscriptionCalendar)
+			throws IllegalArgumentException;
 
 }
