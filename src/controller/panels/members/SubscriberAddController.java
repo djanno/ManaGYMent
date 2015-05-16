@@ -84,7 +84,7 @@ public class SubscriberAddController extends BaseController implements ISubscrib
         dayDiff = TimeUnit.MILLISECONDS.toDays(subscriber.getExpirationDate().getTimeInMillis() - Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome")).getTimeInMillis());
         
         if(dayDiff > 0){
-            for(ICourse c : subscriber.getCourses()){
+            for(final ICourse c : subscriber.getCourses()){
             	this.model.getUser(this.frame.getActiveUser()).getGym().setIncome(- (dayDiff * c.getCoursePrice()), subscriber.getSubscriptionDate());
             }
         }

@@ -50,7 +50,8 @@ public class EmployeePanel extends JPanel implements ActionListener, IEmployeePa
 		this.btnSave.addActionListener(this);
 	}
 	
-	public void showData(IEmployee employee, List<ICourse> gymCourses){
+	@Override
+	public void showData(final IEmployee employee, final List<ICourse> gymCourses){
 		this.commonPanel.setMap(EnumFieldsCommon.NOME, employee.getName());
 		this.commonPanel.setMap(EnumFieldsCommon.COGNOME, employee.getSurname());
 		this.commonPanel.setMap(EnumFieldsCommon.CODICE_FISCALE, employee.getFiscalCode());
