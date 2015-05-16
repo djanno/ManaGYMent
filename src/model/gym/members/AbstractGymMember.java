@@ -1,9 +1,6 @@
 package model.gym.members;
 
 import java.io.Serializable;
-import java.util.List;
-
-import model.gym.ICourse;
 import model.gym.IGym;
 
 public abstract class AbstractGymMember implements IGymMember, Serializable {
@@ -17,10 +14,9 @@ public abstract class AbstractGymMember implements IGymMember, Serializable {
     private String phoneNumber;
     private String email;
     private final IGym gym;
-    private List<ICourse> corsi;
 
     //le eccezioni andranno catturate nel controller. Possibilità di utilizzo strategy.
-    public AbstractGymMember(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber, final String email, final IGym gym, final List<ICourse> corsi){
+    public AbstractGymMember(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber, final String email, final IGym gym){
         super();
         this.name = name;
         this.surname = surname;
@@ -29,7 +25,6 @@ public abstract class AbstractGymMember implements IGymMember, Serializable {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.gym = gym;
-        this.corsi = corsi;
     }
 
 //    aggiunto
@@ -76,11 +71,6 @@ public abstract class AbstractGymMember implements IGymMember, Serializable {
     }
     
     @Override
-    public List <ICourse> getCourses(){
-        return this.corsi;
-    }
-
-    @Override
     public void setEmail(final String email){
     	this.email = email;
     }
@@ -94,10 +84,4 @@ public abstract class AbstractGymMember implements IGymMember, Serializable {
     public void setNumber(final String number){
     	this.phoneNumber = number;
     }
-    
-    @Override
-    public void setCourses(final List<ICourse> corsi){
-        this.corsi = corsi;
-    }
-
 }

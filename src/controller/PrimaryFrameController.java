@@ -83,6 +83,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 		final GymPanel panel = new GymPanel(BACKGROUND_PATH);
 		final IGymPanelController observer = new GymPanelController(this.model, this.primaryFrame, panel);
 		this.primaryFrame.setCurrentPanel(panel);
+		observer.loadIncomeTable();
 		observer.loadCoursesTable();
 	}
 

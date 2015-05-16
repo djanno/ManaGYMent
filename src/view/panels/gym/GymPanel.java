@@ -33,12 +33,14 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 
 	private static final String[] COLUMNS = {"Nome", "Colore", "Prezzo"};
 	private static final Font HEADER_FONT = new Font("Arial", Font.BOLD + Font.PLAIN, 20);
+	
 	//private final JTable table;
 	//private Object[][] data;
 	
 	private IGymPanelController observer;
 	
 	private final Background top;
+	private final IncomePanel incomePanel;
 	
 	private final JButton addBtn = new JButton("Aggiungi");
 	private final JButton editBtn = new JButton("Dettagli");
@@ -51,6 +53,8 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		
 		this.top = new Background(path);
 		this.top.setLayout(new FlowLayout(FlowLayout.CENTER));
+		
+		this.incomePanel = new IncomePanel(path);
 		
 		final JPanel bottom = new JPanel(new BorderLayout());
 
@@ -96,7 +100,7 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		bottom.add(btnPanel, BorderLayout.EAST);
 		
 		this.add(this.top, new GridBagConstraints(0, 0, 1, 1, 1, 0.15, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 10, 0), 0, 0));
-		this.add(new JPanel(), new GridBagConstraints(0, 1, 1, 1, 1, 0.6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 0, 10, 0), 0, 0));
+		this.add(this.incomePanel, new GridBagConstraints(0, 1, 1, 1, 1, 0.6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 0, 10, 0), 0, 0));
 		this.add(bottom, new GridBagConstraints(0, 2, 1, 1, 1, 0.25, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 0, 0, 0), 0, 0));
 	}
 	
@@ -104,6 +108,11 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		final JLabel label = new JLabel(header);
 		label.setFont(HEADER_FONT);
 		this.top.add(label);
+	}
+	
+	@Override
+	public IncomePanel getIncomePanel() {
+		return this.incomePanel;
 	}
 	
 	@Override

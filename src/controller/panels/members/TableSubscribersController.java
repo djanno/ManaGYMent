@@ -7,6 +7,9 @@ import view.panels.members.TableMemberPanel;
 
 public class TableSubscribersController extends AbstractTableMemberController{
 
+  protected static final int WIDTH_PANEL = 465;
+  protected static final int HEIGHT_PANEL = 387;
+    
   public TableSubscribersController(final IModel model, final PrimaryFrame frame,
           final TableMemberPanel view) {
       super(model, frame, view);

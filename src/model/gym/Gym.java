@@ -162,14 +162,11 @@ public class Gym implements IGym, Serializable {
 	public void setIncome(Double amount, Calendar subscriptionCalendar) throws IllegalArgumentException{
 		double prev = 0;
 
-//		this.df = new SimpleDateFormat("MM/YYYY", Locale.ITALY);
 		this.df.format(subscriptionCalendar.getTime());
 		if(this.map.keySet().contains(this.df.format(subscriptionCalendar.getTime()))){
-			System.out.println("PRIMA EMPLOYEE " + this.map.get(this.df.format(subscriptionCalendar.getTime())));
 			prev = this.map.get(this.df.format(subscriptionCalendar.getTime()));
 		}
 		this.map.put(this.df.format(subscriptionCalendar.getTime()), amount + prev);
-		System.out.println("DOPO EMPLOYEE " + this.map.get(this.df.format(subscriptionCalendar.getTime())));
 	}
 
 	@Override

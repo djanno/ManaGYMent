@@ -36,14 +36,14 @@ public class TestModel {
 		} catch(UserAlreadyExistsException e){}
 		final List<ICourse> list = new ArrayList<>();
 		Employee e1 = new Employee("Giovanni", "Tesei", "205110658484849484",
-				"pippo", "01254878778", "giovigay@libero.it", gym, 1200, list);
+				"pippo", "01254878778", "giovigay@libero.it", gym, 1200);
 		Employee e2 = new Employee("luca", "coglione", "20511vdvvdv49484",
-				"via dei pini", "01254878778", "giovigay@libero.it", gym, 1200, list);
+				"via dei pini", "01254878778", "giovigay@libero.it", gym, 1200);
 		Employee e3 = new Employee("Elia", "gialli", "FTGTD&&///((((",
-				"via ranuzi 66", "0i9i09i09ii9", "ciao.gay.load", gym, 1800, list);
+				"via ranuzi 66", "0i9i09i09ii9", "ciao.gay.load", gym, 1800);
 		Employee e4 = new Employee("rossella", "bresca",
 				"hbhbhbhbhbhbjhbolnoi", "kmomokmo", "90i909i09k9lk",
-				"kmokmmkmokmokm", gym, 12500, list);
+				"kmokmmkmokmokm", gym, 12500);
 		gym.addEmployee(e1);
 		gym.addEmployee(e2);
 		gym.addEmployee(e3);
