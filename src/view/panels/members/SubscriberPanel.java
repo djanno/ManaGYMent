@@ -32,7 +32,7 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 	
 	public static final long serialVersionUID = 1L;
 	
-	private DefaultListModel<String> listCourses;
+	private final DefaultListModel<String> listCourses;
 	private ISubscriberAddController observer;
 	
 	private final JLabel dataILbl; 
@@ -43,8 +43,8 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 	private final JComboBox<String> coursesCmb; 
 	private final JButton btnAdd; 
 	private final JLabel lblRegistered; 
-	private JList<String> coursesList ;
-	private JScrollPane Registeredscr;
+	private final JList<String> coursesList ;
+	private final JScrollPane Registeredscr;
 	private final JButton btnRemove;
 	private final JButton btnSave; 
 	private final CommonPanel commonPanel;
@@ -98,7 +98,7 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 		return this.commonPanel;
 	}
 	
-	public void showData(ISubscriber subscriber){
+	public void showData(final ISubscriber subscriber){
 		this.commonPanel.setMap(EnumFieldsCommon.NOME, subscriber.getName());
 		this.commonPanel.setMap(EnumFieldsCommon.COGNOME, subscriber.getSurname());
 		this.commonPanel.setMap(EnumFieldsCommon.CODICE_FISCALE, subscriber.getFiscalCode());
@@ -113,7 +113,7 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(final ActionEvent arg0) {
 		final Object source = arg0.getSource();
 		if (source.equals(this.btnAdd)){
 			if (!listCourses.contains((String) this.coursesCmb.getSelectedItem())){
@@ -129,20 +129,20 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 	}
 
 	@Override
-	public void attachObserver(ISubscriberAddController observer) {
+	public void attachObserver(final ISubscriberAddController observer) {
 		this.observer = observer;
 	}
 		
-	public void showMessage(String m){
+	public void showMessage(final String m){
 		JOptionPane.showMessageDialog(this, m, "avviso", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
-	public void showException(String e){
+	public void showException(final String e){
 		JOptionPane.showMessageDialog(this, e, "Errore", JOptionPane.ERROR_MESSAGE);
 	}
 
 	@Override
-	public void setComboBox(List<ICourse> list) {
+	public void setComboBox(final List<ICourse> list) {
 		this.coursesCmb.setModel(new DefaultComboBoxModel<String>(UtilitiesPanels.createComboBoxValues(list)));		
 	}
 }
