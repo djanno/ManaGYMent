@@ -62,7 +62,7 @@ public class HomePanel extends GenericTable implements IHomePanel, ActionListene
 
 		for(int i = 1; i < this.table.getColumnCount(); i++) { 
 			final TableColumn tc = this.table.getColumnModel().getColumn(i);
-			tc.setHeaderRenderer(new ButtonHeader(this.table.getColumnName(i), this));
+			tc.setHeaderRenderer(new ButtonHeader(this.table, this.table.getColumnName(i), this));
 		}
 		
 		this.table.setRowHeight(ROW_HEIGHT);

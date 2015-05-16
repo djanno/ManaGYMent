@@ -17,14 +17,20 @@ public class ButtonHeader extends JButton implements TableCellRenderer, MouseLis
 	
 	private static final long serialVersionUID = -2671561830772836025L;
 	
+	private final JTable table;
 	private boolean click;
 	private int column;
 	
-	public ButtonHeader(final String text, final ActionListener listener) {
+	public ButtonHeader(final JTable table, final String text, final ActionListener listener) {
 		super(text);
-		//this.setFont(new Font("Georgia", Font.BOLD, 15));
+		this.table = table;
 		this.addActionListener(listener);
 		this.click = false;
+		
+		//DUPLICAZIONE DI QUESTE RIGHE -> RISOLVERE?
+		if(this.table != null && this.table.getTableHeader() != null) {
+			this.table.getTableHeader().addMouseListener(this);
+		}
 	}
 	
 
@@ -32,13 +38,9 @@ public class ButtonHeader extends JButton implements TableCellRenderer, MouseLis
 	public Component getTableCellRendererComponent(final JTable table, final Object object,
 			final boolean isSelected, final boolean hasFocus, final int row, final int column) {
 		
-		if(table != null) {
-			final JTableHeader header = table.getTableHeader();
-			if(header != null) {
-				header.addMouseListener(this);
-				this.setForeground(table.getTableHeader().getForeground());
-				this.setBackground(table.getTableHeader().getBackground());
-			}
+		if(table != null && table.getTableHeader() != null) {
+			this.setForeground(table.getTableHeader().getForeground());
+			this.setBackground(table.getTableHeader().getBackground());
 		}
 		
 		this.column = column;
