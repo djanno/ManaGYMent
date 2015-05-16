@@ -19,12 +19,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 
 import view.panels.Background;
 import view.panels.GenericTable;
+import view.panels.UtilitiesPanels;
 import controller.panels.gym.IGymPanelController;
 
 public class GymPanel extends GenericTable implements IGymPanel, ActionListener {
@@ -33,12 +32,14 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 
 	private static final String[] COLUMNS = {"Nome", "Colore", "Prezzo"};
 	private static final Font HEADER_FONT = new Font("Arial", Font.BOLD + Font.PLAIN, 20);
+	
 	//private final JTable table;
 	//private Object[][] data;
 	
 	private IGymPanelController observer;
 	
 	private final Background top;
+	private final IncomePanel incomePanel;
 	
 	private final JButton addBtn = new JButton("Aggiungi");
 	private final JButton editBtn = new JButton("Dettagli");
@@ -52,6 +53,8 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		this.top = new Background(path);
 		this.top.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
+		this.incomePanel = new IncomePanel(path);
+		
 		final JPanel bottom = new JPanel(new BorderLayout());
 
 		//this.table = new JTable(new CoursesManagerTableModel(this.data, GymPanel.COLUMNS));
@@ -61,20 +64,7 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		this.table.setColumnSelectionAllowed(false);
 		this.table.setDefaultRenderer(Color.class, new CourseColorRenderer());
 		
-		this.table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(final ListSelectionEvent e) {
-				
-				if(!e.getValueIsAdjusting()) {
-					final boolean rowSelected = table.getSelectedRow() != -1;
-					editBtn.setEnabled(rowSelected);
-					delBtn.setEnabled(rowSelected);
-				}
-				
-			}
-			
-		});
+		UtilitiesPanels.setListListenerTable(this.table, this.delBtn, this.editBtn);
 
 		final JScrollPane scrollpane = new JScrollPane(this.table);
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -96,7 +86,7 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		bottom.add(btnPanel, BorderLayout.EAST);
 		
 		this.add(this.top, new GridBagConstraints(0, 0, 1, 1, 1, 0.15, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 10, 0), 0, 0));
-		this.add(new JPanel(), new GridBagConstraints(0, 1, 1, 1, 1, 0.6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 0, 10, 0), 0, 0));
+		this.add(this.incomePanel, new GridBagConstraints(0, 1, 1, 1, 1, 0.6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 0, 10, 0), 0, 0));
 		this.add(bottom, new GridBagConstraints(0, 2, 1, 1, 1, 0.25, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 0, 0, 0), 0, 0));
 	}
 	
@@ -104,6 +94,11 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		final JLabel label = new JLabel(header);
 		label.setFont(HEADER_FONT);
 		this.top.add(label);
+	}
+	
+	@Override
+	public IncomePanel getIncomePanel() {
+		return this.incomePanel;
 	}
 	
 	@Override
@@ -128,7 +123,23 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		this.observer = observer;
 	}
 
-	public class CourseColorRenderer extends JLabel implements TableCellRenderer {
+	public class IncomePanel extends GenericTable {
+		
+		private static final long serialVersionUID = 1L;
+		
+		public IncomePanel(final String path){
+			super(new String[] {"Mese", "Guadagno"}, path);
+			this.setLayout(new BorderLayout());
+			this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			this.table.getTableHeader().setReorderingAllowed(false);
+			this.table.setRowSelectionAllowed(true);
+			this.table.setColumnSelectionAllowed(false);
+			this.add(new JScrollPane(this.table), BorderLayout.NORTH);
+		}
+
+	}
+	
+	class CourseColorRenderer extends JLabel implements TableCellRenderer {
 		
 		private static final long serialVersionUID = -4877549038078530092L;
 

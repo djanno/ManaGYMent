@@ -1,14 +1,16 @@
 package controller.panels.gym;
 
+import javax.swing.JOptionPane;
+
 import model.IModel;
-import view.IPrimaryFrame;
+import view.PrimaryFrame;
 import view.panels.gym.IProfilePanel;
 
 public class ProfilePanelController implements IProfilePanelController{
 	
-	private IPrimaryFrame frame;
-	private IProfilePanel view;
-	private IModel model;
+	private final PrimaryFrame frame;
+	private final IProfilePanel view;
+	private final IModel model;
 	
 	private static final String CHANGED_PASSWORD = "Password modificata correttamente.";
 	private static final String CHANGED_EMAIL = "E-mail modificata correttamente.";
@@ -17,7 +19,7 @@ public class ProfilePanelController implements IProfilePanelController{
 	private static final String INVALID_EMAIL = "E' stata inserita un email non valida.";
 	private static final String NO_EQUAL_EMAIL = "Le due email devono corrispondere";
 	
-	public ProfilePanelController(final IPrimaryFrame frame, final IProfilePanel view, final IModel model){
+	public ProfilePanelController(final PrimaryFrame frame, final IProfilePanel view, final IModel model){
 		this.frame = frame;
 		this.view = view;
 		this.view.attachObserver(this);
@@ -31,7 +33,7 @@ public class ProfilePanelController implements IProfilePanelController{
 		} else {
 			if (this.checkPassword(psw, confirmPsw)) {
 				this.model.getUser(this.frame.getActiveUser()).setPassword(confirmPsw);
-				this.view.showMessage(CHANGED_PASSWORD);
+				JOptionPane.showMessageDialog(this.frame, CHANGED_PASSWORD, "Password cambiata", JOptionPane.OK_OPTION);
 			}else{
 				this.frame.displayError(NO_EQUAL_PASSWORD);
 			}	
@@ -46,7 +48,7 @@ public class ProfilePanelController implements IProfilePanelController{
 			if(email.equals(confirmEmail)){
 				if(email.contains("@gmail.com") || email.contains("@yahoo.com") || email.contains("@yahoo.it")){
 					this.model.getUser(this.frame.getActiveUser()).setEmail(confirmEmail);
-					this.view.showMessage(CHANGED_EMAIL);
+					JOptionPane.showMessageDialog(this.frame, CHANGED_EMAIL, "Email modificata.", JOptionPane.OK_OPTION);
 				}else{
 					this.frame.displayError(INVALID_EMAIL);
 				}

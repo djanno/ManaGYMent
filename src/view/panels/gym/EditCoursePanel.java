@@ -21,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
 
 import model.gym.ICourse;
 import model.gym.members.IEmployee;
@@ -78,7 +77,7 @@ public class EditCoursePanel extends GenericTable implements ActionListener,IEdi
         addCoach.addActionListener(this);
         removeCoach.addActionListener(this);
         confirm.addActionListener(this);
-        UtilitiesPanels.setListListenerTable((DefaultTableModel)this.table.getModel(),this.table, this.removeCoach);
+        UtilitiesPanels.setListListenerTable(this.table, this.removeCoach);
     }
     
     public void showData(final ICourse course,final List<IEmployee> employees){

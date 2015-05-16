@@ -4,11 +4,8 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import model.gym.ICourse;
 import model.gym.IGym;
 
 public class Employee extends AbstractGymMember implements IEmployee, Serializable {
@@ -20,8 +17,8 @@ public class Employee extends AbstractGymMember implements IEmployee, Serializab
 
     //Deciso di utilizzare Integer invece dell'enum Day (utilizzeremo i campi
     //statici di Calendar -> Calendar.MONDAY, Calendar.TUESDAY...
-    public Employee(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber, final String email, final IGym gym, final double salary, final List<ICourse> corsi){
-        super(name, surname, fiscalCode, address, phoneNumber, email, gym, corsi);
+    public Employee(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber, final String email, final IGym gym, final double salary){
+        super(name, surname, fiscalCode, address, phoneNumber, email, gym);
         this.salary = salary;
         this.workingHours = new HashMap<>();
         this.workingHours.put(Calendar.MONDAY, new HashSet<>());

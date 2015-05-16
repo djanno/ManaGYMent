@@ -15,9 +15,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import model.gym.ICourse;
 import model.gym.members.ISubscriber;
@@ -44,7 +45,7 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 	private final JButton btnAdd; 
 	private final JLabel lblRegistered; 
 	private final JList<String> coursesList ;
-	private final JScrollPane Registeredscr;
+	private final JScrollPane registeredscr;
 	private final JButton btnRemove;
 	private final JButton btnSave; 
 	private final CommonPanel commonPanel;
@@ -64,9 +65,9 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 		this.btnRemove = new JButton("Rimuovi");
 		this.btnSave = new JButton("Salva");
 		this.coursesList = new JList<String>(this.listCourses);
-		this.Registeredscr = new JScrollPane(coursesList) ;
-		this.Registeredscr.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		this.Registeredscr.setPreferredSize(new Dimension (100, 69));		
+		this.registeredscr = new JScrollPane(coursesList) ;
+		this.registeredscr.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		this.registeredscr.setPreferredSize(new Dimension (100, 69));		
 		this.commonPanel = new CommonPanel();
 		this.subPanel = new JPanel();
 		
@@ -82,15 +83,31 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 		this.subPanel.add(this.coursesCmb, new GridBagConstraints(1, 2, 1, 1, 0.30, 0.25, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 10, 0, 0), 0, 0));
 		this.subPanel.add(this.btnAdd, new GridBagConstraints(2, 2, 1, 1, 0.30, 0.25, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 8, 0, 0), 0, 0));
 		this.subPanel.add(this.lblRegistered, new GridBagConstraints(0, 3, 1, 1, 0.35, 0.25, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 4, 0, 0), 0, 0));
-		this.subPanel.add(this.Registeredscr, new GridBagConstraints(1, 3, 1, 1, 0.30, 0.25, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 10, 0, 0), 0, 0));
+		this.subPanel.add(this.registeredscr, new GridBagConstraints(1, 3, 1, 1, 0.30, 0.25, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 10, 0, 0), 0, 0));
 		this.subPanel.add(this.btnRemove, new GridBagConstraints(2, 3, 1, 1, 0.30, 0.25, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 10, 0, 0), 0, 0));
 		this.subPanel.add(this.btnSave, new GridBagConstraints(1, 4, 1, 1, 0.30, 0.25, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 10, 0, 0), 0, 0));
 		
 		this.add(subPanel, BorderLayout.CENTER);
 		
+		this.btnRemove.setEnabled(false);
+		
 		this.btnAdd.addActionListener(this);
 		this.btnRemove.addActionListener(this);
 		this.btnSave.addActionListener(this);
+		
+		this.coursesList.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(final ListSelectionEvent e) {
+				
+				if(!e.getValueIsAdjusting()) {
+					final boolean rowSelected = coursesList.getSelectedIndex() != -1;
+					btnRemove.setEnabled(rowSelected);
+				}
+				
+			}
+			
+		});
 	}
 	
 	@Override
@@ -131,14 +148,6 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 	@Override
 	public void attachObserver(final ISubscriberAddController observer) {
 		this.observer = observer;
-	}
-		
-	public void showMessage(final String m){
-		JOptionPane.showMessageDialog(this, m, "avviso", JOptionPane.INFORMATION_MESSAGE);
-	}
-	
-	public void showException(final String e){
-		JOptionPane.showMessageDialog(this, e, "Errore", JOptionPane.ERROR_MESSAGE);
 	}
 
 	@Override
