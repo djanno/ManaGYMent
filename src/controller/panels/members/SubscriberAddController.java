@@ -19,21 +19,22 @@ import view.panels.members.IFormField;
 import view.panels.members.ISubscriberPanel;
 
 public class SubscriberAddController extends BaseController implements ISubscriberAddController{
-	private static final String WRONG_PREDICATE = "Tutti i campi devono essere riempiti."
-			+ "\nIl codice fiscale deve essere di 15 caratteri. "
-			+ "\nL'indirizzo deve essere di almeno 7 caratteri."
-			+ "\nL'indirizzo email deve essere valido.";
+	private static final String WRONG_NAME = "Il nome deve essere lungo più di 1 carattere.";
+	private static final String WRONG_SURNAME = "Il cognome deve essere lungo più di 1 carattere.";
+	private static final String WRONG_CF = "Il codice fiscale deve essere di 15 caratteri esatti.";
+	private static final String WRONG_ADDRESS = "L'indirizzo deve essere lungo più di 7 caratteri.";
+	private static final String WRONG_TELEPHONE = "Il numero telefonico deve essere composto da soli numeri.";
+	private static final String WRONG_EMAIL = "L'E-mail inserita non è valida.";
 	private static final String EMPTY_LIST = "Bisogna aggiungere almeno un corso.";
 	protected static final String NULL_DATA = "La data inserita non ï¿½ valida.";
 	private static final String INVALID_EXPIRATION = "Le data di scadenza non ï¿½ valida.";
 	private static final String INVALID_SUBSCRIPTION = "Le data di iscrizione non ï¿½ valida.";
-	private static final String REGISTERED ="L'utente inserito ï¿½ stato aggiunto";
 	
 	protected IPrimaryFrame frame;
 	protected final ISubscriberPanel view;
 	protected final IModel model;
 	protected final TableSubscribersController tableSubscribersController;
-	private Calendar currentCalendar;
+	private final Calendar currentCalendar;
 	
 	public SubscriberAddController (final IPrimaryFrame frame, final ISubscriberPanel subscriberView, final IModel model, final TableSubscribersController tableSubscribersController){
 		super();
@@ -49,7 +50,7 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	@Override
 	public void cmdSave(final Map<IFormField, String> mapToPass, final Date subscriptionDate, final  Date expirationDate, final DefaultListModel<String> list) throws IllegalArgumentException {
 		try{
-			ISubscriber subscriber = createSubscriber(mapToPass, dateToCalendar(subscriptionDate), dateToCalendar(expirationDate), list);
+			final ISubscriber subscriber = createSubscriber(mapToPass, dateToCalendar(subscriptionDate), dateToCalendar(expirationDate), list);
 			this.model.getUser(this.frame.getActiveUser()).getGym().addSubscriber(subscriber);
 			countAddIncome(subscriber);
 			tableSubscribersController.createTable(this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers());
@@ -65,7 +66,7 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	}	
 	
 	protected static Calendar dateToCalendar(final Date date) throws Throwable{ 
-		  Calendar cal = Calendar.getInstance();
+		  final Calendar cal = Calendar.getInstance();
 		  try{
 			  cal.setTime(date);
 		  }catch (Throwable t){
@@ -101,9 +102,26 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	}
 	
 	private Subscriber createSubscriber(final Map<IFormField, String> mapToPass, final Calendar subscriptionDate, final  Calendar expirationDate, final DefaultListModel<String> list) throws Throwable{
-		for(IFormField f : mapToPass.keySet()){
-			if(! f.getPred().test(mapToPass.get(f))){
-				throw new IllegalArgumentException(WRONG_PREDICATE);
+		for(final IFormField f : mapToPass.keySet()){
+			if(! f.getPred().test(mapToPass.get(f))){	
+				if(f.getField().equals("Nome")){
+					throw new IllegalArgumentException(WRONG_NAME);
+				}
+				if(f.getField().equals("Cognome")){
+					throw new IllegalArgumentException(WRONG_SURNAME);
+				}
+				if(f.getField().equals("Codice fiscale")){
+					throw new IllegalArgumentException(WRONG_CF);
+				}
+				if(f.getField().equals("Indirizzo")){
+					throw new IllegalArgumentException(WRONG_ADDRESS);
+				}
+				if(f.getField().equals("Telefono")){
+					throw new IllegalArgumentException(WRONG_TELEPHONE);
+				}
+				if(f.getField().equals("E-Mail")){
+					throw new IllegalArgumentException(WRONG_EMAIL);
+				}
 			}
 		}
 		if(list.isEmpty()){
@@ -145,11 +163,11 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 		String phoneNumber = new String();
 		String email = new String();
 
-		for (IFormField f : mapToPass.keySet()){
+		for (final IFormField f : mapToPass.keySet()){
 			switch (f.getField()){
-				case "Nome":  name = new String( mapToPass.get(f));
+				case "Nome":  name = new String( mapToPass.get(f).trim());
 	            break;
-				case "Cognome":  surname = new String( mapToPass.get(f));
+				case "Cognome":  surname = new String( mapToPass.get(f).trim());
 	        	break;
 				case "Codice fiscale":  fiscalCode = new String( mapToPass.get(f));
 	        	break;

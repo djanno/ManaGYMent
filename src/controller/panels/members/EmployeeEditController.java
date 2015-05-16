@@ -28,12 +28,11 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
 	public void cmdSave(final Map<IFormField, String> mapToPass, final String salario, final DefaultListModel<String> list) {
 		this.model.getUser(this.frame.getActiveUser()).getGym().removeEmployee(this.index);
 		try{
-			super.cmdSave(mapToPass, salario, list);
+			super.cmdSave(mapToPass, salario);
 			this.model.getUser(this.frame.getActiveUser()).getGym().setIncome(exEmployee.getSalary() - Double.parseDouble(salario) , Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));
 		}catch (IllegalArgumentException e){
 			this.model.getUser(this.frame.getActiveUser()).getGym().addEmployee(exEmployee);
-//			super.view.showException(e.getMessage());
-			System.out.println(e.getMessage());
+			this.frame.displayError(e.getMessage());
 		}
 	}
 

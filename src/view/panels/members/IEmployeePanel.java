@@ -18,8 +18,6 @@ public interface IEmployeePanel {
 	
 	CommonPanel getCommonPanel();
 	
-	void setComboBox(List<ICourse> list);
-	
 	void showData(IEmployee iEmployee, List<ICourse> courses);
 	
 }

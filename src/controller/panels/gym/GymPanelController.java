@@ -1,5 +1,7 @@
 package controller.panels.gym;
 
+import java.util.Map;
+
 import javax.swing.JOptionPane;
 
 import model.IModel;
@@ -28,6 +30,17 @@ public class GymPanelController implements IGymPanelController {
 		this.view = view;
 		this.view.setHeader(model.getGym(this.frame.getActiveUser()).getGymName());
 		this.view.attachObserver(this);
+	}
+	
+	@Override
+	public void loadIncomeTable(){
+		this.view.getIncomePanel().refreshTable();
+		final Map<String, Double> map = this.model.getUser(this.frame.getActiveUser()).getGym().getIncome();
+		
+		for(final String s : map.keySet()){
+			final Object[] row = new Object[]{s, map.get(s)};
+			this.view.getIncomePanel().addDataRow(row);
+		}
 	}
 	
 	@Override
@@ -72,5 +85,5 @@ public class GymPanelController implements IGymPanelController {
 			agent.start();
 		}
 	}
-
+	
 }
