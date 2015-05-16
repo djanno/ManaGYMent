@@ -14,6 +14,7 @@ import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import utility.UtilityClass;
 import model.gym.members.IEmployee;
 import model.gym.members.ISubscriber;
 
@@ -24,7 +25,7 @@ public class Gym implements IGym, Serializable {
 	private static final String SUBSCRIBER_ALREADY_EXISTING = "L'iscritto che si vuole aggiungere esiste già.";
     private static final String EMPLOYEE_ALREADY_EXISTING = "L'impiegato che si vuole aggiungere esiste già.";
     
-	private final String gymName;
+    private final String gymName;
     private final List<ISubscriber> subscribers;
     private final List<IEmployee> employees;
     private IGymCalendar calendar;
@@ -52,12 +53,12 @@ public class Gym implements IGym, Serializable {
 
     @Override
     public List<ISubscriber> getSubscribers(){
-        return new ArrayList<ISubscriber>(this.subscribers);
+        return UtilityClass.defend(this.subscribers);
     }
 
     @Override
     public List<IEmployee> getEmployees(){
-        return new ArrayList<IEmployee>(this.employees);
+        return UtilityClass.defend(this.employees);
     }
 
     @Override
@@ -67,7 +68,7 @@ public class Gym implements IGym, Serializable {
 
     @Override
     public List<ICourse> getCourses(){
-        return new ArrayList<ICourse>(this.courses);
+        return UtilityClass.defend(this.courses);
     }
     
     @Override

@@ -1,22 +1,19 @@
-package view.panels;
+package utility;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 
 import model.gym.ICourse;
 import model.gym.members.IGymMember;
 
-public final class UtilitiesPanels{
+public final class UtilityClass{
     
 //    Suppresses default constructor, ensuring non-instantiability
-    private UtilitiesPanels(){
+    private UtilityClass(){
     };
     
     public static <X> String[] createComboBoxValues(final List<X> list){
@@ -42,4 +39,7 @@ public final class UtilitiesPanels{
         });
     }
     
+    public static <X> List<X> defend(List<X> list){
+        return new ArrayList<>(list);
+    }
 }

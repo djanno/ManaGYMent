@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import model.gym.members.IEmployee;
+import utility.UtilityClass;
 
 
 public class Schedule implements Serializable {
@@ -110,7 +111,7 @@ public class Schedule implements Serializable {
     }
     
     public Map<Integer, List<Pair<ICourse,IEmployee>>> getProgram(){
-    	return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> new ArrayList<Pair<ICourse, IEmployee>>(e.getValue())));
+    	return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> UtilityClass.defend(e.getValue())));
     }
     
     public void setOpened(final boolean opened){

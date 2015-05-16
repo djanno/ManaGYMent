@@ -23,9 +23,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 
+import utility.UtilityClass;
 import view.panels.Background;
 import view.panels.GenericTable;
-import view.panels.UtilitiesPanels;
 import controller.panels.gym.IGymPanelController;
 
 public class GymPanel extends GenericTable implements IGymPanel, ActionListener {
@@ -66,7 +66,7 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		this.table.setColumnSelectionAllowed(false);
 		this.table.setDefaultRenderer(Color.class, new CourseColorRenderer());
 		
-		UtilitiesPanels.setListListenerTable(this.table, this.delBtn, this.editBtn);
+		UtilityClass.setListListenerTable(this.table, this.delBtn, this.editBtn);
 
 		final JScrollPane scrollpane = new JScrollPane(this.table);
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
