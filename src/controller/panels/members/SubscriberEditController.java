@@ -10,6 +10,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 import model.IModel;
+import model.gym.ICourse;
 import model.gym.members.ISubscriber;
 import view.IPrimaryFrame;
 import view.panels.members.IFormField;
@@ -17,9 +18,9 @@ import view.panels.members.ISubscriberPanel;
 
 public class SubscriberEditController extends SubscriberAddController implements ISubscriberEditController{
 
-	private ISubscriber exSubscriber;
+	private final ISubscriber exSubscriber;
 	private final int index;	
-	private Calendar exceptionCalendar;
+	private final Calendar exceptionCalendar;
 	
 	public SubscriberEditController (final IPrimaryFrame frame, final ISubscriberPanel subscriberView, final IModel model, final TableSubscribersController tableSubscribersController, final int index){
 		super(frame, subscriberView, model, tableSubscribersController);
@@ -35,22 +36,23 @@ public class SubscriberEditController extends SubscriberAddController implements
 	public void cmdSave(final Map<IFormField, String> mapToPass, final Date subscriptionDate, final Date expirationDate, final DefaultListModel<String> list) {
 		this.model.getUser(this.frame.getActiveUser()).getGym().removeSubscriber(this.index);
 		try{
-			if (!subscriptionDate.equals(exSubscriber.getSubscriptionDate().getTime())){
-
-				int selectedOption = JOptionPane.showConfirmDialog(null, "La data di iscrizione è stata modificata, confermi?", "Scegli", JOptionPane.YES_NO_OPTION); 
+			if (subscriptionDate.equals(exSubscriber.getSubscriptionDate().getTime())){
+				super.cmdSave(mapToPass, exSubscriber.getSubscriptionDate().getTime(), expirationDate, list);
+			}else{
+				final int selectedOption = JOptionPane.showConfirmDialog(null, "La data di iscrizione è stata modificata, confermi?", "Scegli", JOptionPane.YES_NO_OPTION); 
 				if (selectedOption == JOptionPane.YES_OPTION) {
+					for (final ICourse course : exSubscriber.getCourses()){
+						this.model.getGym(this.frame.getActiveUser()).getCourseByName(course.getCourseName()).removeMember(exSubscriber);
+					}
 					super.cmdSave(mapToPass, subscriptionDate, expirationDate, list);
 					countDecreseIncome(exSubscriber);
 				}else{
 					super.cmdSave(mapToPass, exSubscriber.getSubscriptionDate().getTime(), expirationDate, list);
 				}
-			}else{
-				super.cmdSave(mapToPass, exSubscriber.getSubscriptionDate().getTime(), expirationDate, list);
 			}
 		}catch (IllegalArgumentException e){
 			this.model.getUser(this.frame.getActiveUser()).getGym().addSubscriber(exSubscriber);
-			System.out.println("exception cmdsave editcontroller" + e.getMessage());
-//			super.view.showException(e.getMessage());
+			this.frame.displayError(e.getMessage());
 		}
 	}
 		

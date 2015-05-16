@@ -52,6 +52,9 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 		try{
 			final ISubscriber subscriber = createSubscriber(mapToPass, dateToCalendar(subscriptionDate), dateToCalendar(expirationDate), list);
 			this.model.getUser(this.frame.getActiveUser()).getGym().addSubscriber(subscriber);
+			for (final ICourse course : subscriber.getCourses()){
+				this.model.getGym(this.frame.getActiveUser()).getCourseByName(course.getCourseName()).addMember(subscriber);
+			}
 			countAddIncome(subscriber);
 			tableSubscribersController.createTable(this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers());
 			this.frame.getChild().closeDialog();
