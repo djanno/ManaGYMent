@@ -104,7 +104,7 @@ public class TableMemberPanel extends GenericTable{
                     }
                 });
         
-        UtilitiesPanels.setListListenerTable((DefaultTableModel)table.getModel(), table, remove, edit);
+        UtilitiesPanels.setListListenerTable(this.table, this.remove, this.edit);
         
         setHandler();
        

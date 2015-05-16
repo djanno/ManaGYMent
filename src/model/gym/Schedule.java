@@ -110,7 +110,7 @@ public class Schedule implements Serializable {
     }
     
     public Map<Integer, List<Pair<ICourse,IEmployee>>> getProgram(){
-    	return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> new LinkedList<Pair<ICourse, IEmployee>>(e.getValue())));
+    	return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> new ArrayList<Pair<ICourse, IEmployee>>(e.getValue())));
     }
     
     public void setOpened(final boolean opened){
