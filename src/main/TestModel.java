@@ -34,7 +34,7 @@ public class TestModel {
 		try {
 		this.model.addUser(user);
 		} catch(UserAlreadyExistsException e){}
-		final List<ICourse> list = new ArrayList<>();
+		/*final List<ICourse> list = new ArrayList<>();
 		Employee e1 = new Employee("Giovanni", "Tesei", "205110658484849484",
 				"pippo", "01254878778", "giovigay@libero.it", gym, 1200, list);
 		Employee e2 = new Employee("luca", "coglione", "20511vdvvdv49484",
@@ -86,11 +86,11 @@ public class TestModel {
 		sch.setProgram(program2);
 		List<IGymMember> lista = Arrays.asList(e1, e2, e3);
 
-		// Schedule schMart = new Schedule(true, 9, 12, program2);
+		 Schedule schMart = new Schedule(true, 9, 12, program2);
 		GymCalendar gc = new GymCalendar();
-		// gc.setSchedule(DaysOfWeek.LUNEDI, sch);
+		 gc.setSchedule(DaysOfWeek.LUNEDI, sch);
 		gc.setSchedule(DaysOfWeek.MARTEDI, sch);
-		gym.setCalendar(gc);
+		gym.setCalendar(gc);*/
 	}
 	
 	public IModel getModel() {
