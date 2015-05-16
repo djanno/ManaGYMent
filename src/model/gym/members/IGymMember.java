@@ -1,8 +1,5 @@
 package model.gym.members;
 
-import java.util.List;
-
-import model.gym.ICourse;
 import model.gym.IGym;
 
 public interface IGymMember {
@@ -20,8 +17,6 @@ public interface IGymMember {
     String getNumber();
 
     String getEmail();
-    
-    List<ICourse> getCourses();
 
     IGym getGym();
     
@@ -30,8 +25,6 @@ public interface IGymMember {
     void setAddress(final String address);
 
     void setNumber(final String number);
-    
-    void setCourses(final List<ICourse> corsi);
     
     String alternativeToString();
 

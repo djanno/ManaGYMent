@@ -47,23 +47,25 @@ public class SendEmailPanel extends Background implements ActionListener, ISendE
         
         this.txtMessage = new JTextArea();
         this.txtObject = new JTextField();
-        this.scroll=new JScrollPane(txtMessage);
+        this.scroll = new JScrollPane(txtMessage);
        
         this.setLayout(new BorderLayout());
          
-        final JPanel pEast=new JPanel(new GridBagLayout());
+        final JPanel pEast = new Background(this.getBackgroundPath());
+        pEast.setLayout(new GridBagLayout());
         final Insets insets = new Insets(4, 10, 10, 10);
         final Insets insetsG = new Insets(4, 10, 4, 10);
         
-        final JPanel pCenter = new JPanel(new GridBagLayout());
+        final JPanel pCenter = new Background(this.getBackgroundPath()); 
+        pCenter.setLayout(new GridBagLayout());
         
         this.txtMessage.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK));
 
         PromptSupport.setPrompt("Oggetto", txtObject);
         PromptSupport.setPrompt("Testo", txtMessage);
 
-        this.add(pEast,BorderLayout.EAST);
-        this.add(pCenter,BorderLayout.CENTER);
+        this.add(pEast, BorderLayout.EAST);
+        this.add(pCenter, BorderLayout.CENTER);
         
         final GridBagConstraints gbcTextFObject= new GridBagConstraints(0, 0, 1, 1, 1, 0.1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insetsG, 1, 1);
         pCenter.add(txtObject,gbcTextFObject);

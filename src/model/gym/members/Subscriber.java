@@ -18,13 +18,15 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
 	private Calendar subscriptionDate;
     private Calendar expirationDate;
     private boolean expired;
+    private List<ICourse> courses;
 
     //Deciso di utilizzare Calendar invece di Date.
-    public Subscriber(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber, final String email, final IGym gym, final Calendar subscriptionDate, final Calendar expirationDate, List<ICourse> corsi){
-    	super(name, surname, fiscalCode, address, phoneNumber, email, gym, corsi);
-    	this.subscriptionDate = subscriptionDate; //Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
+    public Subscriber(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber, final String email, final IGym gym, final Calendar subscriptionDate, final Calendar expirationDate, List<ICourse> courses){
+    	super(name, surname, fiscalCode, address, phoneNumber, email, gym);
+    	this.subscriptionDate = subscriptionDate; 
     	this.expirationDate = expirationDate;
     	this.expired = false;
+    	this.courses = courses;
     }
 
     @Override
@@ -69,10 +71,18 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     	return TimeUnit.MILLISECONDS.toDays(this.expirationDate.getTimeInMillis() - this.subscriptionDate.getTimeInMillis());
     }
 
-    
     @Override
     public Object[] createRow() {
         return new Object[]{this.getName(),this.getSurname(),this.getFiscalCode(),this.getAddress(),this.getNumber(),this.getEmail(),this.getExpirationDate()};
-
+    }
+    
+    @Override
+    public List<ICourse> getCourses(){
+    	return this.courses;
+    }
+    
+    @Override
+    public void setCourses(List<ICourse> courses){
+    	this.courses = courses;
     }
 }
