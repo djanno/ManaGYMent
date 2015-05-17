@@ -141,7 +141,7 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 			if(expirationDate.get(Calendar.MONTH) < this.currentCalendar.get(Calendar.MONTH)){
 				throw new IllegalArgumentException(INVALID_EXPIRATION);
 			}else{
-				if(expirationDate.get(Calendar.DAY_OF_MONTH) <= this.currentCalendar.get(Calendar.DAY_OF_MONTH)){
+				if(expirationDate.get(Calendar.DAY_OF_MONTH) < this.currentCalendar.get(Calendar.DAY_OF_MONTH)){
 					throw new IllegalArgumentException(INVALID_EXPIRATION);
 				}
 			}
