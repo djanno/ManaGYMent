@@ -108,7 +108,10 @@ public class SendEmailPanel extends Background implements ActionListener, ISendE
 	public void actionPerformed(ActionEvent e) {
 		final Object source = e.getSource();
 		if (source.equals(this.btnSend)){
-			this.observer.cmdSend(txtObject.getText(), txtMessage.getText(), chkEmployee.isSelected(), chkSubscriber.isSelected(), chkExSubsriber.isSelected(), insertPassword());
+			final char[] pass = insertPassword();
+			if (pass != null){
+				this.observer.cmdSend(txtObject.getText(), txtMessage.getText(), chkEmployee.isSelected(), chkSubscriber.isSelected(), chkExSubsriber.isSelected(), pass);
+			}
 		}
 	}
 	
@@ -119,7 +122,7 @@ public class SendEmailPanel extends Background implements ActionListener, ISendE
 	
 	@Override
 	public void showMessage(final String s){
-		JOptionPane.showMessageDialog(this, s, "Registrazione correta", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, s, "Informazione", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private char[] insertPassword(){
