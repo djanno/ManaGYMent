@@ -18,8 +18,8 @@ public class Schedule implements Serializable {
     
     private static final long serialVersionUID = 2683209797124765098L;
     
-    private static final String COURSE_ALREADY_PRESENT_IN_HOUR = "Corso già presente nella fascia oraria selezionata";
-    private static final String EMPLOYEE_ALREADY_PRESENT_IN_HOUR = "L'istruttore che si vuole inserire insegna già  un altro corso in quella fascia oraria" ;
+    private static final String COURSE_ALREADY_PRESENT_IN_HOUR = "Corso giï¿½ presente nella fascia oraria selezionata";
+    private static final String EMPLOYEE_ALREADY_PRESENT_IN_HOUR = "L'istruttore che si vuole inserire insegna giï¿½ un altro corso in quella fascia oraria" ;
 
     private boolean opened;
     private Integer openingHour;
@@ -109,6 +109,17 @@ public class Schedule implements Serializable {
         	});
     	}
     }
+    
+        
+    public boolean isPairPresentInProgram(Pair<ICourse, IEmployee> pair){
+        for(final List<Pair<ICourse, IEmployee>> list : this.program.values()) {
+            if(list.contains(pair)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     
     public Map<Integer, List<Pair<ICourse,IEmployee>>> getProgram(){
     	return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> UtilityClass.defend(e.getValue())));
