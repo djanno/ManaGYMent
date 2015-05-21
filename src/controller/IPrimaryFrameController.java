@@ -24,4 +24,6 @@ public interface IPrimaryFrameController {
 	
 	void cmdQuit();
 
+	void cmdRefreshData();
+
 }

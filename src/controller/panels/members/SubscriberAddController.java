@@ -93,11 +93,7 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	protected void countAddIncome(final ISubscriber subscriber) throws IllegalArgumentException {
         long newDayDiff;
 
-	    try {
-            newDayDiff = TimeUnit.MILLISECONDS.toDays(subscriber.getExpirationDate().getTimeInMillis() - dateToCalendar(subscriber.getSubscriptionDate().getTime()).getTimeInMillis());
-        } catch (Exception e) {
-                throw new IllegalArgumentException(NULL_DATA);
-        }
+        newDayDiff = TimeUnit.MILLISECONDS.toDays(subscriber.getExpirationDate().getTimeInMillis() - subscriber.getSubscriptionDate().getTimeInMillis());
 	    
 	    for(final ICourse c : subscriber.getCourses()){
              this.model.getUser(this.frame.getActiveUser()).getGym().setIncome(newDayDiff * c.getCoursePrice(), subscriber.getSubscriptionDate());

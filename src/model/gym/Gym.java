@@ -112,8 +112,14 @@ public class Gym implements IGym, Serializable {
         }else{
                 throw new IllegalArgumentException(EMPLOYEE_ALREADY_EXISTING);
         }
-    }
+    } 
 
+    @Override
+    public void setExpiredSubscribers() {
+    	this.subscribers.forEach(subscriber -> subscriber.setExpired());
+    }
+    
+    @Override
     public void setCalendar(final GymCalendar calendar){
         this.calendar=calendar;
     }
@@ -160,7 +166,7 @@ public class Gym implements IGym, Serializable {
     }
 
     @Override
-	public void setIncome(Double amount, Calendar subscriptionCalendar) throws IllegalArgumentException{
+	public void setIncome(final Double amount, final Calendar subscriptionCalendar) throws IllegalArgumentException{
 		double prev = 0;
 
 		this.df.format(subscriptionCalendar.getTime());
@@ -188,8 +194,8 @@ public class Gym implements IGym, Serializable {
 		return Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY).getTime();
 	}
 	
-    private boolean findSubscriber(String cf){
-            for (ISubscriber s : this.subscribers){
+    private boolean findSubscriber(final String cf){
+            for (final ISubscriber s : this.subscribers){
                     if (s.getFiscalCode().equals(cf)){
                             return true;
                     }
@@ -197,8 +203,8 @@ public class Gym implements IGym, Serializable {
             return false;
     }
     
-    private boolean findEmployee(String cf){
-            for (IEmployee e : this.employees){
+    private boolean findEmployee(final String cf){
+            for (final IEmployee e : this.employees){
                     if (e.getFiscalCode().equals(cf)){
                             return true;
                     }

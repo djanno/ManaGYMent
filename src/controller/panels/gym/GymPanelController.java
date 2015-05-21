@@ -1,12 +1,16 @@
 package controller.panels.gym;
 
+import java.util.Calendar;
 import java.util.Map;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
 
 import model.IModel;
 import model.gym.ICourse;
 import model.gym.Schedule;
+import model.gym.members.ISubscriber;
 import view.PrimaryFrame;
 import view.panels.gym.AddCoursePanel;
 import view.panels.gym.EditCoursePanel;
@@ -74,11 +78,17 @@ public class GymPanelController implements IGymPanelController {
 			final Thread agent = new Thread() {
 				
 				@Override
-				public void run() {
-					model.getGym(frame.getActiveUser()).removeCourse(index);
+				public void run() {		
 					for(final Schedule schedule : model.getGym(frame.getActiveUser()).getProgram().getCalendar().values()) {
 						schedule.deletePairsWithCourse(courseToDelete);
 					}
+					
+					for(final ISubscriber sub : courseToDelete.getCurrentMembers()) {
+						final long daysLeft = TimeUnit.MILLISECONDS.toDays(sub.getExpirationDate().getTimeInMillis() - Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome")).getTimeInMillis());
+						model.getGym(frame.getActiveUser()).setIncome(-(courseToDelete.getCoursePrice() * daysLeft), sub.getSubscriptionDate());
+					}
+					
+					model.getGym(frame.getActiveUser()).removeCourse(index);
 					loadCoursesTable();
 				}
 			};

@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.swing.JOptionPane;
 
@@ -56,6 +59,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 
 	@Override
 	public void buildHomePanel() {
+		this.cmdRefreshData();
 		final HomePanel panel = new HomePanel(BACKGROUND_PATH);
 		final IHomePanelController controller = new HomePanelController(this.model, this.primaryFrame, panel);
 		this.primaryFrame.setCurrentPanel(panel);	
@@ -64,6 +68,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 
 	@Override
 	public void buildSubPagePanel() {
+		this.cmdRefreshData();
 		final TableMemberPanel panel = new TableMemberPanel(new SubscriberStrategy(), BACKGROUND_PATH);
 		final AbstractTableMemberController observer = new TableSubscribersController(this.model, this.primaryFrame, panel);
 		this.primaryFrame.setCurrentPanel(panel);
@@ -72,6 +77,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 
 	@Override
 	public void buildEmployeePagePanel() {
+		this.cmdRefreshData();
 		final TableMemberPanel panel = new TableMemberPanel(new EmployeeStrategy(), BACKGROUND_PATH);
 		final AbstractTableMemberController observer = new TableEmployeesController(this.model, this.primaryFrame, panel);
 		this.primaryFrame.setCurrentPanel(panel);
@@ -80,6 +86,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 
 	@Override
 	public void buildGymPagePanel() {
+		this.cmdRefreshData();
 		final GymPanel panel = new GymPanel(BACKGROUND_PATH);
 		final IGymPanelController observer = new GymPanelController(this.model, this.primaryFrame, panel);
 		this.primaryFrame.setCurrentPanel(panel);
@@ -89,6 +96,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 
 	@Override
 	public void buildProfilePagePanel() {
+		this.cmdRefreshData();
 		final ProfilePanel panel = new ProfilePanel(BACKGROUND_PATH, this.model.getUser(this.primaryFrame.getActiveUser()).getName());
 		new ProfilePanelController(this.primaryFrame, panel, this.model);
 		this.primaryFrame.setCurrentPanel(panel);
@@ -96,6 +104,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	
 	@Override
 	public void buildEmailPanel() {
+		this.cmdRefreshData();
 		final SendEmailPanel panel = new SendEmailPanel(BACKGROUND_PATH);
 		new SendEmailPanelController(this.primaryFrame, panel, this.model);
 		this.primaryFrame.setCurrentPanel(panel);
@@ -105,6 +114,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	public void cmdLogout() {
 		final int n = JOptionPane.showConfirmDialog(this.primaryFrame, "Sei sicuro di volerti scollegare?", "Logging out...", JOptionPane.YES_NO_OPTION);
 		if(n == JOptionPane.YES_OPTION) {
+			this.primaryFrame.setActiveUser(null);
 			this.primaryFrame.setNavigationMenuEnabled(false);
 			this.buildLoginPanel();
 		}
@@ -146,9 +156,26 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	public void cmdQuit() {
 		final int n = JOptionPane.showConfirmDialog(this.primaryFrame, PrimaryFrameController.EXIT_MSG, "Closing...", JOptionPane.YES_NO_OPTION);
 		if(n == JOptionPane.YES_OPTION) {
+			this.primaryFrame.setActiveUser(null);
 			this.cmdSave(null);
 			System.exit(0);
 		}
+	}
+	
+	@Override
+	public void cmdRefreshData() {
+		final Thread refresh = new Thread() {
+			
+			@Override
+			public void run() {
+				model.getGym(primaryFrame.getActiveUser()).setExpiredSubscribers();
+				model.getGym(primaryFrame.getActiveUser()).getCourses().forEach(course -> course.removeExpiredMembers());
+				model.getGym(primaryFrame.getActiveUser()).setIncome(0.0, Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));
+				primaryFrame.setCurrentPanel(primaryFrame.getCurrentPanel());
+			}
+		};
+		
+		refresh.start();
 	}
 	
 	private boolean isFilePresent(final String path) {

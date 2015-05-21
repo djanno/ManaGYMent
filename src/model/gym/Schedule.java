@@ -103,11 +103,11 @@ public class Schedule implements Serializable {
     		}
     	}
     	
-    	for(final Pair<ICourse, IEmployee> pair : pairsToDelete) {
-    		this.program.keySet().forEach( key -> {
-        		this.program.get(key).remove(pair);
-        	});
+    	pairsToDelete.forEach(pair -> program.keySet().stream().collect(Collectors.toList()).forEach(hour -> removePairInHour(pair, hour)));
+    	if(this.program.keySet().isEmpty()) {
+    		this.setOpened(false);
     	}
+    	
     }
     
     public Map<Integer, List<Pair<ICourse,IEmployee>>> getProgram(){

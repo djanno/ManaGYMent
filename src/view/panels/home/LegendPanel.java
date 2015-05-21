@@ -28,7 +28,7 @@ public class LegendPanel extends JScrollPane {
     private static final int BUTTON_HEIGHT = 25;
     
     private final ICourse closed = new Course("chiuso", Color.BLACK, 0, 0);
-    private final ICourse opened = new Course("aperto", Color.WHITE, 0, 0);
+    private final ICourse opened = new Course("no corsi", Color.WHITE, 0, 0);
     private final Collection<JButtonCourse> buttons;
     private final List<ICourse> list;
     private final JPanel wrapperPanel;
