@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import model.gym.members.IEmployee;
 import model.gym.members.ISubscriber;
@@ -118,6 +119,11 @@ public class Course implements ICourse, Serializable {
     	else {
     		this.members.remove(member);
     	}
+    }
+    
+    @Override
+    public void removeExpiredMembers() {
+    	this.members.removeAll(this.members.stream().filter(member -> member.isExpired()).collect(Collectors.toList()));
     }
     
     @Override

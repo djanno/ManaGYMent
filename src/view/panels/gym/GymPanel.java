@@ -30,7 +30,7 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 
 	private static final long serialVersionUID = -3885713318419080990L;
 
-	private static final String[] COLUMNS = {"Nome", "Colore", "Prezzo"};
+	private static final String[] COLUMNS = {"Corso", "Colore", "Prezzo (abbonamento giornaliero)"};
 	private static final Font HEADER_FONT = new Font("Arial", Font.BOLD + Font.PLAIN, 20);
 	
 	//private final JTable table;

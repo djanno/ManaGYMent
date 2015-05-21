@@ -1,5 +1,7 @@
 package controller.panels.login;
 
+import javax.swing.JOptionPane;
+
 import model.IModel;
 import view.PrimaryFrame;
 import view.panels.login.LoginPanel;
@@ -27,7 +29,10 @@ public class LoginPanelController implements ILoginPanelController {
 			if(this.model.checkAccount(user, psw)) {
 				this.frame.setActiveUser(user);
 				this.frame.getPrimaryController().buildHomePanel();
-				this.frame.setNavigationMenuEnabled(true); //also disable the option "load".
+				this.frame.setNavigationMenuEnabled(true); //also disable the option "load"
+				if(this.model.getGym(this.frame.getActiveUser()).getCourses().isEmpty()) {
+					this.showTutorial();
+				}
 			}
 		}
 		catch(WrongCredentialsException e) {
@@ -40,6 +45,14 @@ public class LoginPanelController implements ILoginPanelController {
 		final SignupPanel panel = new SignupPanel(BACKGROUND_PATH);
 		new SignupPanelController(this.frame, this.model, panel);
 		this.frame.setCurrentPanel(panel);
+	}
+	
+	private void showTutorial() {
+		JOptionPane.showMessageDialog(this.frame, 
+				"Benvenuto in ManaGYMent. Per poter utilizzare a pieno\n"
+				+ "le funzionalità offerte, aggiungi prima del personale\n"
+				+ "e dei corsi. Dopodichè, aggiungi degli istruttori ai\n"
+				+ "corsi selezionando Dettagli nel menù Gym.");
 	}
 
 }
