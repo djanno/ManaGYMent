@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
@@ -22,7 +23,7 @@ import javax.swing.event.ListSelectionListener;
 
 import model.gym.ICourse;
 import model.gym.members.ISubscriber;
-import view.panels.UtilitiesPanels;
+import utility.UtilityClass;
 import view.panels.members.FieldsCommon.EnumFieldsCommon;
 
 import com.toedter.calendar.JDateChooser;
@@ -152,6 +153,6 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 
 	@Override
 	public void setComboBox(final List<ICourse> list) {
-		this.coursesCmb.setModel(new DefaultComboBoxModel<String>(UtilitiesPanels.createComboBoxValues(list)));		
+		this.coursesCmb.setModel(new DefaultComboBoxModel<String>(UtilityClass.createComboBoxValues(list)));		
 	}
 }

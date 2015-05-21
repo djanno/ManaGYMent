@@ -93,7 +93,7 @@ public class Course implements ICourse, Serializable {
     @Override
     public void addMember(final ISubscriber member) throws CourseIsFullException{ //CourseIsFullException {
     	if(this.members.size() == this.maxMembers) { 
-    		throw new CourseIsFullException("Impossibile aggiungere altri iscritti al corso. Numero massimo di iscritti al corso raggiunto."); //CourseIsFullException("Impossibile aggiungere altri iscritti al corso. Numero massimo di iscritti al corso raggiunto.");
+    		throw new CourseIsFullException(); //CourseIsFullException("Impossibile aggiungere altri iscritti al corso. Numero massimo di iscritti al corso raggiunto.");
     	}
     	else {
     		this.members.add(member);

@@ -28,8 +28,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import utility.UtilityClass;
 import view.panels.GenericTable;
-import view.panels.UtilitiesPanels;
 import controller.panels.members.AbstractTableMemberController;
 
 public class TableMemberPanel extends GenericTable{
@@ -103,7 +103,7 @@ public class TableMemberPanel extends GenericTable{
                     }
                 });
         
-        UtilitiesPanels.setListListenerTable(this.table, this.remove, this.edit);
+        UtilityClass.setListListenerTable(this.table, this.remove, this.edit);
         
         setHandler();
        

@@ -18,6 +18,6 @@ public interface IEmployeePanel {
 	
 	CommonPanel getCommonPanel();
 	
-	void showData(IEmployee iEmployee, List<ICourse> courses);
+	void showData(final IEmployee iEmployee, final List<ICourse> courses);
 	
 }

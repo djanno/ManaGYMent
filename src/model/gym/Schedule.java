@@ -11,14 +11,15 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import model.gym.members.IEmployee;
+import utility.UtilityClass;
 
 
 public class Schedule implements Serializable {
     
     private static final long serialVersionUID = 2683209797124765098L;
     
-    private static final String COURSE_ALREADY_PRESENT_IN_HOUR = "Corso gi√† presente nella fascia oraria selezionata";
-    private static final String EMPLOYEE_ALREADY_PRESENT_IN_HOUR = "L'istruttore che si vuole inserire insegna gi√† un altro corso in quella fascia oraria" ;
+    private static final String COURSE_ALREADY_PRESENT_IN_HOUR = "Corso gi‡ presente nella fascia oraria selezionata";
+    private static final String EMPLOYEE_ALREADY_PRESENT_IN_HOUR = "L'istruttore che si vuole inserire insegna gi‡† un altro corso in quella fascia oraria" ;
 
     private boolean opened;
     private Integer openingHour;
@@ -110,7 +111,7 @@ public class Schedule implements Serializable {
     }
     
     public Map<Integer, List<Pair<ICourse,IEmployee>>> getProgram(){
-    	return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> new ArrayList<Pair<ICourse, IEmployee>>(e.getValue())));
+    	return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> UtilityClass.defend(e.getValue())));
     }
     
     public void setOpened(final boolean opened){
@@ -150,10 +151,8 @@ public class Schedule implements Serializable {
                     }else{
                         throw new IllegalArgumentException(EMPLOYEE_ALREADY_PRESENT_IN_HOUR);
                     }
-                    
                 }
             }
-
         }
     }
     

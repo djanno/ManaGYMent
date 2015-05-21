@@ -101,35 +101,38 @@ public class SendEmailPanel extends Background implements ActionListener, ISendE
         final GridBagConstraints gbcSendButton = new GridBagConstraints(0, 4, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 1, 1);
         pEast.add(btnSend, gbcSendButton);
         
-        this.btnSend.addActionListener(this);;
+        this.btnSend.addActionListener(this);
     }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		final Object source = e.getSource();
 		if (source.equals(this.btnSend)){
-			this.observer.cmdSend(txtObject.getText(), txtMessage.getText(), chkEmployee.isSelected(), chkSubscriber.isSelected(), chkExSubsriber.isSelected(), insertPassword());
+			final char[] pass = insertPassword();
+			if (pass != null){
+				this.observer.cmdSend(txtObject.getText(), txtMessage.getText(), chkEmployee.isSelected(), chkSubscriber.isSelected(), chkExSubsriber.isSelected(), pass);
+			}
 		}
 	}
 	
 	@Override
-	public void attachObserver(ISendEmailPanelController observer) {
+	public void attachObserver(final ISendEmailPanelController observer) {
 		this.observer = observer;		
 	}
 	
 	@Override
-	public void showMessage(String s){
-		JOptionPane.showMessageDialog(this, s, "Registrazione correta", JOptionPane.INFORMATION_MESSAGE);
+	public void showMessage(final String s){
+		JOptionPane.showMessageDialog(this, s, "Informazione", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private char[] insertPassword(){
-		JPanel panel = new JPanel();
-		JLabel label = new JLabel("Inserisci password:");
-		JPasswordField pass = new JPasswordField(20);
+		final JPanel panel = new JPanel();
+		final JLabel label = new JLabel("Inserisci password:");
+		final JPasswordField pass = new JPasswordField(20);
 		panel.add(label);
 		panel.add(pass);
-		String[] options = new String[] {"OK", "Cancel"};
-		int option = JOptionPane.showOptionDialog(null, panel, "Inserisci password",
+		final String[] options = new String[] {"OK", "Cancel"};
+		final int option = JOptionPane.showOptionDialog(null, panel, "Inserisci password",
 		                         JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
 		                         null, options, options[1]);
 		if(option == 0)
