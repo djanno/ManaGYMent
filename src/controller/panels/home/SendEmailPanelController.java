@@ -30,6 +30,7 @@ public class SendEmailPanelController implements ISendEmailPanelController{
 	public void cmdSend(final String subject, final String body, final boolean employee, final boolean subscriber, final boolean exSubscriber, final char[] password) {
 		try {
 			new SenderEmail(subject, body, getListRecipients(employee, subscriber, exSubscriber), this.model.getUser(this.frame.getActiveUser()).getEmail(), password).sendEmail();
+			System.out.println("ciao");
 			this.view.showMessage(SENDED_EMAIL);
 		} catch (Exception e) {
 			this.frame.displayError(e.getMessage());

@@ -53,8 +53,9 @@ public interface IGym {
 	void setIncome(Double amount, Calendar subscriptionCalendar)
 			throws IllegalArgumentException;
 
-	void setCalendar(GymCalendar calendar);
 
 	void setExpiredSubscribers();
+
+    void setCalendar(IGymCalendar calendar);
 
 }
