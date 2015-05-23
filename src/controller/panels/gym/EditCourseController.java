@@ -31,7 +31,7 @@ public class EditCourseController extends AddCourseController implements
     @Override
     public void formTable() {
         ((EditCoursePanel) this.view).refreshTable();
-        for (final IEmployee employee : this.courseToEdit.getCoaches()) {
+        for (final IEmployee employee : this.temp.getCoaches()) {
             ((EditCoursePanel) this.view).addDataRow(employee.alternativeToString().split(" "));
         }
     }
@@ -49,7 +49,7 @@ public class EditCourseController extends AddCourseController implements
 
     @Override
     public void removeCoachCmd(final int index) {
-        this.model.getGym(this.frame.getActiveUser()).getCourseByName(this.temp.getCourseName()).removeCoach(index);
+        this.temp.removeCoach(index);
         this.formTable();
     }
 
