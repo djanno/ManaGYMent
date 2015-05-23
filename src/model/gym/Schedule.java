@@ -93,33 +93,23 @@ public class Schedule implements Serializable {
         });
     }
     
-    public void deletePairsWithCourse(final ICourse course) {
-    	final List<Pair<ICourse, IEmployee>> pairsToDelete = new ArrayList<>();
-    	for(final List<Pair<ICourse, IEmployee>> list : this.program.values()) {
+    public void deletePair(final Pair<ICourse, IEmployee> pair) {
+//    	final List<Pair<ICourse, IEmployee>> pairsToDelete = new ArrayList<>();
+    	/*for(final List<Pair<ICourse, IEmployee>> list : this.program.values()) {
     		for(final Pair<ICourse, IEmployee> pair : list) {
     			if(pair.getX().equals(course)) {
     				pairsToDelete.add(pair);
     			}
     		}
-    	}
-    	
-    	pairsToDelete.forEach(pair -> program.keySet().stream().collect(Collectors.toList()).forEach(hour -> removePairInHour(pair, hour)));
+    	}*/
+//    	this.program.values().stream()forEach(action);
+    	this.program.keySet().stream().collect(Collectors.toList()).forEach(hour -> removePairInHour(pair, hour));
     	if(this.program.keySet().isEmpty()) {
     		this.setOpened(false);
     	}
     	
     }
-    
         
-    public boolean isPairPresentInProgram(Pair<ICourse, IEmployee> pair){
-        for(final List<Pair<ICourse, IEmployee>> list : this.program.values()) {
-            if(list.contains(pair)){
-                return true;
-            }
-        }
-        return false;
-    }
-    
     
     public Map<Integer, List<Pair<ICourse,IEmployee>>> getProgram(){
     	return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> UtilityClass.defend(e.getValue())));
