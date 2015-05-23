@@ -9,7 +9,9 @@ import javax.swing.JOptionPane;
 
 import model.IModel;
 import model.gym.ICourse;
+import model.gym.Pair;
 import model.gym.Schedule;
+import model.gym.members.IEmployee;
 import model.gym.members.ISubscriber;
 import view.PrimaryFrame;
 import view.panels.gym.AddCoursePanel;
@@ -80,7 +82,7 @@ public class GymPanelController implements IGymPanelController {
 				@Override
 				public void run() {		
 					for(final Schedule schedule : model.getGym(frame.getActiveUser()).getProgram().getCalendar().values()) {
-						schedule.deletePairsWithCourse(courseToDelete);
+						courseToDelete.getCoaches().forEach(coach->schedule.deletePair(new Pair<ICourse, IEmployee>(courseToDelete, coach)));
 					}
 					
 					for(final ISubscriber sub : courseToDelete.getCurrentMembers()) {

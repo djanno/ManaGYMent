@@ -120,7 +120,7 @@ public class Gym implements IGym, Serializable {
     }
     
     @Override
-    public void setCalendar(final GymCalendar calendar){
+    public void setCalendar(final IGymCalendar calendar){
         this.calendar=calendar;
     }
     

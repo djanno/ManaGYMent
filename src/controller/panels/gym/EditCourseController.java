@@ -2,9 +2,16 @@ package controller.panels.gym;
 
 import java.awt.Color;
 
+import javax.swing.JOptionPane;
+
 import model.IModel;
 import model.gym.Course;
+import model.gym.GymCalendar;
 import model.gym.ICourse;
+import model.gym.IGymCalendar;
+import model.gym.Pair;
+import model.gym.Schedule;
+import model.gym.GymCalendar.DaysOfWeek;
 import model.gym.members.IEmployee;
 import view.PrimaryFrame;
 import view.panels.gym.EditCoursePanel;
@@ -13,14 +20,23 @@ import view.panels.gym.IAddCoursePanel;
 public class EditCourseController extends AddCourseController implements
         IEditCourseController {
 
+    private static final String CONFIRM_REMOVE = "Se il coach che si tenta di rimuovere è accoppiato al corso nel calendario la coppia verrà rimossa.\nSei sicuro di voler procedere con la cancellazione?";
     private final ICourse courseToEdit;
     private final ICourse temp;
+    private final IGymCalendar tempCalendar;
     
     public EditCourseController(final PrimaryFrame frame, final IModel model,
             final IAddCoursePanel view, final GymPanelController gymPanelController, final ICourse courseToEdit) {
         super(frame, model, view, gymPanelController);
         this.courseToEdit = courseToEdit;
         this.temp = new Course(courseToEdit.getCourseName(),courseToEdit.getCourseColor(), courseToEdit.getCoursePrice(), courseToEdit.getMaxMembers(), courseToEdit.getCoaches(),courseToEdit.getCurrentMembers());
+        this.tempCalendar=new GymCalendar();
+        for(DaysOfWeek day:DaysOfWeek.values()){
+            final Schedule schedule = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar().get(day);
+            this.tempCalendar.setSchedule(day, new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour().orElse(null), schedule.getProgram())); 
+        }
+        
+        
     }
 
     @Override
@@ -49,8 +65,13 @@ public class EditCourseController extends AddCourseController implements
 
     @Override
     public void removeCoachCmd(final int index) {
-        this.temp.removeCoach(index);
-        this.formTable();
+        final Pair<ICourse, IEmployee> pairToDelete = new Pair<>(this.temp, this.temp.getCoaches().get(index));
+        final int option = JOptionPane.showConfirmDialog(this.frame.getChild(), CONFIRM_REMOVE, "Warning", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            this.tempCalendar.getCalendar().forEach((day, sch) -> sch.deletePair(pairToDelete));
+            this.temp.removeCoach(index);
+            this.formTable();
+        }
     }
 
     @Override
@@ -61,6 +82,7 @@ public class EditCourseController extends AddCourseController implements
             this.model.getGym(this.frame.getActiveUser()).removeCourse(indexInList);
             super.checkError(courseName, courseColor, price, maxMembers);
             this.model.getGym(this.frame.getActiveUser()).addCourse(indexInList, temp);
+            this.model.getGym(this.frame.getActiveUser()).setCalendar(this.tempCalendar);
             this.frame.getChild().closeDialog();
         } catch (final Exception exc) {
             this.frame.displayError(exc.getMessage());
