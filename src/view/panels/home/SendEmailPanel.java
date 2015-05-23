@@ -73,21 +73,21 @@ public class SendEmailPanel extends Background implements ActionListener, ISendE
         final GridBagConstraints gbcMessage= new GridBagConstraints(0, 1, 1, 1, 1, 0.9, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 1, 1);
         pCenter.add(scroll, gbcMessage);
           
-        final JLabel lblSendTo=new JLabel("Invia a:");
+        final JLabel lblSendTo = new JLabel("Invia a:");
         final GridBagConstraints gbcSendToLbl=new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 1, 1);
         pEast.add(lblSendTo,gbcSendToLbl);
         
-        final JLabel lblEmployee=new JLabel("Impegati:");
-        final GridBagConstraints gbcEmployeeLbl=new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 1, 1);
+        final JLabel lblEmployee = new JLabel("Impegati:");
+        final GridBagConstraints gbcEmployeeLbl = new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 1, 1);
         pEast.add(lblEmployee,gbcEmployeeLbl);
         
-        final JLabel lblCurrSubscriverLbl=new JLabel("Iscritti correnti:");
-        final GridBagConstraints gbcCurrSubscriverLbl=new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 1, 1);
-        pEast.add(lblCurrSubscriverLbl,gbcCurrSubscriverLbl);
+        final JLabel lblCurrSubscriver = new JLabel("Iscritti correnti:");
+        final GridBagConstraints gbcCurrSubscriverLbl = new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 1, 1);
+        pEast.add(lblCurrSubscriver, gbcCurrSubscriverLbl);
         
-        final JLabel lblPastSubscriverLbl=new JLabel("Iscritti passati:");
+        final JLabel lblPastSubscriver = new JLabel("Iscritti passati:");
         final GridBagConstraints gbcPastSubscriverLbl=new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 1, 1);
-        pEast.add(lblPastSubscriverLbl,gbcPastSubscriverLbl);
+        pEast.add(lblPastSubscriver,gbcPastSubscriverLbl);
         
         final GridBagConstraints gbcEmployeeCheck = new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 1, 1);
         pEast.add(chkEmployee, gbcEmployeeCheck);
@@ -121,18 +121,19 @@ public class SendEmailPanel extends Background implements ActionListener, ISendE
 	}
 	
 	@Override
-	public void showMessage(final String s){
-		JOptionPane.showMessageDialog(this, s, "Informazione", JOptionPane.INFORMATION_MESSAGE);
+	public void showMessage(final String message){
+		JOptionPane.showMessageDialog(this, message, "Informazione", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private char[] insertPassword(){
 		final JPanel panel = new JPanel();
-		final JLabel label = new JLabel("Inserisci password:");
+		final JLabel label = new JLabel("Inserisci la password:");
 		final JPasswordField pass = new JPasswordField(20);
 		panel.add(label);
 		panel.add(pass);
+		
 		final String[] options = new String[] {"OK", "Cancel"};
-		final int option = JOptionPane.showOptionDialog(null, panel, "Inserisci password",
+		final int option = JOptionPane.showOptionDialog(null, panel, "Inserisci la password",
 		                         JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
 		                         null, options, options[1]);
 		if(option == 0)
