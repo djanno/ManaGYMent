@@ -73,7 +73,7 @@ public class SendEmailPanel extends Background implements ActionListener, ISendE
         final GridBagConstraints gbcMessage= new GridBagConstraints(0, 1, 1, 1, 1, 0.9, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 1, 1);
         pCenter.add(scroll, gbcMessage);
           
-        final JLabel lblSendTo = new JLabel("Invia a:");
+        final JLabel lblSendTo=new JLabel("Invia a:");
         final GridBagConstraints gbcSendToLbl=new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 1, 1);
         pEast.add(lblSendTo,gbcSendToLbl);
         
@@ -127,13 +127,13 @@ public class SendEmailPanel extends Background implements ActionListener, ISendE
 	
 	private char[] insertPassword(){
 		final JPanel panel = new JPanel();
-		final JLabel label = new JLabel("Inserisci la password:");
+		final JLabel label = new JLabel("Inserisci password:");
 		final JPasswordField pass = new JPasswordField(20);
 		panel.add(label);
 		panel.add(pass);
 		
 		final String[] options = new String[] {"OK", "Cancel"};
-		final int option = JOptionPane.showOptionDialog(null, panel, "Inserisci la password",
+		final int option = JOptionPane.showOptionDialog(null, panel, "Inserisci password",
 		                         JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
 		                         null, options, options[1]);
 		if(option == 0)

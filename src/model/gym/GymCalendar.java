@@ -6,11 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.gym.members.IEmployee;
+
 public class GymCalendar implements IGymCalendar, Serializable {
 	
 	private static final long serialVersionUID = 1198724186646197873L;
 	
-	private final Map<DaysOfWeek, Schedule> calendar;
+	private Map<DaysOfWeek, Schedule> calendar;
 
     public GymCalendar(){
     	super();
@@ -33,7 +35,7 @@ public class GymCalendar implements IGymCalendar, Serializable {
     public void setSchedule(final DaysOfWeek day, final Schedule schedule){
         calendar.replace(day,schedule);
     }
-    
+      
     
     public enum DaysOfWeek implements Serializable {    
     	

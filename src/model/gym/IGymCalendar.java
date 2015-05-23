@@ -3,6 +3,7 @@ package model.gym;
 import java.util.Map;
 
 import model.gym.GymCalendar.DaysOfWeek;
+import model.gym.members.IEmployee;
 
 public interface IGymCalendar {
 
