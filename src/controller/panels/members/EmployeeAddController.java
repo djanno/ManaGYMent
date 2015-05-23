@@ -86,12 +86,12 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 			}
 		}
 		
-		String name = new String();
-		String surname = new String();
-		String fiscalCode = new String();
-		String address = new String();
-		String phoneNumber = new String();
-		String email = new String();
+		String name = "";
+		String surname = "";
+		String fiscalCode = "";
+		String address = "";
+		String phoneNumber = "";
+		String email = "";
 
 		for (final IFormField f : mapToPass.keySet()){
 			switch (f.getField()){

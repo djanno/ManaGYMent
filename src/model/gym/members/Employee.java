@@ -1,11 +1,7 @@
 package model.gym.members;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+
 import model.gym.IGym;
 
 public class Employee extends AbstractGymMember implements IEmployee, Serializable {

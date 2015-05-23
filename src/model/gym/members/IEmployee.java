@@ -1,7 +1,5 @@
 package model.gym.members;
 
-import java.util.Map;
-import java.util.Set;
 
 public interface IEmployee extends IGymMember {
 
