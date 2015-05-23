@@ -17,6 +17,7 @@ public class Course implements ICourse, Serializable {
     
     private static final String COACH_ALREDY_PRESENT = "Questo coach insegna già in questo corso";
 
+//    private ICourse state;
     private final String name;
     private double price;
     private final List<ISubscriber> members;
@@ -33,6 +34,13 @@ public class Course implements ICourse, Serializable {
         this.maxMembers = maxMembers;
         this.members = new ArrayList<>();
         this.coaches = new ArrayList<>();
+    }
+    
+    public Course(final String name, final Color color, final double price,
+            final int maxMembers, List<IEmployee> coaches, List<ISubscriber> members) {
+        this(name, color, price, maxMembers);
+        this.members.addAll(members);
+        this.coaches.addAll(coaches);
     }
 
     @Override
@@ -149,11 +157,8 @@ public class Course implements ICourse, Serializable {
     	}
     	return false;
     }
-
-
-    
     
     //gli ultimi 2 controlli non sono necessari, la rimozione di un iscritto da un corso
     //viene fatta quando scade l'iscrizione. Per un coach dalla pagina del coach.
-
+    
 }
