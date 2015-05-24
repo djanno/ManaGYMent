@@ -19,16 +19,16 @@ import view.panels.members.IFormField;
 import view.panels.members.ISubscriberPanel;
 
 public class SubscriberAddController extends BaseController implements ISubscriberAddController{
-	private static final String WRONG_NAME = "Il nome deve essere lungo pi� di 1 carattere.";
-	private static final String WRONG_SURNAME = "Il cognome deve essere lungo pi� di 1 carattere.";
+	private static final String WRONG_NAME = "Il nome deve essere lungo più di 1 carattere.";
+	private static final String WRONG_SURNAME = "Il cognome deve essere lungo più di 1 carattere.";
 	private static final String WRONG_CF = "Il codice fiscale deve essere di 15 caratteri esatti.";
-	private static final String WRONG_ADDRESS = "L'indirizzo deve essere lungo pi� di 7 caratteri.";
+	private static final String WRONG_ADDRESS = "L'indirizzo deve essere lungo più di 7 caratteri.";
 	private static final String WRONG_TELEPHONE = "Il numero telefonico deve essere composto da soli numeri.";
-	private static final String WRONG_EMAIL = "L'E-mail inserita non � valida.";
+	private static final String WRONG_EMAIL = "L'E-mail inserita non è valida.";
 	private static final String EMPTY_LIST = "Bisogna aggiungere almeno un corso.";
-	protected static final String NULL_DATA = "La data inserita non � valida.";
-	private static final String INVALID_EXPIRATION = "Le data di scadenza non � valida.";
-	private static final String INVALID_SUBSCRIPTION = "Le data di iscrizione non � valida.";
+	protected static final String NULL_DATA = "La data inserita non è valida.";
+	private static final String INVALID_EXPIRATION = "Le data di scadenza non è valida.";
+	private static final String INVALID_SUBSCRIPTION = "Le data di iscrizione non è valida.";
 	
 	protected IPrimaryFrame frame;
 	protected final ISubscriberPanel view;
@@ -51,10 +51,19 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	public void cmdSave(final Map<IFormField, String> mapToPass, final Date subscriptionDate, final  Date expirationDate, final DefaultListModel<String> list) throws IllegalArgumentException {
 		try{
 			final ISubscriber subscriber = createSubscriber(mapToPass, dateToCalendar(subscriptionDate), dateToCalendar(expirationDate), list);
-			this.model.getUser(this.frame.getActiveUser()).getGym().addSubscriber(subscriber);
+			
 			for (final ICourse course : subscriber.getCourses()){
 				this.model.getGym(this.frame.getActiveUser()).getCourseByName(course.getCourseName()).addMember(subscriber);
 			}
+			
+			this.model.getUser(this.frame.getActiveUser()).getGym().addSubscriber(subscriber);
+			
+			/*for (final ICourse course : this.model.getGym(this.frame.getActiveUser()).getCourses()){
+				for (final ISubscriber su : this.model.getGym(this.frame.getActiveUser()).getCourseByName(course.getCourseName()).getCurrentMembers()){
+					System.out.println(su.getName() + " " + course.getCourseName());
+				}
+			}*/
+			
 			countAddIncome(subscriber);
 			tableSubscribersController.createTable(this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers());
 			this.frame.getChild().closeDialog();
