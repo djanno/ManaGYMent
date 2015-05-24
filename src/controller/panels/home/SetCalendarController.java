@@ -65,6 +65,7 @@ public class SetCalendarController implements ISetCalendarController {
 		this.view.refreshTable();
 		//final Schedule s = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
 		//		.get(day);
+		System.out.println(this.temp.getProgram());
 		for (final Integer i : this.temp.getProgram().keySet()) {
 			for (final Pair<ICourse, IEmployee> pair : this.temp.getProgram().get(i)) {
 				final Object[] row = new Object[] { i, i + 1,
@@ -89,6 +90,7 @@ public class SetCalendarController implements ISetCalendarController {
 			//final Schedule sch = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
 			//		.get(day);
 			this.temp.putPairInHour(pairInHour, hourFrom, hourTo);
+			System.out.println(this.model.getGym(this.frame.getActiveUser()).getProgram());
 			this.formTable();
 		} catch (IllegalArgumentException exc) {
 			this.frame.displayError(exc.getMessage());
@@ -144,12 +146,10 @@ public class SetCalendarController implements ISetCalendarController {
 			throw new IllegalArgumentException(WRONG_COURSE_HOUR);
 		}
 		if (hourFrom < openingTime) {
-			throw new IllegalArgumentException(NOT_VALID_START_HOUR_COURSE
-					+ openingTime);
+			throw new IllegalArgumentException(NOT_VALID_START_HOUR_COURSE);
 		}
 		if (hourTo > closingTime) {
-			throw new IllegalArgumentException(NOT_VALID_END_HOUR_COURSE
-					+ closingTime);
+			throw new IllegalArgumentException(NOT_VALID_END_HOUR_COURSE);
 		}
 	}
 

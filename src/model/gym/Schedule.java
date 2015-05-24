@@ -2,6 +2,7 @@ package model.gym;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,13 @@ public class Schedule implements Serializable {
             this.opened = false;
             this.openingHour = null;
             this.closingHour = null;
-            this.program = new TreeMap<>();
+            this.program = new TreeMap<>(new Comparator<Integer>() {
+
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return o1-o2;
+                }
+            });
     }
     
     public boolean isOpened(){
