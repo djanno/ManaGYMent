@@ -39,7 +39,7 @@ public class SubscriberEditController extends SubscriberAddController implements
 			if (subscriptionDate.equals(exSubscriber.getSubscriptionDate().getTime())){
 				super.cmdSave(mapToPass, exSubscriber.getSubscriptionDate().getTime(), expirationDate, list);
 			}else{
-				final int selectedOption = JOptionPane.showConfirmDialog(null, "La data di iscrizione è stata modificata, confermi?", "Scegli", JOptionPane.YES_NO_OPTION); 
+				final int selectedOption = JOptionPane.showConfirmDialog(null, "La data di iscrizione Ã¨ stata modificata, confermi?", "Scegli", JOptionPane.YES_NO_OPTION); 
 				if (selectedOption == JOptionPane.YES_OPTION) {
 					for (final ICourse course : exSubscriber.getCourses()){
 						this.model.getGym(this.frame.getActiveUser()).getCourseByName(course.getCourseName()).removeMember(exSubscriber);
