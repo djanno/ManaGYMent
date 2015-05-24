@@ -59,7 +59,7 @@ public class AddCourseController implements IAddCourseController{
             Double.parseDouble(price);
             Integer.parseInt(maxMembers);
         } catch (final NumberFormatException parseErr) {
-           this.frame.displayError(NO_INSERT_STRING);
+           throw new NumberFormatException(NO_INSERT_STRING);
         }
     }
     

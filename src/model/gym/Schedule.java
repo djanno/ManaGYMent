@@ -60,6 +60,10 @@ public class Schedule implements Serializable {
             return Optional.ofNullable(this.closingHour);
     }
     
+    public Map<Integer, List<Pair<ICourse,IEmployee>>> getProgram(){
+        return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> UtilityClass.defend(e.getValue())));
+    }
+    
     public List<ICourse> getCoursesInHour(final Integer hour) {
 		final List<ICourse> list = new ArrayList<>();
 		if(this.closingHour!=null && hour < this.closingHour && this.openingHour!=null && hour >= this.openingHour) {
@@ -69,6 +73,26 @@ public class Schedule implements Serializable {
 		}
 		return list;
 	}
+    
+    public void setOpened(final boolean opened){
+            this.opened = opened;
+            if(!this.opened){
+                    this.setOpeningHourAndClosingHour(null, null);
+                    this.program = new TreeMap<>();
+            }
+    }
+    
+    public void setOpeningHourAndClosingHour(final Integer openingHour, final Integer closingHour) {
+		this.openingHour = openingHour;
+		this.closingHour = closingHour;
+		/*for(Integer i = openingHour; i < closingHour; i++) {
+			this.program.putIfAbsent(i, new ArrayList<Pair<ICourse, IEmployee>>());
+		}*/
+	}
+    
+    public void setProgram(final Map<Integer, List<Pair<ICourse,IEmployee>>> program){
+            program.forEach((key, value) -> this.program.put(key, value));
+    }
     
     public boolean isGymOpenedAt(final Integer hour) {
 		if (this.opened && this.openingHour != null && this.openingHour <= hour && this.closingHour != null && this.closingHour > hour) {
@@ -111,30 +135,6 @@ public class Schedule implements Serializable {
     }
         
     
-    public Map<Integer, List<Pair<ICourse,IEmployee>>> getProgram(){
-    	return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> UtilityClass.defend(e.getValue())));
-    }
-    
-    public void setOpened(final boolean opened){
-            this.opened = opened;
-            if(!this.opened){
-                    this.setOpeningHourAndClosingHour(null, null);
-                    this.program = new TreeMap<>();
-            }
-    }
-    
-    public void setOpeningHourAndClosingHour(final Integer openingHour, final Integer closingHour) {
-		this.openingHour = openingHour;
-		this.closingHour = closingHour;
-		/*for(Integer i = openingHour; i < closingHour; i++) {
-			this.program.putIfAbsent(i, new ArrayList<Pair<ICourse, IEmployee>>());
-		}*/
-	}
-    
-    public void setProgram(final Map<Integer, List<Pair<ICourse,IEmployee>>> program){
-            program.forEach((key, value) -> this.program.put(key, value));
-    }
-
     @Override
     public String toString() {
         return "Schedule [opened=" + opened + ", openingHour="

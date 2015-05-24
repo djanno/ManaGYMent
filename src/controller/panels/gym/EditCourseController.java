@@ -81,6 +81,10 @@ public class EditCourseController extends AddCourseController implements
         try {
             this.model.getGym(this.frame.getActiveUser()).removeCourse(indexInList);
             this.checkError(courseName, courseColor, price, maxMembers);
+            temp.setCourseName(courseName);
+            temp.setCourseColor(courseColor);
+            temp.setCoursePrice(Double.parseDouble(price));
+            temp.setMaxMembers(Integer.parseInt(maxMembers));
             this.model.getGym(this.frame.getActiveUser()).addCourse(indexInList, temp);
             this.model.getGym(this.frame.getActiveUser()).setCalendar(this.tempCalendar);
             this.frame.getChild().closeDialog();
