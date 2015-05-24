@@ -80,7 +80,7 @@ public class EditCourseController extends AddCourseController implements
         final int indexInList = this.model.getGym(this.frame.getActiveUser()).getCourses().indexOf(this.courseToEdit);
         try {
             this.model.getGym(this.frame.getActiveUser()).removeCourse(indexInList);
-            super.checkError(courseName, courseColor, price, maxMembers);
+            this.checkError(courseName, courseColor, price, maxMembers);
             this.model.getGym(this.frame.getActiveUser()).addCourse(indexInList, temp);
             this.model.getGym(this.frame.getActiveUser()).setCalendar(this.tempCalendar);
             this.frame.getChild().closeDialog();
@@ -89,6 +89,14 @@ public class EditCourseController extends AddCourseController implements
             this.model.getGym(this.frame.getActiveUser()).addCourse(indexInList, courseToEdit);
         }
         this.gymPanelController.loadCoursesTable();
+    }
+    
+    protected void checkError(final String courseName, final Color courseColor, final String price, final String maxMembers) throws IllegalArgumentException{
+        super.checkError(courseName, courseColor, price, maxMembers);
+        if(Integer.parseInt(maxMembers)<this.temp.getCurrentMembers().size()){
+            throw new IllegalArgumentException("impossibile diminuire i membri del corso perchè al momento gli iscritti sono già " + this.temp.getCurrentMembers().size());
+        }
+        
     }
 
 }

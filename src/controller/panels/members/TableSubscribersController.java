@@ -1,6 +1,7 @@
 package controller.panels.members;
 
 import model.IModel;
+import model.gym.members.ISubscriber;
 import view.PrimaryFrame;
 import view.panels.members.SubscriberPanel;
 import view.panels.members.TableMemberPanel;
@@ -32,7 +33,13 @@ public class TableSubscribersController extends AbstractTableMemberController{
 
   @Override
   public void deleteMember(final int index) {
+      ISubscriber subsriber = this.model.getGym(this.frame.getActiveUser()).getSubscribers().get(index);
+      System.out.println(this.model.getGym(this.frame.getActiveUser()).getCourses().get(0).getCurrentMembers());
+      this.model.getGym(this.frame.getActiveUser()).getCourses().stream()
+      .filter(course->course.getCurrentMembers().contains(subsriber))
+      .forEach(course -> course.removeMember(subsriber));
       this.model.getUser(this.frame.getActiveUser()).getGym().removeSubscriber(index);
+      System.out.println(this.model.getGym(this.frame.getActiveUser()).getCourses().get(0).getCurrentMembers());
       this.createTable(this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers());
   }
 }

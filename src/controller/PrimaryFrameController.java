@@ -32,6 +32,7 @@ import controller.panels.login.LoginPanelController;
 import controller.panels.members.AbstractTableMemberController;
 import controller.panels.members.TableEmployeesController;
 import controller.panels.members.TableSubscribersController;
+import exceptions.NoCoursesInGymException;
 
 public class PrimaryFrameController implements IPrimaryFrameController {
 
@@ -69,10 +70,19 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	@Override
 	public void buildSubPagePanel() {
 		this.cmdRefreshData();
-		final TableMemberPanel panel = new TableMemberPanel(new SubscriberStrategy(), BACKGROUND_PATH);
-		final AbstractTableMemberController observer = new TableSubscribersController(this.model, this.primaryFrame, panel);
-		this.primaryFrame.setCurrentPanel(panel);
-		observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getSubscribers());
+		if(this.model.getGym(this.primaryFrame.getActiveUser()).getCourses().isEmpty()){
+		    try {
+                        throw new NoCoursesInGymException();
+                    } catch (NoCoursesInGymException e) {
+                        this.primaryFrame.displayError(e.getMessage());
+                    }
+		}else{
+		    final TableMemberPanel panel = new TableMemberPanel(new SubscriberStrategy(), BACKGROUND_PATH);
+		    final AbstractTableMemberController observer = new TableSubscribersController(this.model, this.primaryFrame, panel);
+		    this.primaryFrame.setCurrentPanel(panel);
+		    observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getSubscribers());
+		}
+		
 	}
 
 	@Override
