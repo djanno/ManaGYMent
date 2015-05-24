@@ -20,6 +20,10 @@ public interface ICourse {
     int getMaxMembers();
     
     Color getCourseColor();
+    
+    void setCourseName(final String name);
+    
+    void setCourseColor(final Color color);
 
     void setCoursePrice(final double price);
 

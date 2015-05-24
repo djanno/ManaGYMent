@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
@@ -77,7 +78,7 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         this.end = new JButton("Fine");
        
         this.scroll=new JScrollPane(this.table);
-        
+//        this.scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         this.scroll.setPreferredSize(new Dimension(400, 200));
         final Border border = BorderFactory.createLineBorder(Color.BLACK);
         this.scroll.setBorder(BorderFactory.createTitledBorder(border,PROGRAM_OF_A_DAY));
@@ -200,7 +201,7 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
     }
     
     private void disenableIfNotOpen() {
-        final boolean isSelected=isOpened.isSelected();
+        final boolean isSelected = isOpened.isSelected();
         this.gymOpenFrom.setEnabled(isSelected);
         this.gymOpenTo.setEnabled(isSelected);
         this.courses.setEnabled(isSelected);
@@ -211,9 +212,6 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         this.add.setEnabled(isSelected);
     }
      
-    public void displayError(final String s){
-        JOptionPane.showMessageDialog(this, s, "Errore", JOptionPane.ERROR_MESSAGE);
-    }
     
     private void setHandlers(){
         this.add.addActionListener(e->this.observer.addPairInHoursCmd((String)this.courses.getSelectedItem(),(String)this.coachesPerCourse.getSelectedItem(),(Integer)this.courseHourFrom.getValue(),
@@ -228,11 +226,7 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         
         this.end.addActionListener(e->this.observer.endCmd(this.isOpened.isSelected(), (Integer)this.gymOpenFrom.getValue(), (Integer) this.gymOpenTo.getValue()));
         this.isOpened.addItemListener(e->disenableIfNotOpen());
-        
-        this.courses.addItemListener(e->{
-                                    this.coachesPerCourse.setModel(new DefaultComboBoxModel<String>(UtilityClass.createComboBoxValues(this.observer.loadCoachesByCourseName((String)this.courses.getSelectedItem()))));
-        });
-        
+        this.courses.addItemListener(e->this.coachesPerCourse.setModel(new DefaultComboBoxModel<String>(UtilityClass.createComboBoxValues(this.observer.loadCoachesByCourseName((String)this.courses.getSelectedItem())))));
         UtilityClass.setListListenerTable(this.table, this.remove);
 
     }

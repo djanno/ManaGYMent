@@ -18,12 +18,12 @@ public class Course implements ICourse, Serializable {
     private static final String COACH_ALREDY_PRESENT = "Questo coach insegna già in questo corso";
 
 //    private ICourse state;
-    private final String name;
+    private String name;
     private double price;
     private final List<ISubscriber> members;
     private final List<IEmployee> coaches;
     private int maxMembers;
-    private final Color color;
+    private Color color;
 
     public Course(final String name, final Color color, final double price,
             final int maxMembers) {
@@ -156,6 +156,16 @@ public class Course implements ICourse, Serializable {
     		}
     	}
     	return false;
+    }
+
+    @Override
+    public void setCourseName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setCourseColor(Color color) {
+        this.color = color;
     }
     
     //gli ultimi 2 controlli non sono necessari, la rimozione di un iscritto da un corso
