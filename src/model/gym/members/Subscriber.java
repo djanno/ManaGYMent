@@ -14,9 +14,10 @@ import model.gym.IGym;
 
 public class Subscriber extends AbstractGymMember implements ISubscriber, Serializable {
 	
-	private static final long serialVersionUID = -1414275393882247088L;
+    
+    private static final long serialVersionUID = -1414275393882247088L;
 	
-	private Calendar subscriptionDate;
+    private Calendar subscriptionDate;
     private Calendar expirationDate;
     private boolean expired;
     private List<ICourse> courses;
