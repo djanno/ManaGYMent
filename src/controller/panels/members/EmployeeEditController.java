@@ -4,9 +4,6 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
-
-import javax.swing.DefaultListModel;
-
 import model.IModel;
 import model.gym.members.IEmployee;
 import view.IPrimaryFrame;
@@ -25,7 +22,7 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
 	}	
 	
 	@Override
-	public void cmdSave(final Map<IFormField, String> mapToPass, final String salario, final DefaultListModel<String> list) {
+	public void cmdSave(final Map<IFormField, String> mapToPass, final String salario) {
 		this.model.getUser(this.frame.getActiveUser()).getGym().removeEmployee(this.index);
 		try{
 			super.cmdSave(mapToPass, salario);
