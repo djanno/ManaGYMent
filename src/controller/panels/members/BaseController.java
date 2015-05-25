@@ -7,8 +7,16 @@ import javax.swing.DefaultListModel;
 
 import model.gym.ICourse;
 
-public class BaseController {
 
+/**
+ * Common controller of EmployeeAddController and SubscriberAddController
+ * @author Davide Borficchia
+ *
+ */
+
+public class BaseController implements IBaseController{
+
+	@Override
 	public List<ICourse> convertList(final DefaultListModel<String> list, final List<ICourse> gymCourses){
 		final List<ICourse> corsi = new ArrayList<>();
 		for(int i = 0; i < list.size(); i++ ){

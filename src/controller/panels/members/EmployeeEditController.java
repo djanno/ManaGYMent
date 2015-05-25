@@ -4,17 +4,40 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+
 import model.IModel;
 import model.gym.members.IEmployee;
 import view.IPrimaryFrame;
 import view.panels.members.IEmployeePanel;
 import view.panels.members.IFormField;
 
+/**
+ * The controller for {@link EmployeePanel}.
+ * 
+ * @author Davide Borficchia
+ *
+ */
+
 public class EmployeeEditController extends EmployeeAddController implements IEmployeeEditController{
 
 	private final IEmployee exEmployee;
 	private final int index;
 
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param frame
+	 * 		the primary frame
+	 * @param employeeView
+	 * 		the employee panel
+	 * @param model
+	 * 		the model
+	 * @param tableEmployeesController
+	 * 		the table employees controller
+	 * @param index
+	 * 		the index of the employee to edit
+	 */
 	public EmployeeEditController(final IPrimaryFrame frame, final IEmployeePanel employeeView, final IModel model, final TableEmployeesController tableEmployeesController, final int index) {
 		super(frame, employeeView, model, tableEmployeesController);
 		this.index = index;

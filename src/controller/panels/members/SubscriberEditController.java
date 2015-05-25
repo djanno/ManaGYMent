@@ -16,12 +16,34 @@ import view.IPrimaryFrame;
 import view.panels.members.IFormField;
 import view.panels.members.ISubscriberPanel;
 
+/**
+ * The controller for {@link SubscriberPanel}.
+ * 
+ * @author Davide Borficchia
+ *
+ */
+
 public class SubscriberEditController extends SubscriberAddController implements ISubscriberEditController{
 
 	private final ISubscriber exSubscriber;
 	private final int index;	
 	private final Calendar exceptionCalendar;
 	
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param frame
+	 * 		the primary frame
+	 * @param subscriberView
+	 * 		the subscriber panel
+	 * @param model
+	 * 		the model
+	 * @param tableSubscribersController
+	 * 		the table subscribers controller
+	 * @param index
+	 * 		the index of the subscriber to edit
+	 */
 	public SubscriberEditController (final IPrimaryFrame frame, final ISubscriberPanel subscriberView, final IModel model, final TableSubscribersController tableSubscribersController, final int index){
 		super(frame, subscriberView, model, tableSubscribersController);
 		this.exceptionCalendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
@@ -45,7 +67,7 @@ public class SubscriberEditController extends SubscriberAddController implements
 						this.model.getGym(this.frame.getActiveUser()).getCourseByName(course.getCourseName()).removeMember(exSubscriber);
 					}
 					super.cmdSave(mapToPass, subscriptionDate, expirationDate, list);
-					countDecreseIncome(exSubscriber);
+					countDecreaseIncome(exSubscriber);
 				}else{
 					super.cmdSave(mapToPass, exSubscriber.getSubscriptionDate().getTime(), expirationDate, list);
 				}

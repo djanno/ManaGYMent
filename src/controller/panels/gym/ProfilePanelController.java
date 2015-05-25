@@ -1,11 +1,16 @@
 package controller.panels.gym;
 
 import javax.swing.JOptionPane;
-
 import model.IModel;
 import view.PrimaryFrame;
 import view.panels.gym.IProfilePanel;
 
+/**
+ * The controller for {@link ProfilePanel}.
+ * 
+ * @author Davide Borficchia
+ *
+ */
 public class ProfilePanelController implements IProfilePanelController{
 	
 	private final PrimaryFrame frame;
@@ -19,6 +24,16 @@ public class ProfilePanelController implements IProfilePanelController{
 	private static final String INVALID_EMAIL = "E' stata inserita un email non valida.";
 	private static final String NO_EQUAL_EMAIL = "Le due email devono corrispondere";
 	
+	/**
+	 * Constructor.
+	 * 
+	 * @param frame
+	 * 		the primary frame
+	 * @param view
+	 * 		the profile panel
+	 * @param model
+	 * 		the model
+	 */
 	public ProfilePanelController(final PrimaryFrame frame, final IProfilePanel view, final IModel model){
 		this.frame = frame;
 		this.view = view;
@@ -63,6 +78,10 @@ public class ProfilePanelController implements IProfilePanelController{
 		this.frame.getChild().closeDialog();
 	}	
 	
+	/**
+	 * Checks if the password1 is the same as the password2
+	 * @return true if the both password are the same, false otherwise
+	 */
 	private boolean checkPassword(final char[] password1, final char[] password2) {
 		if (password1.length == password2.length) {
 			for (int i = 0; i < password1.length; i++) {

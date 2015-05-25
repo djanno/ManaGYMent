@@ -22,32 +22,39 @@ public class SenderEmail {
 	
 	private String host;
 	private final String user;
-	private final List<String> destinatari;
-	private final String oggetto;
-	private final String corpo;
+	private final List<String> recipients;
+	private final String subject;
+	private final String body;
 
 	/**
-	 * Costruttore completo, richiede i parametri di connessione al server di
-	 * posta
+	 * Constructor
 	 * 
 	 * @param user
+	 * 		the user who sends the email
 	 * @param password
+	 * 		the user email s password
 	 * @param host
-	 * @param mittente
-	 * @param destinatari
-	 * @param oggetto
-	 * @param allegati
+	 * 		the host who sends the email
+	 * @param recipients
+	 * 		the email s recipients 
+	 * @param subject
+	 * 		the email s subject
 	 */
-	public SenderEmail(final String oggetto, final String corpo, final List<String> destinatari, final String user, final char[] password)  throws Exception{
-		checkparameters(user, password, oggetto, corpo);
-		this.destinatari = destinatari;
+	public SenderEmail(final String subject, final String body, final List<String> recipients, final String user, final char[] password)  throws Exception{
+		checkparameters(user, password, subject, body);
+		this.recipients = recipients;
 		this.user = user;
 		setHost(user);
 		this.password = password;
-		this.oggetto = oggetto;
-		this.corpo = corpo;
+		this.subject = subject;
+		this.body = body;
 	}
-
+	/**
+	 * Sets the host to send email
+	 * 
+	 * @param email
+	 * 		the address email who send the email
+	 */
 	private void setHost(final String email) {
 		final String[] parts = email.split("@");
 		switch (parts[1]) {
@@ -84,20 +91,19 @@ public class SenderEmail {
 		final Multipart multipart = new MimeMultipart();
 		final MimeMessage msg = new MimeMessage(session);
 
-		msg.setSubject(oggetto);
+		msg.setSubject(subject);
 		msg.setSentDate(new Date());
 		msg.setFrom(new InternetAddress(user));
 
-		InternetAddress[] addressTo = new InternetAddress[destinatari
-				.size()];
+		final InternetAddress[] addressTo = new InternetAddress[recipients.size()];
 		int i = 0;
-		for (final String dest : destinatari) {
+		for (final String dest : recipients) {
 			addressTo[i] = new InternetAddress(dest);
 			i++;
 		}
 		msg.setRecipients(Message.RecipientType.TO, addressTo);
 
-		messageBodyPart1.setText(this.corpo);
+		messageBodyPart1.setText(this.body);
 		multipart.addBodyPart(messageBodyPart1);
 
 		msg.setContent(multipart);
@@ -108,8 +114,20 @@ public class SenderEmail {
 		transport.close();
 	}
 
-	private void checkparameters(final String user, final char[] password, final String oggetto, final String corpo) {
-		if (user.equals("") || password.length == 0 || password == null || oggetto.equals("") || corpo.equals("")) {
+	/**
+	 * Checks the parameters to send an email.
+	 * 
+	 * @param user
+	 * 		the current user
+	 * @param password
+	 * 		the email s password
+	 * @param subject
+	 * 		the email s subject
+	 * @param body
+	 * 		the email s body
+	 */
+	private void checkparameters(final String user, final char[] password, final String subject, final String body) {
+		if (user.equals("") || password.length == 0 || password == null || subject.equals("") || body.equals("")) {
 			throw new IllegalArgumentException(INVALID_PARAMETERS);
 		}
 	}

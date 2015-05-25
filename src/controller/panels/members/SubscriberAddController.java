@@ -7,9 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-
 import javax.swing.DefaultListModel;
-
 import model.IModel;
 import model.gym.ICourse;
 import model.gym.members.ISubscriber;
@@ -17,6 +15,13 @@ import model.gym.members.Subscriber;
 import view.IPrimaryFrame;
 import view.panels.members.IFormField;
 import view.panels.members.ISubscriberPanel;
+
+/**
+ * The controller for {@link SubscriberPanel}.
+ * 
+ * @author Davide Borficchia
+ *
+ */
 
 public class SubscriberAddController extends BaseController implements ISubscriberAddController{
 	private static final String WRONG_NAME = "Il nome deve essere lungo più di 1 carattere.";
@@ -36,6 +41,18 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	protected final TableSubscribersController tableSubscribersController;
 	private final Calendar currentCalendar;
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param frame
+	 * 		the primary frame
+	 * @param subscriberView
+	 * 		the subscriber view
+	 * @param model
+	 * 		the model
+	 * @param tableSubscribersController
+	 * 		the table subscribers controller
+	 */
 	public SubscriberAddController (final IPrimaryFrame frame, final ISubscriberPanel subscriberView, final IModel model, final TableSubscribersController tableSubscribersController){
 		super();
 		this.frame = frame;
@@ -76,7 +93,13 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	public List<ICourse> loadCourses(){
 		return this.model.getUser(this.frame.getActiveUser()).getGym().getCourses();
 	}	
-	
+		
+	/**
+	 * @param date
+	 * 		the date to converter
+	 * @return the Calendar of date
+	 * @throws IllegalArgumentException
+	 */
 	protected static Calendar dateToCalendar(final Date date) throws IllegalArgumentException{ 
 		  final Calendar cal = Calendar.getInstance();
 		  try{
@@ -87,10 +110,15 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 		  return cal;
 	}
 	
-	protected void countDecreseIncome(final ISubscriber subscriber){
-	    long dayDiff;
-        
-        dayDiff = TimeUnit.MILLISECONDS.toDays(subscriber.getExpirationDate().getTimeInMillis() - Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome")).getTimeInMillis());
+	/**
+	 * 
+	 * Counts the amount to decrease from income
+	 * 
+	 * @param subscriber
+	 * 		the new subscriber
+	 */
+	protected void countDecreaseIncome(final ISubscriber subscriber){
+        final long dayDiff = TimeUnit.MILLISECONDS.toDays(subscriber.getExpirationDate().getTimeInMillis() - Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome")).getTimeInMillis());
         
         if(dayDiff > 0){
             for(final ICourse c : subscriber.getCourses()){
@@ -99,16 +127,36 @@ public class SubscriberAddController extends BaseController implements ISubscrib
         }
 	}
 	
-	protected void countAddIncome(final ISubscriber subscriber) throws IllegalArgumentException {
-        long newDayDiff;
-
-        newDayDiff = TimeUnit.MILLISECONDS.toDays(subscriber.getExpirationDate().getTimeInMillis() - subscriber.getSubscriptionDate().getTimeInMillis());
+	/**
+	 * 
+	 * Counts the amount to add from income
+	 * 
+	 * @param subscriber
+	 * 		the new subscriber
+	 */
+	protected void countAddIncome(final ISubscriber subscriber){
+        final long newDayDiff = TimeUnit.MILLISECONDS.toDays(subscriber.getExpirationDate().getTimeInMillis() - subscriber.getSubscriptionDate().getTimeInMillis());
 	    
 	    for(final ICourse c : subscriber.getCourses()){
              this.model.getUser(this.frame.getActiveUser()).getGym().setIncome(newDayDiff * c.getCoursePrice(), subscriber.getSubscriptionDate());
         }
 	}
 	
+	/**
+	 * 
+	 * Creates new subscriber from GUI
+	 * 
+	 * @param mapToPass
+	 * 		the common fields of subscriber
+	 * @param subscriptionDate
+	 * 		the subscriber's subscription date 
+	 * @param expirationDate
+	 * 		the subscriber's expiration date 
+	 * @param list
+	 * 		the subscriber's courses 
+	 * @return the new subscriber
+	 * @throws Exception
+	 */
 	private Subscriber createSubscriber(final Map<IFormField, String> mapToPass, final Calendar subscriptionDate, final  Calendar expirationDate, final DefaultListModel<String> list) throws Exception{
 		for(final IFormField f : mapToPass.keySet()){
 			if(! f.getPred().test(mapToPass.get(f))){	

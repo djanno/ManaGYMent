@@ -1,17 +1,23 @@
 package controller.panels.members;
 
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+
 import model.IModel;
-import model.gym.ICourse;
 import model.gym.members.Employee;
 import model.gym.members.IEmployee;
 import view.IPrimaryFrame;
 import view.panels.members.IEmployeePanel;
 import view.panels.members.IFormField;
+
+/**
+ * The controller for {@link EmployeePanel}.
+ * 
+ * @author Davide Borficchia
+ *
+ */
 
 public class EmployeeAddController extends BaseController implements IEmployeeAddController{
 
@@ -27,7 +33,20 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 	protected IPrimaryFrame frame;
 	protected final IModel model;
 	protected final TableEmployeesController tableEmployeesController;
-	
+
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param frame
+	 * 		the primary frame
+	 * @param employeeView
+	 * 		the employee panel
+	 * @param model
+	 * 		the model
+	 * @param tableEmployeesController
+	 * 		the table employees controller
+	 */
 	public EmployeeAddController (final IPrimaryFrame frame, final IEmployeePanel employeeView, final IModel model, final TableEmployeesController tableEmployeesController){
 		super();
 		this.frame = frame;
@@ -48,13 +67,19 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 		}catch (Exception e){
 			this.frame.displayError(e.getMessage());
 		}
-	}
+	}	
 	
-	@Override
-	public List<ICourse> loadCourses(){
-		return this.model.getUser(this.frame.getActiveUser()).getGym().getCourses();
-	}
-	
+	/**
+	 * 
+	 * Creates new employee from GUI
+	 * 
+	 * @param mapToPass
+	 * 		the common fields of employee
+	 * @param salary
+	 * 		the employee's salary
+	 * @return the new employee
+	 * @throws IllegalArgumentException
+	 */
 	private Employee createEmployee(final Map<IFormField, String> mapToPass, final String salary) throws IllegalArgumentException {
 		Double doubleSalary;
 		try{
