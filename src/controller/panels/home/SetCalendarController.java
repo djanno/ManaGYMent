@@ -2,6 +2,8 @@ package controller.panels.home;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
@@ -65,7 +67,6 @@ public class SetCalendarController implements ISetCalendarController {
 		this.view.refreshTable();
 		//final Schedule s = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
 		//		.get(day);
-		System.out.println(this.temp.getProgram());
 		for (final Integer i : this.temp.getProgram().keySet()) {
 			for (final Pair<ICourse, IEmployee> pair : this.temp.getProgram().get(i)) {
 				final Object[] row = new Object[] { i, i + 1,
@@ -83,14 +84,12 @@ public class SetCalendarController implements ISetCalendarController {
 		try {
 			this.checkHours(hourFrom, hourTo, openingTime, closingTime);
 			final String fiscalCode = employeeDetails.split(" ")[2];
-			final ICourse course = this.model.getGym(this.frame.getActiveUser()).getCourseByName(
-					courseName);
+			final ICourse course = this.model.getGym(this.frame.getActiveUser()).getCourseByName(courseName);
 			final IEmployee employee = course.getCoachByFiscalCode(fiscalCode);
 			final Pair<ICourse, IEmployee> pairInHour = new Pair<>(course, employee);
 			//final Schedule sch = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
 			//		.get(day);
 			this.temp.putPairInHour(pairInHour, hourFrom, hourTo);
-			System.out.println(this.model.getGym(this.frame.getActiveUser()).getProgram());
 			this.formTable();
 		} catch (IllegalArgumentException exc) {
 			this.frame.displayError(exc.getMessage());
@@ -111,28 +110,28 @@ public class SetCalendarController implements ISetCalendarController {
 	@Override
 	public void endCmd(final Boolean isOpen, final Integer openingTime, final Integer closingTime) {
 		try {
-			this.finalControl(openingTime, closingTime);
 			//final Schedule sch = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar().get(this.day);
 			
 			if (isOpen) {
-				this.temp.setOpened(isOpen);
+			        this.finalControl(openingTime, closingTime);
+			        this.temp.setOpened(isOpen);
 				this.temp.setOpeningHourAndClosingHour(openingTime, closingTime);
 				this.model.getGym(this.frame.getActiveUser()).getProgram().setSchedule(this.day, this.temp);
 				this.homeController.loadCalendar();
 				this.frame.getChild().closeDialog();
-				return;
-			}
-			
-			final int n = JOptionPane.showConfirmDialog(this.frame.getChild(), "La chiusura della palestra per il giorno " + this.day.getName() + 
+			}else{
+			    final int n = JOptionPane.showConfirmDialog(this.frame.getChild(), "La chiusura della palestra per il giorno " + this.day.getName() + 
 					", provocherà la cancellazione del programma salvato nel giorno " + this.day.getName() + 
 					". Sicuro di voler continuare?", "Warning", JOptionPane.OK_CANCEL_OPTION);
 			
-			if(n == JOptionPane.OK_OPTION) { 
+			    if(n == JOptionPane.OK_OPTION) { 
 				this.model.getGym(this.frame.getActiveUser()).getProgram().setSchedule(this.day, new Schedule());
 				this.homeController.loadCalendar();
 				this.frame.getChild().closeDialog();
+			    }
 			}
 			
+//	                   io l ho messo tutto dentro un'else mentre prima veniva fatto dopo e prima c era un return
 		} catch (final IllegalArgumentException e) {
 			this.frame.displayError(e.getMessage());
 		}
