@@ -1,23 +1,34 @@
 package view.panels.members;
 
-import java.util.List;
-
-import model.gym.ICourse;
 import model.gym.members.IEmployee;
-import view.panels.login.LoginPanel;
 import controller.panels.members.IEmployeeAddController;
 
 public interface IEmployeePanel {
 	
 	/**
-	 * Attachs the observer to the {@link LoginPanel}.
+	 * Attachs the observer to the {@link EmployeePanel}.
 	 * @param observer the observer.
 	 */
-	
 	void attachObserver(IEmployeeAddController observer);
 	
+	
+	/**
+	 * 
+	 * Gets the CommonPanel from the GUI
+	 * 
+	 * @return the CommonPanel
+	 */
 	CommonPanel getCommonPanel();
 	
-	void showData(final IEmployee iEmployee, final List<ICourse> courses);
+	/**
+	 * 
+	 * Show the employee's data in the GUI
+	 * 
+	 * @param employee
+	 * 		the employee to show
+	 * @param courses
+	 * 		the 
+	 */
+	void showData(final IEmployee employee);
 	
 }

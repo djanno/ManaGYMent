@@ -29,6 +29,13 @@ import com.toedter.calendar.JDateChooser;
 
 import controller.panels.members.ISubscriberAddController;
 
+/**
+ * SubscriberPanel
+ * 
+ * @author Davide Borficchia
+ *
+ */
+
 public class SubscriberPanel extends JPanel implements ActionListener, ISubscriberPanel{
 	
 	public static final long serialVersionUID = 1L;
@@ -51,6 +58,9 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 	private final CommonPanel commonPanel;
 	private final JPanel subPanel; 
 
+	/**
+	 * Constructor
+	 */
 	public SubscriberPanel() {
 		super();		
 		this.listCourses = new DefaultListModel<String>();
@@ -104,9 +114,7 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 					final boolean rowSelected = coursesList.getSelectedIndex() != -1;
 					btnRemove.setEnabled(rowSelected);
 				}
-				
-			}
-			
+			}	
 		});
 	}
 	
@@ -115,6 +123,7 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 		return this.commonPanel;
 	}
 	
+	@Override
 	public void showData(final ISubscriber subscriber){
 		this.commonPanel.setMap(EnumFieldsCommon.NOME, subscriber.getName());
 		this.commonPanel.setMap(EnumFieldsCommon.COGNOME, subscriber.getSurname());

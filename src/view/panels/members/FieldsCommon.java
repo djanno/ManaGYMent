@@ -6,6 +6,11 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+/**
+ * @author Davide Borficchia
+ * 
+ **/
+
 public class FieldsCommon implements IFormStrategy{
 	
 	public enum EnumFieldsCommon implements IFormField{
@@ -39,6 +44,11 @@ public class FieldsCommon implements IFormStrategy{
 			return this.pred;
 		}
 		
+		/**
+		 * @param s
+		 * 		the value to be checked
+		 * @return
+		 */
 		private static boolean isNumber(String s){
 			try{
 				return Optional.ofNullable(new Long(s)).isPresent();//ritrona true se è riuscito a convertirlo, altrimenti ritorna false
@@ -51,6 +61,5 @@ public class FieldsCommon implements IFormStrategy{
 	@Override
 	public List<IFormField> getFields() {
 		return Arrays.asList(EnumFieldsCommon.values());
-
 	}
 }

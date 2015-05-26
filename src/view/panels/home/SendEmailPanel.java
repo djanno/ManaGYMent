@@ -21,6 +21,13 @@ import org.jdesktop.xswingx.PromptSupport;
 import view.panels.Background;
 import controller.panels.home.ISendEmailPanelController;
 
+/**
+ * SendEmailPanel
+ * 
+ * @author Davide Borficchia
+ *
+ */
+
 public class SendEmailPanel extends Background implements ActionListener, ISendEmailPanel{
 
     /**
@@ -38,6 +45,13 @@ public class SendEmailPanel extends Background implements ActionListener, ISendE
     
     private ISendEmailPanelController observer;
 
+    /**
+     * 
+     * Constructor
+     * 
+     * @param path
+     * 		the path of background image
+     */
     public SendEmailPanel(final String path){
     	super(path);
         this.chkEmployee = new JCheckBox();
@@ -125,6 +139,12 @@ public class SendEmailPanel extends Background implements ActionListener, ISendE
 		JOptionPane.showMessageDialog(this, message, "Informazione", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	/**
+	 * 
+	 * Open an OptionPane to insert the email's password
+	 * 
+	 * @return password insert in the OptionPane, if click on "cancel" return null
+	 */
 	private char[] insertPassword(){
 		final JPanel panel = new JPanel();
 		final JLabel label = new JLabel("Inserisci password:");

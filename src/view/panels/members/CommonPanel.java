@@ -10,6 +10,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * CommonPanel
+ * 
+ * @author Davide Borficchia
+ *
+ */
 
 public class CommonPanel extends JPanel implements ICommonPanel{
 
@@ -19,6 +25,9 @@ public class CommonPanel extends JPanel implements ICommonPanel{
 	private static final long serialVersionUID = 1L;
 	private final Map<IFormField, JTextField> map = new HashMap<>();
 	
+	/**
+	 * Constructor
+	 */
 	public CommonPanel(){
 		this.setLayout(new GridBagLayout());
 		final IFormStrategy strat = new FieldsCommon();

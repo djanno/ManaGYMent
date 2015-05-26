@@ -6,15 +6,20 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import model.gym.ICourse;
 import model.gym.members.IEmployee;
 import view.panels.members.FieldsCommon.EnumFieldsCommon;
 import controller.panels.members.IEmployeeAddController;
+
+/**
+ * EmployeePanel
+ * 
+ * @author Davide Borficchia
+ *
+ */
 
 public class EmployeePanel extends JPanel implements ActionListener, IEmployeePanel{
 		
@@ -29,6 +34,9 @@ public class EmployeePanel extends JPanel implements ActionListener, IEmployeePa
 	final private CommonPanel commonPanel;
 	final private JPanel employeePanel; 
 	
+	/**
+	 * Constructor
+	 */
 	public EmployeePanel (){		
 		this.salaryLbl = new JLabel("Salario");
 		this.salaryField = new JTextField(5);
@@ -51,7 +59,7 @@ public class EmployeePanel extends JPanel implements ActionListener, IEmployeePa
 	}
 	
 	@Override
-	public void showData(final IEmployee employee, final List<ICourse> gymCourses){
+	public void showData(final IEmployee employee){
 		this.commonPanel.setMap(EnumFieldsCommon.NOME, employee.getName());
 		this.commonPanel.setMap(EnumFieldsCommon.COGNOME, employee.getSurname());
 		this.commonPanel.setMap(EnumFieldsCommon.CODICE_FISCALE, employee.getFiscalCode());
