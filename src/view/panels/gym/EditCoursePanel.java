@@ -30,7 +30,7 @@ import view.panels.GenericTable;
 import controller.panels.gym.EditCourseController;
 import controller.panels.gym.IAddCourseController;
 
-public class EditCoursePanel extends GenericTable implements ActionListener,IEditCoursePanel{
+public class EditCoursePanel extends GenericTable implements IEditCoursePanel{
     
     private static final long serialVersionUID = -899228555149893619L;
     
@@ -53,6 +53,7 @@ public class EditCoursePanel extends GenericTable implements ActionListener,IEdi
         this.principalPanel=new EssentialPanelCourse(path);
         
         this.coaches=new JComboBox<String>();
+        this.coaches.setPreferredSize(new Dimension(250,20));
         
         this.panelList=new JScrollPane(table);
         
@@ -74,9 +75,8 @@ public class EditCoursePanel extends GenericTable implements ActionListener,IEdi
         gbcPanelPrinc.gridx++;
         this.add(createSecondPanel(),gbcPanelPrinc);
         
-        addCoach.addActionListener(this);
-        removeCoach.addActionListener(this);
-        confirm.addActionListener(this);
+        this.setHandlers();
+        
         UtilityClass.setListListenerTable(this.table, this.removeCoach);
     }
     
@@ -90,18 +90,6 @@ public class EditCoursePanel extends GenericTable implements ActionListener,IEdi
         ((EditCourseController)this.observer).formTable();
     }
     
-     
-    @Override
-    public void actionPerformed(final ActionEvent e) {
-        final Object source = e.getSource();
-        if (source == this.confirm) {
-          ((EditCourseController) this.observer).editCourseCmd(principalPanel.getCourseName(),this.principalPanel.getButtonColor(),this.principalPanel.getCoursePrice(),this.principalPanel.getCourseMaxMember());
-        }else if(source==this.addCoach){
-            ((EditCourseController) this.observer).addCoachCmd(coaches.getSelectedIndex());
-        }else if(source==this.removeCoach){
-            ((EditCourseController) this.observer).removeCoachCmd(this.table.getSelectedRow());
-        }
-    }
     
     private Background createSecondPanel(){
         final Background secondPanel=new Background(this.getBackgroundPath());
@@ -133,6 +121,12 @@ public class EditCoursePanel extends GenericTable implements ActionListener,IEdi
     @Override
     public void attachViewObserver(final IAddCourseController observer) {
         this.observer=observer;
+    }
+    
+    private void setHandlers(){
+        addCoach.addActionListener(e->((EditCourseController) this.observer).editCourseCmd(principalPanel.getCourseName(),this.principalPanel.getButtonColor(),this.principalPanel.getCoursePrice(),this.principalPanel.getCourseMaxMember()));
+        removeCoach.addActionListener(e-> ((EditCourseController) this.observer).addCoachCmd(coaches.getSelectedIndex()));
+        confirm.addActionListener(e->((EditCourseController) this.observer).removeCoachCmd(this.table.getSelectedRow()));
     }
     
 }
