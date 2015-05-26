@@ -58,6 +58,6 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
 
 	@Override
 	public void loadData(){
-		view.showData(this.model.getUser(this.frame.getActiveUser()).getGym().getEmployees().get(this.index), this.model.getUser(this.frame.getActiveUser()).getGym().getCourses());
+		view.showData(this.model.getUser(this.frame.getActiveUser()).getGym().getEmployees().get(this.index));
 	}
 }

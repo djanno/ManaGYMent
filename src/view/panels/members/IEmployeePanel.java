@@ -29,6 +29,5 @@ public interface IEmployeePanel {
 	 * @param courses
 	 * 		the 
 	 */
-	void showData(final IEmployee employee);
-	
+	void showData(final IEmployee employee);	
 }
