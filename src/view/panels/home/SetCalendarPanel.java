@@ -78,7 +78,6 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel{
         this.end = new JButton("Fine");
        
         this.scroll=new JScrollPane(this.table);
-//        this.scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         this.scroll.setPreferredSize(new Dimension(400, 200));
         final Border border = BorderFactory.createLineBorder(Color.BLACK);
         this.scroll.setBorder(BorderFactory.createTitledBorder(border,PROGRAM_OF_A_DAY));

@@ -17,6 +17,11 @@ import view.PrimaryFrame;
 import view.panels.gym.EditCoursePanel;
 import view.panels.gym.IAddCoursePanel;
 
+/**
+ * the controller used for edit a course already present in gym
+ * @author simone
+ *
+ */
 public class EditCourseController extends AddCourseController implements
         IEditCourseController {
 
@@ -25,13 +30,20 @@ public class EditCourseController extends AddCourseController implements
     private final ICourse temp;
     private final IGymCalendar tempCalendar;
     
+    /**
+     * @param frame the application's frame
+     * @param model the model
+     * @param view the view
+     * @param gymPanelController the controller of panel that open EditCoursePanel JDialog
+     * @param courseToEdit course to be edit
+     */
     public EditCourseController(final PrimaryFrame frame, final IModel model,
             final IAddCoursePanel view, final GymPanelController gymPanelController, final ICourse courseToEdit) {
         super(frame, model, view, gymPanelController);
         this.courseToEdit = courseToEdit;
         this.temp = new Course(courseToEdit.getCourseName(),courseToEdit.getCourseColor(), courseToEdit.getCoursePrice(), courseToEdit.getMaxMembers(), courseToEdit.getCoaches(),courseToEdit.getCurrentMembers());
         this.tempCalendar=new GymCalendar();
-        for(DaysOfWeek day:DaysOfWeek.values()){
+        for(final DaysOfWeek day:DaysOfWeek.values()){
             final Schedule schedule = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar().get(day);
             this.tempCalendar.setSchedule(day, new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour().orElse(null), schedule.getProgram())); 
         }
@@ -95,6 +107,9 @@ public class EditCourseController extends AddCourseController implements
         this.gymPanelController.loadCoursesTable();
     }
     
+    /* 
+     * @see controller.panels.gym.AddCourseController#checkError(java.lang.String, java.awt.Color, java.lang.String, java.lang.String)
+     */
     protected void checkError(final String courseName, final Color courseColor, final String price, final String maxMembers) throws IllegalArgumentException{
         super.checkError(courseName, courseColor, price, maxMembers);
         if(Integer.parseInt(maxMembers)<this.temp.getCurrentMembers().size()){

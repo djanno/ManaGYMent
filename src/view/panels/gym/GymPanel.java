@@ -88,6 +88,8 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		this.add(this.top, new GridBagConstraints(0, 0, 1, 1, 1, 0.15, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 10, 0), 0, 0));
 		this.add(this.incomePanel, new GridBagConstraints(0, 1, 1, 1, 1, 0.6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 0, 10, 0), 0, 0));
 		this.add(bottom, new GridBagConstraints(0, 2, 1, 1, 1, 0.25, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 0, 0, 0), 0, 0));
+	
+		this.setHandlers();
 	}
 	
 	public void setHeader(final String header) {
@@ -121,6 +123,12 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 	@Override
 	public void attachObserver(final IGymPanelController observer) {
 		this.observer = observer;
+	}
+	
+	private void setHandlers(){
+	    this.addBtn.addActionListener(e -> this.observer.cmdAddCourse());
+            this.editBtn.addActionListener(e -> this.observer.cmdEditCourse(this.table.getSelectedRow()));
+            this.delBtn.addActionListener(e -> this.observer.cmdDeleteCourse(this.table.getSelectedRow()));
 	}
 
 	public class IncomePanel extends GenericTable {
