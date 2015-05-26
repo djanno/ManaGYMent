@@ -8,6 +8,11 @@ import model.gym.ICourse;
 import view.PrimaryFrame;
 import view.panels.gym.IAddCoursePanel;
 
+/**
+ * the controller used for create and add course in gym
+ * @author simone
+ * 
+ */
 public class AddCourseController implements IAddCourseController{
 
     
@@ -22,6 +27,12 @@ public class AddCourseController implements IAddCourseController{
     protected PrimaryFrame frame;
     protected GymPanelController gymPanelController;
     
+    /**
+     * @param frame the application's frame.
+     * @param model the model
+     * @param view the view
+     * @param gymPanelController the controller of panel that open AddCoursePanel JDialog
+     */
     public AddCourseController(final PrimaryFrame frame, final IModel model, final IAddCoursePanel view, final GymPanelController gymPanelController) {
         super();
         this.model = model;
@@ -33,10 +44,10 @@ public class AddCourseController implements IAddCourseController{
 
 
     @Override
-    public void addCourseCmd(final String courseName,final Color courseColor, final String price,final  String maxMembers) throws IllegalArgumentException{
+    public void addCourseCmd(final String courseName,final Color courseColor, final String price, final  String maxMembers){
             try{
                 this.checkError(courseName, courseColor, price, maxMembers);
-                final ICourse course=new Course(courseName,  courseColor, Integer.parseInt(price), Integer.parseInt(maxMembers));
+                final ICourse course=new Course(courseName,  courseColor, Double.parseDouble(price), Integer.parseInt(maxMembers));
                 this.model.getUser(this.frame.getActiveUser()).getGym().addCourse(course);
                 this.gymPanelController.loadCoursesTable();
                 this.frame.getChild().closeDialog();
@@ -45,6 +56,15 @@ public class AddCourseController implements IAddCourseController{
             }
     }
     
+    
+    /**
+     * @param courseName the name to be checked
+     * @param courseColor the color to be checked
+     * @param price the price to be checked
+     * @param maxMembers the number of max member to be checked
+     * @throws IllegalArgumentException if the fields are empty, if name is already existing or if color is already associated to a course
+     * @throws NumberFormatException if there are conversion errors
+     */
     protected void checkError(final String courseName, final Color courseColor, final String price, final String maxMembers) throws IllegalArgumentException, NumberFormatException{
         if (price.isEmpty() || maxMembers.isEmpty() || courseName.isEmpty()) {
             throw new IllegalArgumentException(NO_EMPTY_FIELDS);
@@ -64,6 +84,10 @@ public class AddCourseController implements IAddCourseController{
     }
     
     
+    /**
+     * @param enteredName the name to be checked
+     * @throws IllegalArgumentException
+     */
     private void checkName(final String enteredName)throws IllegalArgumentException{
       final boolean alreadyExist=this.model.getUser(this.frame.getActiveUser()).getGym().getCourses().stream().anyMatch(c->enteredName.equalsIgnoreCase(c.getCourseName()));
       if(alreadyExist){
@@ -71,6 +95,10 @@ public class AddCourseController implements IAddCourseController{
       }
     } 
     
+    /**
+     * @param color the color to be checked
+     * @throws IllegalArgumentException
+     */
     private void checkColor(final Color color) throws IllegalArgumentException{
         if(color.equals(Color.WHITE) || color.equals(Color.BLACK)){
             throw new IllegalArgumentException(NO_SELECT_COLOR);
