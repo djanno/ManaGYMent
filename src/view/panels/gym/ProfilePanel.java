@@ -20,6 +20,13 @@ import org.jdesktop.xswingx.PromptSupport;
 import view.panels.Background;
 import controller.panels.gym.IProfilePanelController;
 
+/**
+ * ProfilePanel
+ * 
+ * @author Davide Borficchia
+ *
+ */
+
 public class ProfilePanel extends Background implements IProfilePanel, ActionListener{
 
 	private static final long serialVersionUID = 5362097461793303394L;
@@ -49,6 +56,12 @@ public class ProfilePanel extends Background implements IProfilePanel, ActionLis
 	private final JPanel centerPanel;
 	private final JPanel southPanel;
 	
+	/**
+	 * @param path
+	 * 		the path of background image
+	 * @param userLogged
+	 * 		the name of user
+	 */
 	public ProfilePanel(final String path, final String userLogged) {
 		super(path);
 		this.northPanel = new JPanel();

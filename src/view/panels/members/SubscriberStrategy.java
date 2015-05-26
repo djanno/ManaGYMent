@@ -5,10 +5,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
+/**
+ * SubscriberStrategy
+ * 
+ * @author Davide Borficchia
+ * 
+ **/
+
 public class SubscriberStrategy implements IFormStrategy{
 
     private FieldsCommon fieldsCommon;
     
+    /**
+     * Constructor
+     */
     public SubscriberStrategy() {
         this.fieldsCommon=new FieldsCommon();
     }
