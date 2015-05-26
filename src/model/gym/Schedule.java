@@ -15,7 +15,7 @@ import model.gym.members.IEmployee;
 import utility.UtilityClass;
 
 
-public class Schedule implements Serializable {
+public class Schedule implements Serializable,ISchedule {
     
     private static final long serialVersionUID = 2683209797124765098L;
     
@@ -46,13 +46,7 @@ public class Schedule implements Serializable {
             this.opened = false;
             this.openingHour = null;
             this.closingHour = null;
-            this.program = new TreeMap<>(new Comparator<Integer>() {
-
-                @Override
-                public int compare(Integer o1, Integer o2) {
-                    return o1-o2;
-                }
-            });
+            this.program = new TreeMap<>();
     }
     
     public boolean isOpened(){
@@ -68,7 +62,7 @@ public class Schedule implements Serializable {
     }
     
     public Map<Integer, List<Pair<ICourse,IEmployee>>> getProgram(){
-        return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> UtilityClass.defend(e.getValue())));
+        return this.program.entrySet().stream().collect(Collectors.toMap(e->e.getKey(),e-> UtilityClass.defend(e.getValue()), (e1,e2)-> e2 ,TreeMap::new));
     }
     
     public List<ICourse> getCoursesInHour(final Integer hour) {
