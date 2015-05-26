@@ -35,7 +35,7 @@ public class AddCoursePanel extends Background implements IAddCoursePanel{
         this.setBorder(BorderFactory.createTitledBorder(border, "Aggiungi Corso"));
         this.setOpaque(false);
         
-        setHandlers();
+        this.setHandlers();
     }
 
 
