@@ -58,7 +58,6 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 		this.view = subscriberView;
 		this.gym = gym;
 		this.tableSubscribersController = tableSubscribersController;
-		//this.currentSubscriptionCalendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
 		this.view.attachObserver(this);
 		this.view.setComboBox(this.gym.getCourses());
 	}
@@ -140,8 +139,8 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 			throw new IllegalArgumentException("La data di scadenza non può coincidere con quella di iscrizione.");
 		}
 		
-		return new Subscriber(fields.get(EnumFieldsCommon.NOME), fields.get(EnumFieldsCommon.COGNOME), fields.get(EnumFieldsCommon.CODICE_FISCALE), 
-				fields.get(EnumFieldsCommon.INDIRIZZO), fields.get(EnumFieldsCommon.TELEFONO), fields.get(EnumFieldsCommon.EMAIL), this.gym, subscriptionDate, expirationDate, convertList(list, this.gym.getCourses()));
+		return new Subscriber(fields.get(EnumFieldsCommon.NOME).trim(), fields.get(EnumFieldsCommon.COGNOME).trim(), fields.get(EnumFieldsCommon.CODICE_FISCALE).trim(), 
+				fields.get(EnumFieldsCommon.INDIRIZZO).trim(), fields.get(EnumFieldsCommon.TELEFONO).trim(), fields.get(EnumFieldsCommon.EMAIL).trim(), this.gym, subscriptionDate, expirationDate, convertList(list, this.gym.getCourses()));
 	}
 	
 	

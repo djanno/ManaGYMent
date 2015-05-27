@@ -89,12 +89,12 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
 				throw new IllegalArgumentException("Il salario specificato non è un numero valido.");
 			}
 
-			this.exEmployee.setName(fields.get(EnumFieldsCommon.NOME));
-			this.exEmployee.setSurname(fields.get(EnumFieldsCommon.COGNOME));
-			this.exEmployee.setFiscalCode(fields.get(EnumFieldsCommon.CODICE_FISCALE));
-			this.exEmployee.setAddress(fields.get(EnumFieldsCommon.INDIRIZZO));
-			this.exEmployee.setNumber(fields.get(EnumFieldsCommon.TELEFONO));
-			this.exEmployee.setEmail(fields.get(EnumFieldsCommon.EMAIL));
+			this.exEmployee.setName(fields.get(EnumFieldsCommon.NOME).trim());
+			this.exEmployee.setSurname(fields.get(EnumFieldsCommon.COGNOME).trim());
+			this.exEmployee.setFiscalCode(fields.get(EnumFieldsCommon.CODICE_FISCALE).trim());
+			this.exEmployee.setAddress(fields.get(EnumFieldsCommon.INDIRIZZO).trim());
+			this.exEmployee.setNumber(fields.get(EnumFieldsCommon.TELEFONO).trim());
+			this.exEmployee.setEmail(fields.get(EnumFieldsCommon.EMAIL).trim());
 			this.exEmployee.setSalary(Double.parseDouble(salario));
 			
 			this.frame.getChild().closeDialog();

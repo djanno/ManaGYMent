@@ -38,12 +38,12 @@ public class SignupPanelController implements ISignupPanelController {
 					mapToPass.get(SignupField.PASSWORD).equals(mapToPass.get(SignupField.CONFIRM_PASSWORD)) && 
 					mapToPass.get(SignupField.EMAIL).equals(mapToPass.get(SignupField.CONFIRM_EMAIL))) {
 				
-				final String name = mapToPass.get(SignupField.NAME);
-				final String surname = mapToPass.get(SignupField.SURNAME);
-				final String username = mapToPass.get(SignupField.USERNAME);
-				final char[] psw = mapToPass.get(SignupField.PASSWORD).toCharArray();
-				final IGym gym = new Gym(mapToPass.get(SignupField.GYM_NAME));
-				final String email = mapToPass.get(SignupField.EMAIL);
+				final String name = mapToPass.get(SignupField.NAME).trim();
+				final String surname = mapToPass.get(SignupField.SURNAME).trim();
+				final String username = mapToPass.get(SignupField.USERNAME).trim();
+				final char[] psw = mapToPass.get(SignupField.PASSWORD).trim().toCharArray();
+				final IGym gym = new Gym(mapToPass.get(SignupField.GYM_NAME).trim());
+				final String email = mapToPass.get(SignupField.EMAIL).trim();
 				
 				try {
 					this.model.addUser(new User(name, surname, username, psw, gym, email));

@@ -89,12 +89,12 @@ public class SubscriberEditController extends SubscriberAddController implements
                         
                         final Map<IFormField, String> fields = this.getCommonFields(mapToPass);
 
-                        this.exSubscriber.setName(fields.get(EnumFieldsCommon.NOME));
-                        this.exSubscriber.setSurname(fields.get(EnumFieldsCommon.COGNOME));
-                        this.exSubscriber.setFiscalCode(fields.get(EnumFieldsCommon.CODICE_FISCALE));
-                        this.exSubscriber.setAddress(fields.get(EnumFieldsCommon.INDIRIZZO));
-                        this.exSubscriber.setNumber(fields.get(EnumFieldsCommon.TELEFONO));
-                        this.exSubscriber.setEmail(fields.get(EnumFieldsCommon.EMAIL));
+                        this.exSubscriber.setName(fields.get(EnumFieldsCommon.NOME).trim());
+                        this.exSubscriber.setSurname(fields.get(EnumFieldsCommon.COGNOME).trim());
+                        this.exSubscriber.setFiscalCode(fields.get(EnumFieldsCommon.CODICE_FISCALE).trim());
+                        this.exSubscriber.setAddress(fields.get(EnumFieldsCommon.INDIRIZZO).trim());
+                        this.exSubscriber.setNumber(fields.get(EnumFieldsCommon.TELEFONO).trim());
+                        this.exSubscriber.setEmail(fields.get(EnumFieldsCommon.EMAIL).trim());
                         
                         this.frame.getChild().closeDialog();
                 }
