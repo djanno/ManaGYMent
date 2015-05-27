@@ -1,6 +1,12 @@
 package controller.panels.members;
 
+import javax.swing.JOptionPane;
+
 import model.IModel;
+import model.gym.ICourse;
+import model.gym.IGymCalendar;
+import model.gym.Pair;
+import model.gym.members.IEmployee;
 import view.PrimaryFrame;
 import view.panels.members.EmployeePanel;
 import view.panels.members.TableMemberPanel;
@@ -31,8 +37,36 @@ public class TableEmployeesController extends AbstractTableMemberController{
 
     @Override
     public void deleteMember(final int index) {
+    	final IEmployee employeeToDelete = model.getGym(frame.getActiveUser()).getEmployees().get(index);
+		final IGymCalendar calendar = model.getGym(frame.getActiveUser()).getProgram();
+    	
+    	final Thread agent = new Thread() {
+    		
+    		@Override
+    		public void run() {
+    			model.getGym(frame.getActiveUser()).getCourses().stream().filter(course -> course.getCoaches()
+    	    			.contains(employeeToDelete)).forEach(course -> {
+    	    				course.removeCoach(course.getCoaches().indexOf(employeeToDelete));
+    	    				calendar.getCalendar().forEach((day, schedule) -> schedule.deletePair(new Pair<ICourse, IEmployee>(course, employeeToDelete)));
+    	    			});
+    		}
+    	};
+    	
+    	agent.start();
         this.model.getGym(this.frame.getActiveUser()).removeEmployee(index);
         this.createTable(this.model.getGym(this.frame.getActiveUser()).getEmployees());
+    }
+    
+    public void handlePaymentCmd(final int index) {
+    	final IEmployee employeeToPay = this.model.getGym(this.frame.getActiveUser()).getEmployees().get(index);
+    	final int n = JOptionPane.showConfirmDialog(this.frame, "Vuoi confermare il pagamento del salario di " + employeeToPay.getName() + " " + employeeToPay.getSurname() + "?",
+    			"Conferma", JOptionPane.OK_CANCEL_OPTION);
+    	
+    	if(n == JOptionPane.OK_OPTION) {
+    		employeeToPay.settleCredit();
+    		this.createTable(this.model.getGym(this.frame.getActiveUser()).getEmployees());
+    	}
+    	
     }
 
 }

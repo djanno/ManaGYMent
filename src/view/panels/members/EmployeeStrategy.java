@@ -25,7 +25,8 @@ public class EmployeeStrategy implements IFormStrategy{
     
     public enum EnumFieldsEmployee implements IFormField{
         
-        SALARIO("Salario");
+        SALARIO("Salario"),
+        CREDITO("Credito");
                 
         private String fieldName;
         private Predicate<String> pred;
