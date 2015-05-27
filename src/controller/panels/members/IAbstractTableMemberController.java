@@ -36,4 +36,6 @@ public interface IAbstractTableMemberController {
      */
       void deleteMemberCmd(final int index);
     
+    abstract void handlePaymentCmd(final int index);
+    
 }

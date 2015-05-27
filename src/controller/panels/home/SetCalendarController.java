@@ -2,12 +2,9 @@ package controller.panels.home;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
-import exceptions.NoCourseWithCoachesException;
 import model.IModel;
 import model.gym.GymCalendar.DaysOfWeek;
 import model.gym.ICourse;
@@ -16,6 +13,7 @@ import model.gym.Schedule;
 import model.gym.members.IEmployee;
 import view.PrimaryFrame;
 import view.panels.home.SetCalendarPanel;
+import exceptions.NoCourseWithCoachesException;
 
 /**
  * controller for {@link SetCalendarPanel} used to set a program for a specific day

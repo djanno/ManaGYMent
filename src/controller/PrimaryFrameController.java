@@ -178,6 +178,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 			
 			@Override
 			public void run() {
+				model.getGym(primaryFrame.getActiveUser()).updateEmployeesCredit();
 				model.getGym(primaryFrame.getActiveUser()).setExpiredSubscribers();
 				model.getGym(primaryFrame.getActiveUser()).getCourses().forEach(course -> course.removeExpiredMembers());
 				model.getGym(primaryFrame.getActiveUser()).setIncome(0.0, Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));

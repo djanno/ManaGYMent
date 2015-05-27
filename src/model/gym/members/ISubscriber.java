@@ -11,6 +11,8 @@ public interface ISubscriber extends IGymMember {
     
     Calendar getSubscriptionDate();
     
+    double getFee();
+    
     boolean isExpired();
     
     void setExpired();
@@ -18,9 +20,13 @@ public interface ISubscriber extends IGymMember {
     void subscribe(final Calendar expirationDate);
 
     double computeFee();
+    
+    void setFee(double fee);
+    
+    void payFee();
 
 	List<ICourse> getCourses();
 
 	void setCourses(List<ICourse> courses);
-    
+	
 }

@@ -58,4 +58,7 @@ public abstract class AbstractTableMemberController implements IAbstractTableMem
                     this.deleteMember(index);
             }
     }
+    
+    public abstract void handlePaymentCmd(final int index);
+    
 }

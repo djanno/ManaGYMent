@@ -2,9 +2,8 @@ package controller.panels.home;
 
 import java.util.List;
 
-import controller.panels.gym.AddCourseController;
-import exceptions.NoCourseWithCoachesException;
 import model.gym.members.IEmployee;
+import exceptions.NoCourseWithCoachesException;
 
 /**
  * Defines the {@link SetCalendarController}.

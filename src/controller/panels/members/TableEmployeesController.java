@@ -1,6 +1,9 @@
 package controller.panels.members;
 
+import javax.swing.JOptionPane;
+
 import model.IModel;
+import model.gym.members.IEmployee;
 import view.PrimaryFrame;
 import view.panels.members.EmployeePanel;
 import view.panels.members.TableMemberPanel;
@@ -58,6 +61,19 @@ public class TableEmployeesController extends AbstractTableMemberController{
     protected void deleteMember(final int index) {
         this.model.getGym(this.frame.getActiveUser()).removeEmployee(index);
         this.createTable(this.model.getGym(this.frame.getActiveUser()).getEmployees());
+    }
+    
+    @Override
+    public void handlePaymentCmd(final int index) {
+    	final IEmployee employeeToPay = this.model.getGym(this.frame.getActiveUser()).getEmployees().get(index);
+    	final int n = JOptionPane.showConfirmDialog(this.frame, "Vuoi confermare il pagamento del salario di " + employeeToPay.getName() + " " + employeeToPay.getSurname() + "?",
+    			"Conferma", JOptionPane.OK_CANCEL_OPTION);
+    	
+    	if(n == JOptionPane.OK_OPTION) {
+    		employeeToPay.settleCredit();
+    		this.createTable(this.model.getGym(this.frame.getActiveUser()).getEmployees());
+    	}
+    	
     }
 
 }

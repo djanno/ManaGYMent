@@ -7,6 +7,7 @@ import java.util.Map;
 
 import model.gym.members.IEmployee;
 import model.gym.members.ISubscriber;
+import exceptions.CourseIsFullException;
 
 public interface IGym {
 
@@ -26,13 +27,13 @@ public interface IGym {
 
     ICourse getCourseByColor(final Color color);
 
-    double getSale();
-
-    void setSale(final double sale);
-
-    void addSubscriber(final ISubscriber subscriber);
+    void addSubscriber(final ISubscriber subscriber) throws CourseIsFullException;
+    
+    void addSubscriber(final int index, final ISubscriber subscriber) throws CourseIsFullException;
 
     void addEmployee(final IEmployee employee);
+    
+    void addEmployee(final int index, final IEmployee employee);
 
     void addCourse(final ICourse course);
 
@@ -43,8 +44,6 @@ public interface IGym {
     void removeSubscriber(final int subscriberIndex);
 
     void removeEmployee(final int employeeIndex);
-
-    double computeMonthlyIncome();
 
 	double getCurrentIncome();
 
@@ -57,5 +56,7 @@ public interface IGym {
 	void setExpiredSubscribers();
 
     void setCalendar(IGymCalendar calendar);
+
+	void updateEmployeesCredit();
 
 }
