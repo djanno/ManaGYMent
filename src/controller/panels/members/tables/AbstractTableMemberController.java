@@ -23,12 +23,12 @@ public abstract class AbstractTableMemberController implements IAbstractTableMem
     
     
     /**
-     * @param model
-     *          the model
+     * @param gym
+     *            the gym
      * @param frame
-     *          the application's frame
+     *            the application's frame
      * @param view
-     *          the view
+     *            the view
      */
     public AbstractTableMemberController(final IGym gym, final PrimaryFrame frame,  final TableMemberPanel view) {
             this.gym = gym;
@@ -53,7 +53,7 @@ public abstract class AbstractTableMemberController implements IAbstractTableMem
     protected abstract void deleteMember(final int index);
     
     public void deleteMemberCmd(final int index) {
-            final int n = JOptionPane.showConfirmDialog(this.view, CONFIRM, "Conferma", JOptionPane.YES_NO_OPTION);
+        final int n = JOptionPane.showConfirmDialog(this.view, CONFIRM, "Conferma", JOptionPane.YES_NO_OPTION);
             if (n == JOptionPane.YES_OPTION) {
                     this.deleteMember(index);
             }

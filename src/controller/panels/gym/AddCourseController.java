@@ -33,8 +33,8 @@ public class AddCourseController implements IAddCourseController{
      * 
      * @param frame 
      *          the application's frame.
-     * @param model 
-     *          the model
+     * @param gym
+     *          the gym
      * @param view 
      *          the view
      * @param gymPanelController 
