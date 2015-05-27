@@ -73,9 +73,9 @@ public class EditCoursePanel extends GenericTable implements IEditCoursePanel{
         gbcPanelPrinc.gridx++;
         this.add(createSecondPanel(),gbcPanelPrinc);
         
-        this.setHandlers();
-        
         UtilityClass.setListListenerTable(this.table, this.removeCoach);
+        
+        this.setHandlers();
     }
     
     public void showData(final ICourse course,final List<IEmployee> employees){
@@ -122,9 +122,9 @@ public class EditCoursePanel extends GenericTable implements IEditCoursePanel{
     }
     
     private void setHandlers(){
-        addCoach.addActionListener(e->((EditCourseController) this.observer).editCourseCmd(principalPanel.getCourseName(),this.principalPanel.getButtonColor(),this.principalPanel.getCoursePrice(),this.principalPanel.getCourseMaxMember()));
-        removeCoach.addActionListener(e-> ((EditCourseController) this.observer).addCoachCmd(coaches.getSelectedIndex()));
-        confirm.addActionListener(e->((EditCourseController) this.observer).removeCoachCmd(this.table.getSelectedRow()));
+        confirm.addActionListener(e->((EditCourseController) this.observer).editCourseCmd(principalPanel.getCourseName(),this.principalPanel.getButtonColor(),this.principalPanel.getCoursePrice(),this.principalPanel.getCourseMaxMember()));
+        addCoach.addActionListener(e-> ((EditCourseController) this.observer).addCoachCmd(coaches.getSelectedIndex()));
+        removeCoach.addActionListener(e->((EditCourseController) this.observer).removeCoachCmd(this.table.getSelectedRow()));
     }
     
 }

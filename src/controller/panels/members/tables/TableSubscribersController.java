@@ -1,12 +1,14 @@
-package controller.panels.members;
+package controller.panels.members.tables;
 
 import javax.swing.JOptionPane;
 
-import model.IModel;
+import model.gym.IGym;
 import model.gym.members.ISubscriber;
 import view.PrimaryFrame;
 import view.panels.members.SubscriberPanel;
-import view.panels.members.TableMemberPanel;
+import view.panels.members.tables.TableMemberPanel;
+import controller.panels.members.SubscriberAddController;
+import controller.panels.members.SubscriberEditController;
 
 /**
  * a specification of {@link AbstractTableMemberController} based on a specific members, like Subscribers
@@ -27,9 +29,9 @@ public class TableSubscribersController extends AbstractTableMemberController {
      * @param view
      *          the view
      */
-    public TableSubscribersController(final IModel model,
+    public TableSubscribersController(final IGym gym,
             final PrimaryFrame frame, final TableMemberPanel view) {
-        super(model, frame, view);
+        super(gym, frame, view);
     }
 
     /* 
@@ -38,7 +40,7 @@ public class TableSubscribersController extends AbstractTableMemberController {
     @Override
     public void addMemberCmd() {
         final SubscriberPanel addSubscriberPanel = new SubscriberPanel();
-        new SubscriberAddController(this.frame, addSubscriberPanel, model, this);
+        new SubscriberAddController(this.frame, addSubscriberPanel, gym, this);
         frame.new DialogWindow("Aggiungi iscritto", WIDTH_PANEL, HEIGHT_PANEL, this.frame, addSubscriberPanel);
 
     }
@@ -49,7 +51,7 @@ public class TableSubscribersController extends AbstractTableMemberController {
     @Override
     public void editMemberCmd(final int index) {
         final SubscriberPanel editSubscriberPanel = new SubscriberPanel();
-        new SubscriberEditController(this.frame, editSubscriberPanel, this.model, this, index).loadData();
+        new SubscriberEditController(this.frame, editSubscriberPanel, this.gym, this, index).loadData();
         frame.new DialogWindow("Modifica iscritto", WIDTH_PANEL, HEIGHT_PANEL, this.frame, editSubscriberPanel);
     }
 
@@ -58,24 +60,24 @@ public class TableSubscribersController extends AbstractTableMemberController {
      */
     @Override
     protected void deleteMember(final int index) {
-        final ISubscriber subsriber = this.model.getGym(this.frame.getActiveUser()).getSubscribers().get(index);
-        this.model.getGym(this.frame.getActiveUser()).getCourses()
+        /*final ISubscriber subsriber = this.gym.getSubscribers().get(index);
+        this.gym.getCourses()
                 .stream()
                 .filter(course -> course.getCurrentMembers().contains(subsriber))
-                .forEach(course -> course.removeMember(course.getCurrentMembers().indexOf(subsriber)));
-        this.model.getUser(this.frame.getActiveUser()).getGym().removeSubscriber(index);
-        this.createTable(this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers());
+                .forEach(course -> course.removeMember(subsriber));*/
+        this.gym.removeSubscriber(index);
+        this.createTable(this.gym.getSubscribers());
     }
   
   @Override
   public void handlePaymentCmd(final int index) {
-	 final ISubscriber subscriber = this.model.getGym(this.frame.getActiveUser()).getSubscribers().get(index);
+	 final ISubscriber subscriber = this.gym.getSubscribers().get(index);
   	final int n = JOptionPane.showConfirmDialog(this.frame, "Vuoi confermare il pagamento dell'abbonamento di " + subscriber.getName() + " " + subscriber.getSurname() + "?",
   			"Conferma", JOptionPane.OK_CANCEL_OPTION);
   	
   	if(n == JOptionPane.OK_OPTION) {
   		subscriber.payFee();
-  		this.createTable(this.model.getGym(this.frame.getActiveUser()).getSubscribers());
+  		this.createTable(this.gym.getSubscribers());
   	}
   }
 }

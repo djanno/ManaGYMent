@@ -3,9 +3,9 @@ package controller.panels.home;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 
-import model.IModel;
 import model.gym.GymCalendar.DaysOfWeek;
 import model.gym.ICourse;
+import model.gym.IGym;
 import model.gym.IGymCalendar;
 import model.gym.Schedule;
 import view.PrimaryFrame;
@@ -20,22 +20,22 @@ public class HomePanelController implements IHomePanelController {
 	private static final int DIALOG_WIDTH = 750;
 	private static final int DIALOG_HEIGHT = 420;
 	
-	private final IModel model;
+	private final IGym gym;
 	private final PrimaryFrame frame;
 	private final HomePanel view;
 	
-	public HomePanelController(final IModel model, final PrimaryFrame frame, final HomePanel view) {
-		this.model = model;
+	public HomePanelController(final IGym gym, final PrimaryFrame frame, final HomePanel view) {
+		this.gym = gym;
 		this.frame = frame;
 		this.view = view;
-		this.view.add(new LegendPanel(this.model.getGym(this.frame.getActiveUser()).getCourses()), BorderLayout.SOUTH);
+		this.view.add(new LegendPanel(this.gym.getCourses()), BorderLayout.SOUTH);
 		this.view.attachObserver(this);
 	}
 	
 	@Override
 	public void loadCalendar() {
 		this.view.refreshTable();
-		final IGymCalendar calendar = this.model.getGym(this.frame.getActiveUser()).getProgram();
+		final IGymCalendar calendar = this.gym.getProgram();
 		
 		int minHour = 24;
 		int maxHour = 1;
@@ -100,7 +100,7 @@ public class HomePanelController implements IHomePanelController {
 	@Override
 	public void cmdEditDaySchedule(final String day) {
 		final SetCalendarPanel panel = new SetCalendarPanel(this.view.getBackgroundPath());
-		final ISetCalendarController controller = new SetCalendarController(this.model, this.frame, panel, this, DaysOfWeek.getValueByName(day));
+		final ISetCalendarController controller = new SetCalendarController(this.gym, this.frame, panel, this, DaysOfWeek.getValueByName(day));
 		try {
 			controller.loadData();
 			this.frame.new DialogWindow(DIALOG_TITLE + day, DIALOG_WIDTH, DIALOG_HEIGHT, this.frame, panel);

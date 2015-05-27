@@ -5,11 +5,11 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import model.IModel;
 import model.gym.GymCalendar.DaysOfWeek;
 import model.gym.ICourse;
-import model.gym.Pair;
+import model.gym.IGym;
 import model.gym.Schedule;
+import model.gym.Schedule.Pair;
 import model.gym.members.IEmployee;
 import view.PrimaryFrame;
 import view.panels.home.SetCalendarPanel;
@@ -28,7 +28,7 @@ public class SetCalendarController implements ISetCalendarController {
 	private static final String HOUR_NOT_COMBINE = "L'ora in cui sono stati introdotti i corsi non coincide con l'apertura della palestra."
 			+ " Modificare o l'orario di apertura/chiusura oppure rimuovere i corsi inseriti nelle ore in cui la palestra risulta chiusa.";
 
-	private final IModel model;
+	private final IGym gym;
 	private final PrimaryFrame frame;
 	private final SetCalendarPanel view;
 	private final IHomePanelController homeController;
@@ -49,34 +49,34 @@ public class SetCalendarController implements ISetCalendarController {
 	 * @param day
 	 *             the day to program
 	 */
-	public SetCalendarController(final IModel model, final PrimaryFrame frame,
+	public SetCalendarController(final IGym gym, final PrimaryFrame frame,
 			final SetCalendarPanel view, final IHomePanelController homeController, final DaysOfWeek day) {
 		super();
-		this.model = model;
+		this.gym = gym;
 		this.view = view;
 		this.homeController = homeController;
 		this.frame = frame;
 		this.day = day;
-		final Schedule schedule = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar().get(this.day);
+		final Schedule schedule = this.gym.getProgram().getCalendar().get(this.day);
 		this.temp = new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour().orElse(null), schedule.getProgram());
 		this.view.attachViewObserver(this);
 	}
 
 	@Override
 	public void loadData() throws NoCourseWithCoachesException {
-		final List<ICourse> courseWithCoaches = this.model.getGym(this.frame.getActiveUser()).getCoursesWithCoaches();
+		final List<ICourse> courseWithCoaches = this.gym.getCoursesWithCoaches();
 		if (courseWithCoaches.isEmpty()) {
 		   throw new NoCourseWithCoachesException();
 		} else {
 			view.loadFields(day,
-        			        this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar().get(this.day),
+        			        this.gym.getProgram().getCalendar().get(this.day),
         			        courseWithCoaches,
         			        courseWithCoaches.get(0).getCoaches());
 		}
 	}
 
 	public List<IEmployee> loadCoachesByCourseName(final String courseName) {
-		return this.model.getGym(this.frame.getActiveUser()).getCourseByName(courseName)
+		return this.gym.getCourseByName(courseName)
 				.getCoaches();
 	}
 
@@ -101,7 +101,7 @@ public class SetCalendarController implements ISetCalendarController {
 		try {
 			this.checkHours(hourFrom, hourTo, openingTime, closingTime);
 			final String fiscalCode = employeeDetails.split(" ")[2];
-			final ICourse course = this.model.getGym(this.frame.getActiveUser()).getCourseByName(courseName);
+			final ICourse course = this.gym.getCourseByName(courseName);
 			final IEmployee employee = course.getCoachByFiscalCode(fiscalCode);
 			final Pair<ICourse, IEmployee> pairInHour = new Pair<>(course, employee);
 			//final Schedule sch = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
@@ -117,7 +117,7 @@ public class SetCalendarController implements ISetCalendarController {
 			final String fiscalCode) {
 		//final Schedule sch = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
 		//		.get(day);
-		final ICourse courseToBeRemoved = this.model.getGym(this.frame.getActiveUser()).getCourseByName(courseName);
+		final ICourse courseToBeRemoved = this.gym.getCourseByName(courseName);
 		final Pair<ICourse, IEmployee> pair = new Pair<>(courseToBeRemoved,courseToBeRemoved.getCoachByFiscalCode(fiscalCode));
 		this.temp.removePairInHour(pair, time);
 		this.formTable();
@@ -132,7 +132,7 @@ public class SetCalendarController implements ISetCalendarController {
 			        this.finalControl(openingTime, closingTime);
 			        this.temp.setOpened(isOpen);
 				this.temp.setOpeningHourAndClosingHour(openingTime, closingTime);
-				this.model.getGym(this.frame.getActiveUser()).getProgram().setSchedule(this.day, this.temp);
+				this.gym.getProgram().setSchedule(this.day, this.temp);
 				this.homeController.loadCalendar();
 				this.frame.getChild().closeDialog();
 			}else{
@@ -141,7 +141,7 @@ public class SetCalendarController implements ISetCalendarController {
 					". Sicuro di voler continuare?", "Warning", JOptionPane.OK_CANCEL_OPTION);
 			
 			    if(n == JOptionPane.OK_OPTION) { 
-				this.model.getGym(this.frame.getActiveUser()).getProgram().setSchedule(this.day, new Schedule());
+				this.gym.getProgram().setSchedule(this.day, new Schedule());
 				this.homeController.loadCalendar();
 				this.frame.getChild().closeDialog();
 			    }

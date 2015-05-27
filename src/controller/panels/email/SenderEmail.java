@@ -1,4 +1,4 @@
-package controller.panels.home;
+package controller.panels.email;
 
 import java.util.Date;
 import java.util.List;

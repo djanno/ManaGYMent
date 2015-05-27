@@ -1,13 +1,13 @@
-package controller.panels.members;
+package controller.panels.members.tables;
 
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import model.IModel;
+import model.gym.IGym;
 import model.gym.members.IGymMember;
 import view.PrimaryFrame;
-import view.panels.members.TableMemberPanel;
+import view.panels.members.tables.TableMemberPanel;
 
 /**
  * Defines common behaviors of {@link TableMemberPanel},that contains a JTable with row relating to {@link IGymMember} 
@@ -18,7 +18,7 @@ public abstract class AbstractTableMemberController implements IAbstractTableMem
     
     private static final String CONFIRM = "Sei sicuro di voler cancellare il membro selezionato?";
     protected final PrimaryFrame frame;
-    protected final IModel model;
+    protected final IGym gym;
     private final TableMemberPanel view;
     
     
@@ -30,8 +30,8 @@ public abstract class AbstractTableMemberController implements IAbstractTableMem
      * @param view
      *          the view
      */
-    public AbstractTableMemberController(final IModel model, final PrimaryFrame frame,  final TableMemberPanel view) {
-            this.model = model;
+    public AbstractTableMemberController(final IGym gym, final PrimaryFrame frame,  final TableMemberPanel view) {
+            this.gym = gym;
             this.frame = frame;
             this.view = view;
             this.view.attachViewObserver(this);

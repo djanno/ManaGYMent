@@ -14,23 +14,23 @@ import javax.swing.JOptionPane;
 
 import model.IModel;
 import view.PrimaryFrame;
+import view.panels.email.SendEmailPanel;
 import view.panels.gym.GymPanel;
-import view.panels.gym.ProfilePanel;
 import view.panels.home.HomePanel;
-import view.panels.home.SendEmailPanel;
 import view.panels.login.LoginPanel;
 import view.panels.members.EmployeeStrategy;
 import view.panels.members.SubscriberStrategy;
-import view.panels.members.TableMemberPanel;
+import view.panels.members.tables.TableMemberPanel;
+import view.panels.profile.ProfilePanel;
+import controller.panels.email.SendEmailPanelController;
 import controller.panels.gym.GymPanelController;
 import controller.panels.gym.IGymPanelController;
 import controller.panels.home.HomePanelController;
 import controller.panels.home.IHomePanelController;
-import controller.panels.home.SendEmailPanelController;
 import controller.panels.login.LoginPanelController;
-import controller.panels.members.AbstractTableMemberController;
-import controller.panels.members.TableEmployeesController;
-import controller.panels.members.TableSubscribersController;
+import controller.panels.members.tables.AbstractTableMemberController;
+import controller.panels.members.tables.TableEmployeesController;
+import controller.panels.members.tables.TableSubscribersController;
 import controller.panels.profile.ProfilePanelController;
 import exceptions.NoCoursesInGymException;
 
@@ -62,7 +62,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	public void buildHomePanel() {
 		this.cmdRefreshData();
 		final HomePanel panel = new HomePanel(BACKGROUND_PATH);
-		final IHomePanelController controller = new HomePanelController(this.model, this.primaryFrame, panel);
+		final IHomePanelController controller = new HomePanelController(this.model.getGym(this.primaryFrame.getActiveUser()), this.primaryFrame, panel);
 		this.primaryFrame.setCurrentPanel(panel);	
 		controller.loadCalendar();
 	}
@@ -78,7 +78,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
                     }
 		}else{
 		    final TableMemberPanel panel = new TableMemberPanel(new SubscriberStrategy(), BACKGROUND_PATH);
-		    final AbstractTableMemberController observer = new TableSubscribersController(this.model, this.primaryFrame, panel);
+		    final AbstractTableMemberController observer = new TableSubscribersController(this.model.getGym(this.primaryFrame.getActiveUser()), this.primaryFrame, panel);
 		    this.primaryFrame.setCurrentPanel(panel);
 		    observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getSubscribers());
 		}
@@ -89,7 +89,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	public void buildEmployeePagePanel() {
 		this.cmdRefreshData();
 		final TableMemberPanel panel = new TableMemberPanel(new EmployeeStrategy(), BACKGROUND_PATH);
-		final AbstractTableMemberController observer = new TableEmployeesController(this.model, this.primaryFrame, panel);
+		final AbstractTableMemberController observer = new TableEmployeesController(this.model.getGym(this.primaryFrame.getActiveUser()), this.primaryFrame, panel);
 		this.primaryFrame.setCurrentPanel(panel);
 		observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getEmployees());
 	}
@@ -98,7 +98,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	public void buildGymPagePanel() {
 		this.cmdRefreshData();
 		final GymPanel panel = new GymPanel(BACKGROUND_PATH);
-		final IGymPanelController observer = new GymPanelController(this.model, this.primaryFrame, panel);
+		final IGymPanelController observer = new GymPanelController(this.model.getGym(this.primaryFrame.getActiveUser()), this.primaryFrame, panel);
 		this.primaryFrame.setCurrentPanel(panel);
 		observer.loadIncomeTable();
 		observer.loadCoursesTable();

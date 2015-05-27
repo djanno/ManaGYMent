@@ -1,4 +1,4 @@
-package controller.panels.home;
+package controller.panels.email;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import model.IModel;
 import model.gym.members.IEmployee;
 import model.gym.members.ISubscriber;
-import controller.panels.home.SenderEmail;
+import controller.panels.email.SenderEmail;
 import view.IPrimaryFrame;
-import view.panels.home.SendEmailPanel;
+import view.panels.email.SendEmailPanel;
 
 /**
  * The controller for {@link SendEmailPanel}.

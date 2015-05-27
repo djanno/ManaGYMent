@@ -34,15 +34,16 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     	
     	this.courses.forEach(course -> this.fee += course.getCoursePrice() * this.getDays());
     }
-
-    @Override
-    public Calendar getExpirationDate(){
-        return this.expirationDate;
-    }
+    
     
     @Override
     public Calendar getSubscriptionDate(){
     	return this.subscriptionDate;
+    }
+
+    @Override
+    public Calendar getExpirationDate(){
+        return this.expirationDate;
     }
 
     @Override
@@ -56,29 +57,33 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     }
     
     @Override
-    public void setExpired(){
-    	this.expired = this.expirationDate.before(Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));
+    public List<ICourse> getCourses(){
+        return UtilityClass.defend(this.courses);
     }
     
     @Override
-    public void subscribe(final Calendar expirationDate){
-    	this.subscriptionDate = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
-    	this.expirationDate = expirationDate;
-    	this.setExpired();
+    public void setSubscriptionDate(final Calendar subscriptionDate) {
+        this.subscriptionDate = subscriptionDate;
     }
-
+    
     @Override
-    public double computeFee(){
-    	double fee = 0;
-    	for(final ICourse course : this.courses) {
-    		fee += course.getCoursePrice() * this.getDays();
-    	}
-        return fee;
+    public void setExpirationDate(final Calendar expirationDate) {
+        this.expirationDate = expirationDate;
     }
     
     @Override
     public void setFee(final double fee) {
     	this.fee = fee;
+    }
+    
+    @Override
+    public void setExpired(){
+    	this.expired = this.expirationDate.before(Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));
+    }
+    
+    @Override
+    public void setCourses(final List<ICourse> courses){
+    	this.courses = courses;
     }
     
     @Override
@@ -88,22 +93,15 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     	//usiamo la data di iscrizione o la data in cui avviene il pagamento?
     }
 
+    @Override
+    public Object[] createRow() {
+        return new Object[]{this.getName(), this.getSurname(), this.getFiscalCode(), this.getAddress(), this.getNumber(), this.getEmail(), this.getExpirationDate(), this.getFee()};
+    }//sarebbe meglio usare direttamente i campi anzichè i metodi
+    
+    
+    
     private long getDays(){
     	return TimeUnit.MILLISECONDS.toDays(this.expirationDate.getTimeInMillis() - this.subscriptionDate.getTimeInMillis());
     }
-
-    @Override
-    public Object[] createRow() {
-        return new Object[]{this.getName(),this.getSurname(),this.getFiscalCode(),this.getAddress(),this.getNumber(),this.getEmail(),this.getExpirationDate(), this.getFee()};
-    }//sarebbe meglio usare direttamente i campi anzichè i metodi
     
-    @Override
-    public List<ICourse> getCourses(){
-        return UtilityClass.defend(this.courses);
-    }
-    
-    @Override
-    public void setCourses(final List<ICourse> courses){
-    	this.courses = courses;
-    }
 }

@@ -2,9 +2,9 @@ package controller.panels.gym;
 
 import java.awt.Color;
 
-import model.IModel;
 import model.gym.Course;
 import model.gym.ICourse;
+import model.gym.IGym;
 import view.PrimaryFrame;
 import view.panels.gym.AddCoursePanel;
 import view.panels.gym.IAddCoursePanel;
@@ -23,7 +23,7 @@ public class AddCourseController implements IAddCourseController{
     private static final String NO_EMPTY_FIELDS= "Riempire i campi vuoti";
     private static final String NAME_ALREADY_EXISTS= "Il nome del corso inserito esiste già";
     private static final String COLOR_ALREADY_EXISTS= "Il colore scelto è già stato assegnato ad un corso";
-    protected IModel model;
+    protected IGym gym;
     protected IAddCoursePanel view;
     protected PrimaryFrame frame;
     protected GymPanelController gymPanelController;
@@ -40,9 +40,9 @@ public class AddCourseController implements IAddCourseController{
      * @param gymPanelController 
      *          the controller of panel that open AddCoursePanel JDialog
      */
-    public AddCourseController(final PrimaryFrame frame, final IModel model, final IAddCoursePanel view, final GymPanelController gymPanelController) {
+    public AddCourseController(final PrimaryFrame frame, final IGym gym, final IAddCoursePanel view, final GymPanelController gymPanelController) {
         super();
-        this.model = model;
+        this.gym = gym;
         this.view = view;
         this.frame = frame;
         this.gymPanelController = gymPanelController;
@@ -55,7 +55,7 @@ public class AddCourseController implements IAddCourseController{
             try{
                 this.checkError(courseName, courseColor, price, maxMembers);
                 final ICourse course=new Course(courseName,  courseColor, Double.parseDouble(price), Integer.parseInt(maxMembers));
-                this.model.getUser(this.frame.getActiveUser()).getGym().addCourse(course);
+                this.gym.addCourse(course);
                 this.gymPanelController.loadCoursesTable();
                 this.frame.getChild().closeDialog();
             }catch(Exception exc){
@@ -100,7 +100,7 @@ public class AddCourseController implements IAddCourseController{
      * @throws IllegalArgumentException
      */
     private void checkName(final String enteredName)throws IllegalArgumentException{
-      final boolean alreadyExist=this.model.getUser(this.frame.getActiveUser()).getGym().getCourses().stream().anyMatch(c->enteredName.equalsIgnoreCase(c.getCourseName()));
+      final boolean alreadyExist=this.gym.getCourses().stream().anyMatch(c->enteredName.equalsIgnoreCase(c.getCourseName()));
       if(alreadyExist){
           throw new IllegalArgumentException(NAME_ALREADY_EXISTS);
       }
@@ -116,7 +116,7 @@ public class AddCourseController implements IAddCourseController{
         if(color.equals(Color.WHITE) || color.equals(Color.BLACK)){
             throw new IllegalArgumentException(NO_SELECT_COLOR);
         }else{
-          final boolean alreadyExist=this.model.getUser(this.frame.getActiveUser()).getGym().getCourses().stream().anyMatch(c->c.getCourseColor().equals(color));
+          final boolean alreadyExist=this.gym.getCourses().stream().anyMatch(c->c.getCourseColor().equals(color));
           if(alreadyExist){
               throw new IllegalArgumentException(COLOR_ALREADY_EXISTS);
           }

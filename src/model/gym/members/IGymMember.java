@@ -3,9 +3,7 @@ package model.gym.members;
 import model.gym.IGym;
 
 public interface IGymMember {
-
-    Object[] createRow();
-    
+  
     String getName();
 
     String getSurname();
@@ -20,6 +18,12 @@ public interface IGymMember {
 
     IGym getGym();
     
+    void setName(String name);
+    
+    void setSurname(String surname);
+    
+    void setFiscalCode(String fiscalCode);
+    
     void setEmail(final String email);
 
     void setAddress(final String address);
@@ -27,5 +31,6 @@ public interface IGymMember {
     void setNumber(final String number);
     
     String alternativeToString();
-
+    
+    Object[] createRow();
 }

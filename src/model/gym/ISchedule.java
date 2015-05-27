@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import model.gym.Schedule.Pair;
 import model.gym.members.IEmployee;
 
 public interface ISchedule {

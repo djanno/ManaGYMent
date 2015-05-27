@@ -1,4 +1,4 @@
-package view.panels.members;
+package view.panels.members.tables;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,7 +30,8 @@ import javax.swing.table.TableRowSorter;
 
 import utility.UtilityClass;
 import view.panels.GenericTable;
-import controller.panels.members.AbstractTableMemberController;
+import view.panels.members.IFormStrategy;
+import controller.panels.members.tables.IAbstractTableMemberController;
 
 public class TableMemberPanel extends GenericTable{
     
@@ -48,7 +49,7 @@ public class TableMemberPanel extends GenericTable{
     private final JLabel searchL;
     private final JTextField searchT;
     private final TableRowSorter<TableModel> sorter;
-    private AbstractTableMemberController observer;/* ci va l'interfaccia sia qui che nel metodo*/
+    private IAbstractTableMemberController observer;
     
 
     public TableMemberPanel(final IFormStrategy strategyTable, final String path) {     
@@ -113,7 +114,7 @@ public class TableMemberPanel extends GenericTable{
     }
 
     
-    public void attachViewObserver(final AbstractTableMemberController observer){
+    public void attachViewObserver(final IAbstractTableMemberController observer){
         this.observer=observer;
     }
     

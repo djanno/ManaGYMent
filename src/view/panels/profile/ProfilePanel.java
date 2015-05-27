@@ -1,4 +1,4 @@
-package view.panels.gym;
+package view.panels.profile;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
