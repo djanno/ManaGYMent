@@ -7,10 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -153,9 +150,7 @@ public class SubscriberPanel extends JPanel implements ActionListener, ISubscrib
 				this.listCourses.removeElementAt(coursesList.getSelectedIndex());
 			}
 		}else if(source.equals(this.btnSave)){
-			this.observer.cmdSave(commonPanel.getMapToPass(), calSubscription.getDate(), 
-					calExpiration.getDate(), listCourses, Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY),
-					Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));
+			this.observer.cmdSave(commonPanel.getMapToPass(), calSubscription.getDate(), calExpiration.getDate(), listCourses);
 		}
 	}
 
