@@ -7,26 +7,26 @@ import model.gym.ICourse;
 
 public interface ISubscriber extends IGymMember {
 
-    Calendar getExpirationDate();
-    
     Calendar getSubscriptionDate();
     
-    double getFee();
+    Calendar getExpirationDate();
     
+    double getFee();
+
     boolean isExpired();
     
-    void setExpired();
-    
-    void subscribe(final Calendar expirationDate);
+    List<ICourse> getCourses();
 
-    double computeFee();
+    void setSubscriptionDate(final Calendar subscriptionDate);
+    
+    void setExpirationDate(final Calendar expirationDate);
     
     void setFee(double fee);
     
+    void setExpired();
+    
+    void setCourses(final List<ICourse> courses);
+    
     void payFee();
-
-	List<ICourse> getCourses();
-
-	void setCourses(List<ICourse> courses);
 	
 }

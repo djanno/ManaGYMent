@@ -28,11 +28,11 @@ public interface IGym {
     ICourse getCourseByColor(final Color color);
 
     void addSubscriber(final ISubscriber subscriber) throws CourseIsFullException;
-    
+
     void addSubscriber(final int index, final ISubscriber subscriber) throws CourseIsFullException;
 
     void addEmployee(final IEmployee employee);
-    
+
     void addEmployee(final int index, final IEmployee employee);
 
     void addCourse(final ICourse course);
@@ -45,18 +45,22 @@ public interface IGym {
 
     void removeEmployee(final int employeeIndex);
 
-	double getCurrentIncome();
+    double getCurrentIncome();
 
-	Map<String, Double> getIncome();
+    Map<String, Double> getIncome();
 
-	void setIncome(Double amount, Calendar subscriptionCalendar)
-			throws IllegalArgumentException;
+    void setIncome(final Double amount, final Calendar subscriptionCalendar) throws IllegalArgumentException;
 
+    void setExpiredSubscribers();
 
-	void setExpiredSubscribers();
+    void setCalendar(final IGymCalendar calendar);
 
-    void setCalendar(IGymCalendar calendar);
+    void updateEmployeesCredit();
 
-	void updateEmployeesCredit();
+    void removeCourse(final ICourse course);
+
+    void removeSubscriber(final ISubscriber subscriber);
+
+    void removeEmployee(final IEmployee employee);
 
 }

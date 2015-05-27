@@ -1,6 +1,6 @@
-package view.panels.home;
+package view.panels.email;
 
-import controller.panels.home.ISendEmailPanelController;
+import controller.panels.email.ISendEmailPanelController;
 
 /**
  * Interface for {@link SendEmailPanel}.

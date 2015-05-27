@@ -2,13 +2,14 @@ package controller.panels.members;
 
 import java.util.Map;
 
-import model.IModel;
+import model.gym.IGym;
 import model.gym.members.Employee;
 import model.gym.members.IEmployee;
 import view.IPrimaryFrame;
 import view.panels.members.EmployeePanel;
 import view.panels.members.IEmployeePanel;
 import view.panels.members.IFormField;
+import controller.panels.members.tables.TableEmployeesController;
 
 /**
  * The controller for {@link EmployeePanel}.
@@ -29,7 +30,7 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 	
 	protected final IEmployeePanel view;
 	protected IPrimaryFrame frame;
-	protected final IModel model;
+	protected final IGym gym;
 	protected final TableEmployeesController tableEmployeesController;
 
 	/**
@@ -45,11 +46,11 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 	 * @param tableEmployeesController
 	 * 		the table employees controller
 	 */
-	public EmployeeAddController (final IPrimaryFrame frame, final IEmployeePanel employeeView, final IModel model, final TableEmployeesController tableEmployeesController){
+	public EmployeeAddController (final IPrimaryFrame frame, final IEmployeePanel employeeView, final IGym gym, final TableEmployeesController tableEmployeesController){
 		super();
 		this.frame = frame;
 		this.view = employeeView;
-		this.model = model;
+		this.gym = gym;
 		this.tableEmployeesController = tableEmployeesController;
 		this.view.attachObserver(this);
 	}
@@ -58,8 +59,8 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 	public void cmdSave(final Map<IFormField, String> mapToPass, final String salario){
 		try{
 			final IEmployee employee = createEmployee(mapToPass, salario);
-			this.model.getUser(this.frame.getActiveUser()).getGym().addEmployee(employee);
-			tableEmployeesController.createTable(this.model.getUser(this.frame.getActiveUser()).getGym().getEmployees());
+			this.gym.addEmployee(employee);
+			tableEmployeesController.createTable(this.gym.getEmployees());
 			//this.model.getUser(this.frame.getActiveUser()).getGym().setIncome(- employee.getSalary(), Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));
 			this.frame.getChild().closeDialog();
 		}catch (Exception e){
@@ -134,6 +135,6 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 	        		break;
 			}
 		}
-		return new Employee(name, surname, fiscalCode, address, phoneNumber, email, this.model.getUser(this.frame.getActiveUser()).getGym(), doubleSalary);
+		return new Employee(name, surname, fiscalCode, address, phoneNumber, email, this.gym, doubleSalary);
 	}
 }

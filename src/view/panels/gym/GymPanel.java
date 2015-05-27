@@ -9,8 +9,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -26,7 +24,7 @@ import view.panels.Background;
 import view.panels.GenericTable;
 import controller.panels.gym.IGymPanelController;
 
-public class GymPanel extends GenericTable implements IGymPanel, ActionListener {
+public class GymPanel extends GenericTable implements IGymPanel {
 
 	private static final long serialVersionUID = -3885713318419080990L;
 
@@ -73,9 +71,6 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		final Background btnPanel = new Background(path);
 		btnPanel.setLayout(new GridLayout(0, 1));
 
-		this.editBtn.addActionListener(this);
-		this.addBtn.addActionListener(this);
-		this.delBtn.addActionListener(this);
 		this.editBtn.setEnabled(false);
 		this.delBtn.setEnabled(false);
 		
@@ -103,22 +98,6 @@ public class GymPanel extends GenericTable implements IGymPanel, ActionListener 
 		return this.incomePanel;
 	}
 	
-	@Override
-	public void actionPerformed(final ActionEvent e) {
-		final Object source = e.getSource();
-		
-		if(source == this.addBtn) {
-			this.observer.cmdAddCourse();
-		}
-		
-		else if(source == this.editBtn) {
-			this.observer.cmdEditCourse(this.table.getSelectedRow());
-		}
-		
-		else if(source == this.delBtn) {
-			this.observer.cmdDeleteCourse(this.table.getSelectedRow());
-		}
-	}
 	
 	@Override
 	public void attachObserver(final IGymPanelController observer) {

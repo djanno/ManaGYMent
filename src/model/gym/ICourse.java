@@ -43,4 +43,8 @@ public interface ICourse {
     
     void removeCoach(final int indexOfCoach) throws IllegalArgumentException;
 
+    void removeMember(final ISubscriber member) throws IllegalArgumentException;
+
+    void removeCoach(final IEmployee coach) throws IllegalArgumentException;
+
 }

@@ -1,4 +1,4 @@
-package controller.panels.members;
+package controller.panels.members.tables;
 
 import java.util.List;
 
@@ -36,6 +36,6 @@ public interface IAbstractTableMemberController {
      */
       void deleteMemberCmd(final int index);
     
-    abstract void handlePaymentCmd(final int index);
+      abstract void handlePaymentCmd(final int index);
     
 }

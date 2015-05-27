@@ -37,7 +37,7 @@ public class Course implements ICourse, Serializable {
     }
     
     public Course(final String name, final Color color, final double price,
-            final int maxMembers, List<IEmployee> coaches, List<ISubscriber> members) {
+            final int maxMembers, final List<IEmployee> coaches, final List<ISubscriber> members) {
         this(name, color, price, maxMembers);
         this.members.addAll(members);
         this.coaches.addAll(coaches);
@@ -72,7 +72,7 @@ public class Course implements ICourse, Serializable {
     public Color getCourseColor() {
         return this.color;
     }
-
+    
     @Override
     public void setCoursePrice(final double price){
     	this.price = price;
@@ -130,6 +130,17 @@ public class Course implements ICourse, Serializable {
     }
     
     @Override
+    public void removeMember(final ISubscriber member) throws IllegalArgumentException {
+//      potrebbero essere inutili i controlli nel nostro caso
+        if(!this.members.contains(member)) {
+                throw new IllegalArgumentException("Iscritto non trovato.");
+        }
+        else {
+                this.members.remove(member);
+        }
+    }
+    
+    @Override
     public void removeExpiredMembers() {
     	this.members.removeAll(this.members.stream().filter(member -> member.isExpired()).collect(Collectors.toList()));
     }
@@ -141,7 +152,18 @@ public class Course implements ICourse, Serializable {
                 throw new IllegalArgumentException("Coach non trovato.");
         }
         else {
-                this.coaches.remove(indexOfCoach);
+            this.coaches.remove(indexOfCoach);
+        }
+    }
+    
+    @Override
+    public void removeCoach(final IEmployee coach) throws IllegalArgumentException {
+//        potrebbero essere inutili i controlli nel nostro caso
+        if(!this.coaches.contains(coach)) {
+            throw new IllegalArgumentException("Coach non trovato.");
+        }
+        else {
+            this.coaches.remove(coach);
         }
     }
     

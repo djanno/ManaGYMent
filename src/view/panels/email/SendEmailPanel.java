@@ -1,4 +1,4 @@
-package view.panels.home;
+package view.panels.email;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,9 +18,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 import org.jdesktop.xswingx.PromptSupport;
+
 import view.panels.Background;
-import controller.panels.home.ISendEmailPanelController;
+import controller.panels.email.ISendEmailPanelController;
 
 /**
  * SendEmailPanel
@@ -155,7 +158,7 @@ public class SendEmailPanel extends Background implements ActionListener, ISendE
 		final String[] options = new String[] {"OK", "Cancel"};
 		final int option = JOptionPane.showOptionDialog(null, panel, "Inserisci password",
 		                         JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
-		                         null, options, options[1]);
+		                         null, options, options[0]);
 		if(option == 0)
 		{
 		   return  pass.getPassword(); 

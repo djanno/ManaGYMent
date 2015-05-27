@@ -1,9 +1,10 @@
 package controller.panels.profile;
 
 import javax.swing.JOptionPane;
+
 import model.IModel;
 import view.PrimaryFrame;
-import view.panels.gym.IProfilePanel;
+import view.panels.profile.IProfilePanel;
 
 /**
  * The controller for {@link ProfilePanel}.

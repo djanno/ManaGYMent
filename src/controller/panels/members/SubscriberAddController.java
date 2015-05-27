@@ -7,13 +7,15 @@ import java.util.Map;
 
 import javax.swing.DefaultListModel;
 
-import model.IModel;
 import model.gym.ICourse;
+import model.gym.IGym;
 import model.gym.members.ISubscriber;
 import model.gym.members.Subscriber;
 import view.PrimaryFrame;
 import view.panels.members.IFormField;
 import view.panels.members.ISubscriberPanel;
+import view.panels.members.SubscriberPanel;
+import controller.panels.members.tables.TableSubscribersController;
 
 /**
  * The controller for {@link SubscriberPanel}.
@@ -36,7 +38,7 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	
 	protected PrimaryFrame frame;
 	protected final ISubscriberPanel view;
-	protected final IModel model;
+	protected final IGym gym;
 	protected final TableSubscribersController tableSubscribersController;
 	//private final Calendar currentSubscriptionCalendar;
 	//private final Calendar currentExpirationCalendar;
@@ -53,15 +55,15 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	 * @param tableSubscribersController
 	 * 		the table subscribers controller
 	 */
-	public SubscriberAddController (final PrimaryFrame frame, final ISubscriberPanel subscriberView, final IModel model, final TableSubscribersController tableSubscribersController){
+	public SubscriberAddController (final PrimaryFrame frame, final ISubscriberPanel subscriberView, final IGym gym, final TableSubscribersController tableSubscribersController){
 		super();
 		this.frame = frame;
 		this.view = subscriberView;
-		this.model = model;
+		this.gym = gym;
 		this.tableSubscribersController = tableSubscribersController;
 		//this.currentSubscriptionCalendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
 		this.view.attachObserver(this);
-		this.view.setComboBox(this.model.getUser(this.frame.getActiveUser()).getGym().getCourses());
+		this.view.setComboBox(this.gym.getCourses());
 	}
 	
 	@Override
@@ -71,12 +73,12 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 		try{
 			final ISubscriber subscriber = createSubscriber(mapToPass, dateToCalendar(subscriptionDate), dateToCalendar(expirationDate), list, 
 					currentSubscriptionCalendar, currentExpirationCalendar);
-			this.model.getUser(this.frame.getActiveUser()).getGym().addSubscriber(subscriber);
+			this.gym.addSubscriber(subscriber);
 			//for (final ICourse course : subscriber.getCourses()){
 			//	this.model.getGym(this.frame.getActiveUser()).getCourseByName(course.getCourseName()).addMember(subscriber);
 			//}
 			//countAddIncome(subscriber);
-			tableSubscribersController.createTable(this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers());
+			tableSubscribersController.createTable(this.gym.getSubscribers());
 			this.frame.getChild().closeDialog();
 		}catch (Throwable t){
 			this.frame.displayError(t.getMessage());
@@ -85,7 +87,7 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	
 	@Override
 	public List<ICourse> loadCourses(){
-		return this.model.getUser(this.frame.getActiveUser()).getGym().getCourses();
+		return this.gym.getCourses();
 	}	
 		
 	/**
@@ -215,6 +217,6 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	        		break;
 			}
 		}
-		return new Subscriber(name, surname, fiscalCode, address, phoneNumber, email, this.model.getUser(this.frame.getActiveUser()).getGym(), subscriptionDate, expirationDate, convertList(list, this.model.getUser(this.frame.getActiveUser()).getGym().getCourses()));
+		return new Subscriber(name, surname, fiscalCode, address, phoneNumber, email, this.gym, subscriptionDate, expirationDate, convertList(list, this.gym.getCourses()));
 	}
 }
