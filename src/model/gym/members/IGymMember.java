@@ -20,12 +20,18 @@ public interface IGymMember {
 
     IGym getGym();
     
+    void setName(final String name);
+    
+    void setSurname(final String surname);
+    
+    void setFiscalCode(final String fiscalCode);
+    
     void setEmail(final String email);
 
     void setAddress(final String address);
 
     void setNumber(final String number);
     
-    String alternativeToString();
-
+    String alternativeToString();	
+    
 }

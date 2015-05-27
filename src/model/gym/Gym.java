@@ -87,23 +87,23 @@ public class Gym implements IGym, Serializable {
 
     @Override
     public void addSubscriber(final ISubscriber subscriber) throws IllegalArgumentException, CourseIsFullException {
-    	if (!findSubscriber(subscriber.getFiscalCode())){
-            this.subscribers.add(subscriber);
+    	if (!findSubscriber(subscriber.getFiscalCode())){ 
             for(final ICourse course : subscriber.getCourses()) {
             	course.addMember(subscriber);
             }
-    }else{
+            this.subscribers.add(subscriber);
+    	}else{
             throw new IllegalArgumentException(SUBSCRIBER_ALREADY_EXISTING);
-    }
+    	}
     }
     
     @Override
     public void addSubscriber(final int index, final ISubscriber subscriber) throws IllegalArgumentException, CourseIsFullException {
         if (!findSubscriber(subscriber.getFiscalCode())){
-        	this.subscribers.add(index, subscriber);
         	for(final ICourse course : subscriber.getCourses()) {
         		course.addMember(subscriber);
         	}
+        	this.subscribers.add(index, subscriber);
         }else{
                 throw new IllegalArgumentException(SUBSCRIBER_ALREADY_EXISTING);
         }

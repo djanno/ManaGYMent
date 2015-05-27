@@ -14,6 +14,7 @@ import model.gym.members.ISubscriber;
 import view.PrimaryFrame;
 import view.panels.members.IFormField;
 import view.panels.members.ISubscriberPanel;
+import view.panels.members.FieldsCommon.EnumFieldsCommon;
 import exceptions.CourseIsFullException;
 
 /**
@@ -27,7 +28,7 @@ public class SubscriberEditController extends SubscriberAddController implements
 
 	private final ISubscriber exSubscriber;
 	private final int index;	
-	private final Calendar exceptionCalendar;
+	private final Calendar exceptionCalendar; //a cosa cazzo serve?
 	
 	/**
 	 * 
@@ -55,44 +56,19 @@ public class SubscriberEditController extends SubscriberAddController implements
 	}
 	
 	@Override
-	public void cmdSave(final Map<IFormField, String> mapToPass, final Date subscriptionDate, 
-			final Date expirationDate, final DefaultListModel<String> list,
-			final Calendar currentSubscriptionCalendar, final Calendar currentExpirationCalendar) {
-		this.model.getUser(this.frame.getActiveUser()).getGym().removeSubscriber(this.index);
+	public void cmdSave(final Map<IFormField, String> mapToPass, final Date subscriptionDate, final Date expirationDate, 
+			final DefaultListModel<String> list) {
+		
 		try{
-			if(this.exSubscriber.getFee() != 0.0) {
-				if (compareCalendars(dateToCalendar(subscriptionDate), this.exSubscriber.getSubscriptionDate())
-						&& compareCalendars(dateToCalendar(expirationDate), this.exSubscriber.getExpirationDate())
-						&& convertList(list, this.model.getGym(this.frame.getActiveUser()).getCourses()).equals(this.exSubscriber.getCourses())) {
-					final int selectedOption = JOptionPane.showConfirmDialog(this.frame.getChild(), "Vuoi confermare le modifiche fatte?", "Scegli", JOptionPane.OK_CANCEL_OPTION);
-					//this.removeSubscriberFromCourses(this.exSubscriber);
-					if (selectedOption == JOptionPane.YES_OPTION) {
-						this.editSubscriber(mapToPass, subscriptionDate, expirationDate, list, this.exSubscriber.getSubscriptionDate(), this.exSubscriber.getExpirationDate());
-						//super.cmdSave(mapToPass, subscriptionDate, expirationDate, list);
-						//countDecreseIncome(exSubscriber);
-					}
-					else {
-						this.reAddExSubscriberToModel(this.exSubscriber);
-						this.tableSubscribersController.createTable(this.model.getGym(this.frame.getActiveUser()).getSubscribers());
-					}
-				}
-				else {
-					throw new IllegalArgumentException("Non è possibile modificare l'abbonamento di questo iscritto, in quanto non ha\n"
-						+ "ancora pagato la sua quota d'iscrizione (Se si ritiene necessario modificarlo, occorrerà eliminarlo e reinserirlo).");
-				}
+			final int n = JOptionPane.showConfirmDialog(this.frame.getChild(), "Vuoi confermare le modifiche fatte?", "Scegli",
+					JOptionPane.OK_CANCEL_OPTION);
+			
+			if(n == JOptionPane.OK_OPTION) {
+				this.editSubscriber(mapToPass, subscriptionDate, expirationDate, list);
+				this.tableSubscribersController.createTable(this.model.getGym(this.frame.getActiveUser()).getSubscribers());
 			}
-			else {
-				final int selectedOption = JOptionPane.showConfirmDialog(this.frame.getChild(), "Vuoi confermare le modifiche fatte?", "Scegli", JOptionPane.OK_CANCEL_OPTION);
-				//this.removeSubscriberFromCourses(this.exSubscriber);
-				if (selectedOption == JOptionPane.YES_OPTION) {
-					this.editSubscriber(mapToPass, subscriptionDate, expirationDate, list, currentSubscriptionCalendar,
-							currentExpirationCalendar);
-					//super.cmdSave(mapToPass, subscriptionDate, expirationDate, list);
-					//countDecreseIncome(exSubscriber);	
-				}
-			}
+
 		}catch (IllegalArgumentException e){
-			this.reAddExSubscriberToModel(this.exSubscriber);
 			this.frame.displayError(e.getMessage());
 			this.tableSubscribersController.createTable(this.model.getGym(this.frame.getActiveUser()).getSubscribers());
 		}
@@ -103,21 +79,36 @@ public class SubscriberEditController extends SubscriberAddController implements
 		this.view.showData(this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers().get(this.index));
 	}
 	
-/*	private void removeSubscriberFromCourses(final ISubscriber subscriber){
-		//final int indexOfSubscriber = this.model.getGym(this.frame.getActiveUser()).getSubscribers().indexOf(subscriber);
-		if(!subscriber.isExpired()) {
-			for (final ICourse course : subscriber.getCourses()){
-				course.removeMember(course.getCurrentMembers().indexOf(subscriber));
+	private void editSubscriber(final Map<IFormField, String> mapToPass, final Date subscriptionDate, final Date expirationDate, final DefaultListModel<String> list) {
+		
+		if (compareCalendars(dateToCalendar(subscriptionDate), this.exSubscriber.getSubscriptionDate())
+			&& compareCalendars(dateToCalendar(expirationDate), this.exSubscriber.getExpirationDate())
+			&& convertList(list, this.model.getGym(this.frame.getActiveUser()).getCourses()).equals(this.exSubscriber.getCourses())) {
+			
+			final Map<IFormField, String> fields = this.getCommonFields(mapToPass);
+
+			this.exSubscriber.setName(fields.get(EnumFieldsCommon.NOME));
+			this.exSubscriber.setSurname(fields.get(EnumFieldsCommon.COGNOME));
+			this.exSubscriber.setFiscalCode(fields.get(EnumFieldsCommon.CODICE_FISCALE));
+			this.exSubscriber.setAddress(fields.get(EnumFieldsCommon.INDIRIZZO));
+			this.exSubscriber.setNumber(fields.get(EnumFieldsCommon.TELEFONO));
+			this.exSubscriber.setEmail(fields.get(EnumFieldsCommon.EMAIL));
+			
+			this.frame.getChild().closeDialog();
+		}
+		
+		else if(this.exSubscriber.getFee() == 0.0) {
+			this.model.getGym(this.frame.getActiveUser()).removeSubscriber(this.index);	
+			final int size = this.model.getGym(this.frame.getActiveUser()).getSubscribers().size();
+			super.cmdSave(mapToPass, subscriptionDate, expirationDate, list);
+			if(size == this.model.getGym(this.frame.getActiveUser()).getSubscribers().size()) {
+				this.reAddExSubscriberToModel(this.exSubscriber);
 			}
 		}
-	}*/
-	
-	private void editSubscriber(final Map<IFormField, String> mapToPass, final Date subscriptionDate, final Date expirationDate, 
-			final DefaultListModel<String> list, final Calendar currentSubscriptionCalendar, final Calendar currentExpirationCalendar) {
-		final int size = this.model.getGym(this.frame.getActiveUser()).getSubscribers().size();
-		super.cmdSave(mapToPass, subscriptionDate, expirationDate, list, currentSubscriptionCalendar, currentExpirationCalendar);
-		if(size == this.model.getGym(this.frame.getActiveUser()).getSubscribers().size()) {
-			this.reAddExSubscriberToModel(this.exSubscriber);
+		
+		else {				
+			throw new IllegalArgumentException("Non è possibile modificare l'abbonamento di questo iscritto, in quanto non ha"
+						+ "ancora pagato\n la sua quota d'iscrizione (Se si ritiene necessario modificarlo, occorrerà eliminarlo e reinserirlo).");
 		}
 	}
 	
