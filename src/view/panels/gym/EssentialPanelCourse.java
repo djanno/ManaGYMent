@@ -67,7 +67,7 @@ public class EssentialPanelCourse extends Background implements IEssentialPanelC
         final GridBagConstraints gbcBtnChooseNColor= new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,CENTER,NONE,insets,1,1);
         this.add(chooseNColor,gbcBtnChooseNColor);
         
-        final JLabel lblPrice=new JLabel("Prezzo:");
+        final JLabel lblPrice=new JLabel("Prezzo giornaliero:");
         final GridBagConstraints gbcLblPrice= new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,CENTER,NONE,insets,1,1);
         this.add(lblPrice,gbcLblPrice);
     

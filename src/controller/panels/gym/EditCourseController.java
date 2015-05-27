@@ -32,11 +32,16 @@ public class EditCourseController extends AddCourseController implements
     /**
      * Constructor
      * 
-     * @param frame the application's frame
-     * @param model the model
-     * @param view the view
-     * @param gymPanelController the controller of panel that open EditCoursePanel JDialog
-     * @param courseToEdit course to be edit
+     * @param frame 
+     *          the application's frame
+     * @param gym
+     *          the gym
+     * @param view 
+     *          the view
+     * @param gymPanelController 
+     *          the controller of panel that open EditCoursePanel JDialog
+     * @param courseToEdit 
+     *          course to be edit
      */
     public EditCourseController(final PrimaryFrame frame, final IGym gym,
             final IAddCoursePanel view, final GymPanelController gymPanelController, final ICourse courseToEdit) {

@@ -20,16 +20,16 @@ public class TableEmployeesController extends AbstractTableMemberController{
     protected static final int WIDTH_PANEL = 460;
     protected static final int HEIGHT_PANEL = 257;
 //    volendo il campo model si potrebbe usare nelle classi figlie,cosi come userLogged
+    
     /**
-     * 
      * Constructor
      * 
-     * @param model
-     *          the model
+     * @param gym
+     *            the gym
      * @param frame
-     *          the application's frame
+     *            the application's frame
      * @param view
-     *          the view
+     *            the view
      */
     public TableEmployeesController(final IGym gym, final PrimaryFrame frame,
             final TableMemberPanel view) {

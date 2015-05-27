@@ -35,20 +35,20 @@ public class SetCalendarController implements ISetCalendarController {
 	private final DaysOfWeek day;
 	private final Schedule temp;
 
-	/**
-	 * Constructor 
-	 *  
-	 * @param model 
-	 *             the model
-	 * @param frame 
-	 *             the application's frame
-	 * @param view 
-	 *             the view
-	 * @param homeController 
-	 *             the controller of panel that open SetCalendarPanel JDialog
-	 * @param day
-	 *             the day to program
-	 */
+        /**
+         * Constructor
+         * 
+         * @param gym
+         *            the gym
+         * @param frame
+         *            the application's frame
+         * @param view
+         *            the view
+         * @param homeController
+         *            the controller of panel that open SetCalendarPanel JDialog
+         * @param day
+         *            the day to program
+         */
 	public SetCalendarController(final IGym gym, final PrimaryFrame frame,
 			final SetCalendarPanel view, final IHomePanelController homeController, final DaysOfWeek day) {
 		super();
