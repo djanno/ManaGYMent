@@ -1,4 +1,4 @@
-package controller.panels.gym;
+package controller.panels.profile;
 
 import javax.swing.JOptionPane;
 import model.IModel;

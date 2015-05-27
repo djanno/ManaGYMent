@@ -10,6 +10,8 @@ import java.awt.Color;
 public interface IAddCourseController {
 	
     /**
+     * Adds a new course 
+     * 
      * @param courseName the course name
      * @param courseColor the course color
      * @param price the course price

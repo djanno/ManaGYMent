@@ -1,6 +1,6 @@
 package view.panels.gym;
 
-import controller.panels.gym.IProfilePanelController;
+import controller.panels.profile.IProfilePanelController;
 
 /**
  * Interface for {@link ProfilePanel}.

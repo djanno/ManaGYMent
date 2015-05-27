@@ -6,16 +6,33 @@ import view.PrimaryFrame;
 import view.panels.members.SubscriberPanel;
 import view.panels.members.TableMemberPanel;
 
+/**
+ * a specification of {@link AbstractTableMemberController} based on a specific members, like Subscribers
+ * @author simone
+ */
 public class TableSubscribersController extends AbstractTableMemberController {
 
     protected static final int WIDTH_PANEL = 465;
     protected static final int HEIGHT_PANEL = 387;
 
+    /**
+     * Constructor
+     * 
+     * @param model
+     *          the model
+     * @param frame
+     *          the application's frame
+     * @param view
+     *          the view
+     */
     public TableSubscribersController(final IModel model,
             final PrimaryFrame frame, final TableMemberPanel view) {
         super(model, frame, view);
     }
 
+    /* 
+     * @see controller.panels.members.AbstractTableMemberController#addMemberCmd()
+     */
     @Override
     public void addMemberCmd() {
         final SubscriberPanel addSubscriberPanel = new SubscriberPanel();
@@ -24,6 +41,9 @@ public class TableSubscribersController extends AbstractTableMemberController {
 
     }
 
+    /* 
+     * @see controller.panels.members.AbstractTableMemberController#editMemberCmd(int)
+     */
     @Override
     public void editMemberCmd(final int index) {
         final SubscriberPanel editSubscriberPanel = new SubscriberPanel();
@@ -31,9 +51,12 @@ public class TableSubscribersController extends AbstractTableMemberController {
         frame.new DialogWindow("Modifica iscritto", WIDTH_PANEL, HEIGHT_PANEL, this.frame, editSubscriberPanel);
     }
 
+    /* 
+     * @see controller.panels.members.AbstractTableMemberController#deleteMember(int)
+     */
     @Override
-    public void deleteMember(final int index) {
-        ISubscriber subsriber = this.model.getGym(this.frame.getActiveUser()).getSubscribers().get(index);
+    protected void deleteMember(final int index) {
+        final ISubscriber subsriber = this.model.getGym(this.frame.getActiveUser()).getSubscribers().get(index);
         this.model.getGym(this.frame.getActiveUser()).getCourses()
                 .stream()
                 .filter(course -> course.getCurrentMembers().contains(subsriber))

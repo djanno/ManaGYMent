@@ -1,4 +1,4 @@
-package controller.panels.gym;
+package controller.panels.profile;
 
 /**
  * Defines the {@link ProfilePanel}.

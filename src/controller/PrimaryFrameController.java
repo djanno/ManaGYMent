@@ -24,7 +24,6 @@ import view.panels.members.SubscriberStrategy;
 import view.panels.members.TableMemberPanel;
 import controller.panels.gym.GymPanelController;
 import controller.panels.gym.IGymPanelController;
-import controller.panels.gym.ProfilePanelController;
 import controller.panels.home.HomePanelController;
 import controller.panels.home.IHomePanelController;
 import controller.panels.home.SendEmailPanelController;
@@ -32,6 +31,7 @@ import controller.panels.login.LoginPanelController;
 import controller.panels.members.AbstractTableMemberController;
 import controller.panels.members.TableEmployeesController;
 import controller.panels.members.TableSubscribersController;
+import controller.panels.profile.ProfilePanelController;
 import exceptions.NoCoursesInGymException;
 
 public class PrimaryFrameController implements IPrimaryFrameController {
