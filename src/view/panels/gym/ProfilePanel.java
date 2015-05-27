@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import org.jdesktop.xswingx.PromptSupport;
 
 import view.panels.Background;
-import controller.panels.gym.IProfilePanelController;
+import controller.panels.profile.IProfilePanelController;
 
 /**
  * ProfilePanel

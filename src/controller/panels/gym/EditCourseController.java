@@ -18,7 +18,7 @@ import view.panels.gym.EditCoursePanel;
 import view.panels.gym.IAddCoursePanel;
 
 /**
- * the controller used for edit a course already present in gym
+ * the {@link EditCoursePanel} observer, used for edit a course already present in gym
  * @author simone
  *
  */
@@ -31,6 +31,8 @@ public class EditCourseController extends AddCourseController implements
     private final IGymCalendar tempCalendar;
     
     /**
+     * Constructor
+     * 
      * @param frame the application's frame
      * @param model the model
      * @param view the view

@@ -6,10 +6,11 @@ import model.IModel;
 import model.gym.Course;
 import model.gym.ICourse;
 import view.PrimaryFrame;
+import view.panels.gym.AddCoursePanel;
 import view.panels.gym.IAddCoursePanel;
 
 /**
- * the controller used for create and add course in gym
+ * the {@link AddCoursePanel} observer, used for create and add course in gym
  * @author simone
  * 
  */
@@ -28,10 +29,16 @@ public class AddCourseController implements IAddCourseController{
     protected GymPanelController gymPanelController;
     
     /**
-     * @param frame the application's frame.
-     * @param model the model
-     * @param view the view
-     * @param gymPanelController the controller of panel that open AddCoursePanel JDialog
+     * Constructor
+     * 
+     * @param frame 
+     *          the application's frame.
+     * @param model 
+     *          the model
+     * @param view 
+     *          the view
+     * @param gymPanelController 
+     *          the controller of panel that open AddCoursePanel JDialog
      */
     public AddCourseController(final PrimaryFrame frame, final IModel model, final IAddCoursePanel view, final GymPanelController gymPanelController) {
         super();
@@ -58,6 +65,8 @@ public class AddCourseController implements IAddCourseController{
     
     
     /**
+     * check if the data entered is correct
+     * 
      * @param courseName the name to be checked
      * @param courseColor the color to be checked
      * @param price the price to be checked
@@ -85,6 +94,8 @@ public class AddCourseController implements IAddCourseController{
     
     
     /**
+     * check if the name entered is valid
+     * 
      * @param enteredName the name to be checked
      * @throws IllegalArgumentException
      */
@@ -96,6 +107,8 @@ public class AddCourseController implements IAddCourseController{
     } 
     
     /**
+     * check if the color entered is valid
+     * 
      * @param color the color to be checked
      * @throws IllegalArgumentException
      */

@@ -15,6 +15,11 @@ import view.PrimaryFrame;
 import view.panels.home.SetCalendarPanel;
 import exceptions.NoCourseWithCoachesException;
 
+/**
+ * controller for {@link SetCalendarPanel} used to set a program for a specific day
+ * @author simone
+ *
+ */
 public class SetCalendarController implements ISetCalendarController {
 
 	private static final String WRONG_COURSE_HOUR = "L'ora di fine corso deve essere maggiore rispetto a quella di inizio corso.";
@@ -30,6 +35,20 @@ public class SetCalendarController implements ISetCalendarController {
 	private final DaysOfWeek day;
 	private final Schedule temp;
 
+	/**
+	 * Constructor 
+	 *  
+	 * @param model 
+	 *             the model
+	 * @param frame 
+	 *             the application's frame
+	 * @param view 
+	 *             the view
+	 * @param homeController 
+	 *             the controller of panel that open SetCalendarPanel JDialog
+	 * @param day
+	 *             the day to program
+	 */
 	public SetCalendarController(final IModel model, final PrimaryFrame frame,
 			final SetCalendarPanel view, final IHomePanelController homeController, final DaysOfWeek day) {
 		super();
@@ -99,8 +118,7 @@ public class SetCalendarController implements ISetCalendarController {
 		//final Schedule sch = this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
 		//		.get(day);
 		final ICourse courseToBeRemoved = this.model.getGym(this.frame.getActiveUser()).getCourseByName(courseName);
-		final Pair<ICourse, IEmployee> pair = new Pair<>(courseToBeRemoved,
-				courseToBeRemoved.getCoachByFiscalCode(fiscalCode));
+		final Pair<ICourse, IEmployee> pair = new Pair<>(courseToBeRemoved,courseToBeRemoved.getCoachByFiscalCode(fiscalCode));
 		this.temp.removePairInHour(pair, time);
 		this.formTable();
 	}
@@ -136,6 +154,20 @@ public class SetCalendarController implements ISetCalendarController {
 
 	}
 
+	/**
+	 * when a course is added in hour check that start and end time are consistent with each other and closing/opening time
+	 * 
+	 * @param hourFrom 
+	 *             start time to be checked
+	 * @param hourTo 
+	 *             end time to be checked
+	 * @param openingTime 
+	 *             the opening time to be checked
+	 * @param closingTime 
+	 *             the closing time to be checked
+	 * @throws IllegalArgumentException 
+	 *             if hourTo <= hourFrom, if hourFrom < openingTime or if hourTo > closingTime
+	 */
 	private void checkHours(final Integer hourFrom, final Integer hourTo,
 			final Integer openingTime, final Integer closingTime)
 			throws IllegalArgumentException {
@@ -150,6 +182,18 @@ public class SetCalendarController implements ISetCalendarController {
 		}
 	}
 
+	/**
+	 * 
+	 * before save the schedule check that in it there are at least one course, opening and closing time are yet consistent with program after changes
+	 * 
+	 * @param openingTime 
+	 *             the opening time to be checked
+	 * @param closingTime 
+	 *             the closing time to be checked
+	 * @throws IllegalArgumentException 
+	 *             if there isn't any course in schedule, if openingTime >= closingTime or 
+	 * if the time of first course in a day is < openingTime or the time of last course in a day is >= closingTime 
+	 */
 	private void finalControl(final Integer openingTime, final Integer closingTime)
 			throws IllegalArgumentException {
 		final Iterator<Integer> iterator = this.temp.getProgram().keySet().iterator();

@@ -60,31 +60,31 @@ public class SendEmailPanelController implements ISendEmailPanelController{
 	 * 		true if you want to send email to expired subscriber, false  otherwise
 	 * @return the list of recipients to send email
 	 */
-	private List<String> getListRecipients(final boolean employee, final boolean subscriber, boolean exSubscriber) {
-		List<String> destinatari = new ArrayList<String>();
-		if (subscriber == false && employee == false && exSubscriber == false) {
-			throw new IllegalArgumentException(INVALID_RECIPIENTS);
-		} else {
-			if (subscriber == true) {
-				for (ISubscriber s : this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers()) {
-					if (!s.isExpired()) {
-						destinatari.add(s.getEmail());
-					}
-				}
-			}
-			if (employee == true) {
-				for (IEmployee s : this.model.getUser(this.frame.getActiveUser()).getGym().getEmployees()){
-					destinatari.add(s.getEmail());
-				}
-			}
-			if (exSubscriber == true) {
-				for (ISubscriber s : this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers()) {
-					if (s.isExpired()) {
-						destinatari.add(s.getEmail());
-					}
-				}
-			}
-		}
-		return destinatari;
-	}
+    private List<String> getListRecipients(final boolean employee, final boolean subscriber, final boolean exSubscriber) {
+        final List<String> destinatari = new ArrayList<String>();
+        if (subscriber || employee || exSubscriber) {
+            if (subscriber) {
+                for (final ISubscriber s : this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers()) {
+                    if (!s.isExpired()) {
+                        destinatari.add(s.getEmail());
+                    }
+                }
+            }
+            if (employee) {
+                for (final IEmployee s : this.model.getUser(this.frame.getActiveUser()).getGym().getEmployees()) {
+                    destinatari.add(s.getEmail());
+                }
+            }
+            if (exSubscriber) {
+                for (final ISubscriber s : this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers()) {
+                    if (s.isExpired()) {
+                        destinatari.add(s.getEmail());
+                    }
+                }
+            }
+        } else {
+            throw new IllegalArgumentException(INVALID_RECIPIENTS);
+        }
+        return destinatari;
+    }
 }

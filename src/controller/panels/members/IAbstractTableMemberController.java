@@ -1,14 +1,40 @@
 package controller.panels.members;
 
+import java.util.List;
+
+import model.gym.members.IGymMember;
+
+/**
+ * Defines the {@link AbstractTableMemberController}.
+ * @author simone
+ *
+ */
 public interface IAbstractTableMemberController {
     
-    void createTable();
+    /**
+     * reset and create from scratch members' table by the program in model depending on the list parameter
+     * @param list
+     *          the list of member to show in JTable
+     */
+    void createTable(final List<? extends IGymMember> list);
     
-    abstract void addMemberCmd();
+    /**
+     * Adds member into list present in model
+     */
+    void addMemberCmd();
     
-    abstract void editMemberCmd(final int index);
+    /**
+     * Edit member already present in list in the index position
+     * @param index
+     */
+    void editMemberCmd(final int index);
     
-    void deleteMemberCmd(final int index);
+    
+    /**
+     * delete member from the list
+     * @param index
+     */
+      void deleteMemberCmd(final int index);
     
     abstract void handlePaymentCmd(final int index);
     
