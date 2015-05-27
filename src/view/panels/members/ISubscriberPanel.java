@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.gym.ICourse;
 import model.gym.members.ISubscriber;
+import view.panels.login.LoginPanel;
 import controller.panels.members.ISubscriberAddController;
 
 /**
@@ -15,7 +16,7 @@ import controller.panels.members.ISubscriberAddController;
 
 public interface ISubscriberPanel {
 	/**
-	 * Attachs the observer to the {@link SubscriberPanel}.
+	 * Attachs the observer to the {@link LoginPanel}.
 	 * @param observer the observer.
 	 */
 	void attachObserver(ISubscriberAddController observer);
@@ -45,5 +46,5 @@ public interface ISubscriberPanel {
 	 * 		the subscriber to show
 	 */
 	void showData(ISubscriber subscriber);
-	
+
 }

@@ -42,6 +42,7 @@ public class TableMemberPanel extends GenericTable{
     private final JButton edit;
     private final JButton remove;
     private final JButton add;
+    private final JButton pay;
     private final JRadioButton[] buttonSearch;
     private final ButtonGroup bg;
     private final JLabel searchL;
@@ -63,6 +64,8 @@ public class TableMemberPanel extends GenericTable{
         this.remove=new JButton("Cancella");
         this.remove.setEnabled(false);
         this.add=new JButton("Aggiungi");
+        this.pay = new JButton("Salda conto");
+        this.pay.setEnabled(false);
         
         this.searchL = new JLabel("Search");
         this.searchT = new JTextField(20);
@@ -103,7 +106,7 @@ public class TableMemberPanel extends GenericTable{
                     }
                 });
         
-        UtilityClass.setListListenerTable(this.table, this.remove, this.edit);
+        UtilityClass.setListListenerTable(this.table, this.remove, this.edit, this.pay);
         
         setHandler();
        
@@ -121,7 +124,7 @@ public class TableMemberPanel extends GenericTable{
         for(final JRadioButton radio:buttonSearch){
             bg.add(radio);
         }
-        riempi(pNorth,add,remove,edit);
+        riempi(pNorth,add,remove,edit,pay);
         riempi(pSouth, searchL, searchT);
         for(final JRadioButton radio:buttonSearch){
             pSouth.add(radio);
@@ -146,6 +149,7 @@ public class TableMemberPanel extends GenericTable{
         this.add.addActionListener(e->this.observer.addMemberCmd());
         this.remove.addActionListener(e->this.observer.deleteMemberCmd(table.convertRowIndexToModel(table.getSelectedRow())));
         this.edit.addActionListener(e->this.observer.editMemberCmd(table.convertRowIndexToModel(table.getSelectedRow())));
+        this.pay.addActionListener(e->this.observer.handlePaymentCmd(table.convertRowIndexToModel(table.getSelectedRow())));
     }
 	
     static class TblRenderer extends DefaultTableCellRenderer {

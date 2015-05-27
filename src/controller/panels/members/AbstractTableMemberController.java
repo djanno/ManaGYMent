@@ -45,4 +45,7 @@ public abstract class AbstractTableMemberController {
                     this.deleteMember(index);
             }
     }
+    
+    public abstract void handlePaymentCmd(final int index);
+    
 }

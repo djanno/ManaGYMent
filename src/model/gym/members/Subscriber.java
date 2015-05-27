@@ -19,6 +19,7 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
 	
     private Calendar subscriptionDate;
     private Calendar expirationDate;
+    private double fee;
     private boolean expired;
     private List<ICourse> courses;
 
@@ -27,8 +28,11 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     	super(name, surname, fiscalCode, address, phoneNumber, email, gym);
     	this.subscriptionDate = subscriptionDate; 
     	this.expirationDate = expirationDate;
+    	this.fee = 0.0;
     	this.expired = false;
     	this.courses = courses;
+    	
+    	this.courses.forEach(course -> this.fee += course.getCoursePrice() * this.getDays());
     }
 
     @Override
@@ -41,6 +45,11 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     	return this.subscriptionDate;
     }
 
+    @Override
+    public double getFee() {
+    	return this.fee;
+    }
+    
     @Override
     public boolean isExpired(){
     	return this.expired;
@@ -61,12 +70,22 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     @Override
     public double computeFee(){
     	double fee = 0;
-    	for(final ICourse course : this.getGym().getCourses()) {
-    		if(course.getCurrentMembers().contains(this)) {
-    			fee += course.getCoursePrice() * this.getDays() - this.getGym().getSale() * this.getDays();
-    		}
+    	for(final ICourse course : this.courses) {
+    		fee += course.getCoursePrice() * this.getDays();
     	}
         return fee;
+    }
+    
+    @Override
+    public void setFee(final double fee) {
+    	this.fee = fee;
+    }
+    
+    @Override
+    public void payFee() {
+    	this.getGym().setIncome(this.fee, this.subscriptionDate);
+    	this.fee = 0.0;
+    	//usiamo la data di iscrizione o la data in cui avviene il pagamento?
     }
 
     private long getDays(){
@@ -75,8 +94,8 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
 
     @Override
     public Object[] createRow() {
-        return new Object[]{this.getName(),this.getSurname(),this.getFiscalCode(),this.getAddress(),this.getNumber(),this.getEmail(),this.getExpirationDate()};
-    }
+        return new Object[]{this.getName(),this.getSurname(),this.getFiscalCode(),this.getAddress(),this.getNumber(),this.getEmail(),this.getExpirationDate(), this.getFee()};
+    }//sarebbe meglio usare direttamente i campi anzichè i metodi
     
     @Override
     public List<ICourse> getCourses(){

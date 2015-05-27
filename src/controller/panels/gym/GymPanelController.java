@@ -23,8 +23,8 @@ public class GymPanelController implements IGymPanelController {
 	private static final String DIALOG_TITLE = "Aggiungi corso: ";
 	private static final int DIALOG_WIDTH_ADD = 350;
 	private static final int DIALOG_HEIGHT_ADD = 245;
-	private static final int DIALOG_WIDTH_EDIT = 501;
-        private static final int DIALOG_HEIGHT_EDIT = 405;
+	private static final int DIALOG_WIDTH_EDIT = 550;
+    private static final int DIALOG_HEIGHT_EDIT = 405;
 	
 	private final IModel model;
 	private final PrimaryFrame frame;
@@ -87,7 +87,8 @@ public class GymPanelController implements IGymPanelController {
 					
 					for(final ISubscriber sub : courseToDelete.getCurrentMembers()) {
 						final long daysLeft = TimeUnit.MILLISECONDS.toDays(sub.getExpirationDate().getTimeInMillis() - Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome")).getTimeInMillis());
-						model.getGym(frame.getActiveUser()).setIncome(-(courseToDelete.getCoursePrice() * daysLeft), sub.getSubscriptionDate());
+						//model.getGym(frame.getActiveUser()).setIncome(-(courseToDelete.getCoursePrice() * daysLeft), sub.getSubscriptionDate());
+						sub.setFee(sub.getFee() - daysLeft * courseToDelete.getCoursePrice());
 					}
 					
 					model.getGym(frame.getActiveUser()).removeCourse(index);
