@@ -3,10 +3,7 @@ package controller.panels.members;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.DefaultListModel;
 
@@ -14,7 +11,7 @@ import model.IModel;
 import model.gym.ICourse;
 import model.gym.members.ISubscriber;
 import model.gym.members.Subscriber;
-import view.IPrimaryFrame;
+import view.PrimaryFrame;
 import view.panels.members.IFormField;
 import view.panels.members.ISubscriberPanel;
 
@@ -30,32 +27,36 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	private static final String INVALID_EXPIRATION = "Le data di scadenza non � valida.";
 	private static final String INVALID_SUBSCRIPTION = "Le data di iscrizione non � valida.";
 	
-	protected IPrimaryFrame frame;
+	protected PrimaryFrame frame;
 	protected final ISubscriberPanel view;
 	protected final IModel model;
 	protected final TableSubscribersController tableSubscribersController;
-	private final Calendar currentCalendar;
+	//private final Calendar currentSubscriptionCalendar;
+	//private final Calendar currentExpirationCalendar;
 	
-	public SubscriberAddController (final IPrimaryFrame frame, final ISubscriberPanel subscriberView, final IModel model, final TableSubscribersController tableSubscribersController){
+	public SubscriberAddController (final PrimaryFrame frame, final ISubscriberPanel subscriberView, final IModel model, final TableSubscribersController tableSubscribersController){
 		super();
 		this.frame = frame;
 		this.view = subscriberView;
 		this.model = model;
 		this.tableSubscribersController = tableSubscribersController;
-		this.currentCalendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
+		//this.currentSubscriptionCalendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
 		this.view.attachObserver(this);
 		this.view.setComboBox(this.model.getUser(this.frame.getActiveUser()).getGym().getCourses());
 	}
 	
 	@Override
-	public void cmdSave(final Map<IFormField, String> mapToPass, final Date subscriptionDate, final  Date expirationDate, final DefaultListModel<String> list) throws IllegalArgumentException {
+	public void cmdSave(final Map<IFormField, String> mapToPass, final Date subscriptionDate,
+			final  Date expirationDate, final DefaultListModel<String> list, final Calendar currentSubscriptionCalendar,
+			final Calendar currentExpirationCalendar) throws IllegalArgumentException {
 		try{
-			final ISubscriber subscriber = createSubscriber(mapToPass, dateToCalendar(subscriptionDate), dateToCalendar(expirationDate), list);
+			final ISubscriber subscriber = createSubscriber(mapToPass, dateToCalendar(subscriptionDate), dateToCalendar(expirationDate), list, 
+					currentSubscriptionCalendar, currentExpirationCalendar);
 			this.model.getUser(this.frame.getActiveUser()).getGym().addSubscriber(subscriber);
-			for (final ICourse course : subscriber.getCourses()){
-				this.model.getGym(this.frame.getActiveUser()).getCourseByName(course.getCourseName()).addMember(subscriber);
-			}
-			countAddIncome(subscriber);
+			//for (final ICourse course : subscriber.getCourses()){
+			//	this.model.getGym(this.frame.getActiveUser()).getCourseByName(course.getCourseName()).addMember(subscriber);
+			//}
+			//countAddIncome(subscriber);
 			tableSubscribersController.createTable(this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers());
 			this.frame.getChild().closeDialog();
 		}catch (Throwable t){
@@ -78,29 +79,15 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 		  return cal;
 	}
 	
-	protected void countDecreseIncome(final ISubscriber subscriber){
-	    long dayDiff;
-        
-        dayDiff = TimeUnit.MILLISECONDS.toDays(subscriber.getExpirationDate().getTimeInMillis() - Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome")).getTimeInMillis());
-        
-        if(dayDiff > 0){
-            for(final ICourse c : subscriber.getCourses()){
-            	this.model.getUser(this.frame.getActiveUser()).getGym().setIncome(- (dayDiff * c.getCoursePrice()), subscriber.getSubscriptionDate());
-            }
-        }
+	protected static boolean compareCalendars(final Calendar initialDate, final Calendar finalDate) {
+		return (initialDate.get(Calendar.DAY_OF_MONTH) == finalDate.get(Calendar.DAY_OF_MONTH) && 
+				initialDate.get(Calendar.MONTH) == finalDate.get(Calendar.MONTH) && 
+				initialDate.get(Calendar.YEAR) == finalDate.get(Calendar.YEAR));
 	}
 	
-	protected void countAddIncome(final ISubscriber subscriber) throws IllegalArgumentException {
-        long newDayDiff;
-
-        newDayDiff = TimeUnit.MILLISECONDS.toDays(subscriber.getExpirationDate().getTimeInMillis() - subscriber.getSubscriptionDate().getTimeInMillis());
-	    
-	    for(final ICourse c : subscriber.getCourses()){
-             this.model.getUser(this.frame.getActiveUser()).getGym().setIncome(newDayDiff * c.getCoursePrice(), subscriber.getSubscriptionDate());
-        }
-	}
-	
-	private Subscriber createSubscriber(final Map<IFormField, String> mapToPass, final Calendar subscriptionDate, final  Calendar expirationDate, final DefaultListModel<String> list) throws Exception{
+	private Subscriber createSubscriber(final Map<IFormField, String> mapToPass, final Calendar subscriptionDate, 
+			final  Calendar expirationDate, final DefaultListModel<String> list, final Calendar currentSubscriptionCalendar,
+			final Calendar currentExpirationCalendar) throws Exception{
 		for(final IFormField f : mapToPass.keySet()){
 			if(! f.getPred().test(mapToPass.get(f))){	
 				if(f.getField().equals("Nome")){
@@ -131,28 +118,32 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 			throw new IllegalArgumentException(NULL_DATA);
 		}
 		
-		if(expirationDate.get(Calendar.YEAR) < this.currentCalendar.get(Calendar.YEAR)){
+		if(expirationDate.get(Calendar.YEAR) < currentExpirationCalendar.get(Calendar.YEAR)){
 			throw new IllegalArgumentException(INVALID_EXPIRATION);
 		}else{
-			if(expirationDate.get(Calendar.MONTH) < this.currentCalendar.get(Calendar.MONTH)){
+			if(expirationDate.get(Calendar.MONTH) < currentExpirationCalendar.get(Calendar.MONTH)){
 				throw new IllegalArgumentException(INVALID_EXPIRATION);
 			}else{
-				if(expirationDate.get(Calendar.DAY_OF_MONTH) < this.currentCalendar.get(Calendar.DAY_OF_MONTH)){
+				if(expirationDate.get(Calendar.DAY_OF_MONTH) < currentExpirationCalendar.get(Calendar.DAY_OF_MONTH)){
 					throw new IllegalArgumentException(INVALID_EXPIRATION);
 				}
 			}
 		}
 		
-		if(subscriptionDate.get(Calendar.YEAR) < this.currentCalendar.get(Calendar.YEAR)){
+		if(subscriptionDate.get(Calendar.YEAR) < currentSubscriptionCalendar.get(Calendar.YEAR)){
 			throw new IllegalArgumentException(INVALID_SUBSCRIPTION);
 		}else{
-			if(subscriptionDate.get(Calendar.MONTH) < this.currentCalendar.get(Calendar.MONTH)){
+			if(subscriptionDate.get(Calendar.MONTH) < currentSubscriptionCalendar.get(Calendar.MONTH)){
 				throw new IllegalArgumentException(INVALID_SUBSCRIPTION);
 			}else{
-				if(subscriptionDate.get(Calendar.DAY_OF_MONTH) < this.currentCalendar.get(Calendar.DAY_OF_MONTH)){
+				if(subscriptionDate.get(Calendar.DAY_OF_MONTH) < currentSubscriptionCalendar.get(Calendar.DAY_OF_MONTH)){
 					throw new IllegalArgumentException(INVALID_SUBSCRIPTION);
 				}
 			}
+		}
+		
+		if(compareCalendars(subscriptionDate, expirationDate)) {
+			throw new IllegalArgumentException("La data di scadenza non può coincidere con quella di iscrizione.");
 		}
 		
 		String name = "";

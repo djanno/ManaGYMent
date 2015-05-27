@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import model.gym.members.IEmployee;
-
 public class GymCalendar implements IGymCalendar, Serializable {
 	
 	private static final long serialVersionUID = 1198724186646197873L;

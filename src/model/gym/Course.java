@@ -119,13 +119,13 @@ public class Course implements ICourse, Serializable {
     }
 
     @Override
-    public void removeMember(final ISubscriber member) throws IllegalArgumentException {
+    public void removeMember(final int indexOfMember) throws IllegalArgumentException {
 //      potrebbero essere inutili i controlli nel nostro caso
-        if(! this.members.contains(member)) {
+        if(this.members.get(indexOfMember) == null) {
     		throw new IllegalArgumentException("Iscritto non trovato.");
     	}
     	else {
-    		this.members.remove(member);
+    		this.members.remove(indexOfMember);
     	}
     }
     
@@ -137,7 +137,7 @@ public class Course implements ICourse, Serializable {
     @Override
     public void removeCoach(final int indexOfCoach) throws IllegalArgumentException {
 //        potrebbero essere inutili i controlli nel nostro caso
-        if(this.coaches.get(indexOfCoach)==null) {
+        if(this.coaches.get(indexOfCoach) == null) {
                 throw new IllegalArgumentException("Coach non trovato.");
         }
         else {

@@ -15,8 +15,9 @@ public class SubscriberStrategy implements IFormStrategy{
     
     public enum EnumFieldsSubscriber implements IFormField{
         
-        DATA_SCAD("Data scadenza");
-                
+        DATA_SCAD("Data scadenza"),
+        FEE("Somma da pagare");
+        
         private String fieldName;
         private Predicate<String> pred;
         
