@@ -6,17 +6,18 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import utility.UtilityClass;
 import model.gym.members.IEmployee;
 import model.gym.members.ISubscriber;
+import utility.UtilityClass;
+import exceptions.CourseIsFullException;
 
 public class Gym implements IGym, Serializable {
 	
@@ -30,7 +31,6 @@ public class Gym implements IGym, Serializable {
     private final List<IEmployee> employees;
     private IGymCalendar calendar;
     private final List<ICourse> courses;
-    private double sale;
     private Map<String, Double> map;
 	private DateFormat df;
     
@@ -41,7 +41,6 @@ public class Gym implements IGym, Serializable {
     	this.employees = new ArrayList<>();
     	this.courses = new ArrayList<>();
     	this.calendar = new GymCalendar();
-    	this.sale = 0.0;
     	this.df = new SimpleDateFormat("MM/YYYY", Locale.ITALY);
     	this.map = new TreeMap<>();
     }
@@ -87,28 +86,42 @@ public class Gym implements IGym, Serializable {
     }
 
     @Override
-    public double getSale(){
-        return this.sale;
+    public void addSubscriber(final ISubscriber subscriber) throws IllegalArgumentException, CourseIsFullException {
+    	if (!findSubscriber(subscriber.getFiscalCode())){
+            this.subscribers.add(subscriber);
+            for(final ICourse course : subscriber.getCourses()) {
+            	course.addMember(subscriber);
+            }
+    }else{
+            throw new IllegalArgumentException(SUBSCRIBER_ALREADY_EXISTING);
     }
-
-    @Override
-    public void setSale(final double sale){
-    	this.sale = sale;
     }
-
+    
     @Override
-    public void addSubscriber(final ISubscriber subscriber) throws IllegalArgumentException{
+    public void addSubscriber(final int index, final ISubscriber subscriber) throws IllegalArgumentException, CourseIsFullException {
         if (!findSubscriber(subscriber.getFiscalCode())){
-                this.subscribers.add(subscriber);
+        	this.subscribers.add(index, subscriber);
+        	for(final ICourse course : subscriber.getCourses()) {
+        		course.addMember(subscriber);
+        	}
         }else{
                 throw new IllegalArgumentException(SUBSCRIBER_ALREADY_EXISTING);
         }
     }
+    
+    @Override
+    public void addEmployee(final IEmployee employee) throws IllegalArgumentException {
+    	if (!findEmployee(employee.getFiscalCode())){
+            this.employees.add(employee);
+    }else{
+            throw new IllegalArgumentException(EMPLOYEE_ALREADY_EXISTING);
+    }
+    }
 
     @Override
-    public void addEmployee(final IEmployee employee) throws IllegalArgumentException{
+    public void addEmployee(final int index, final IEmployee employee) throws IllegalArgumentException{
         if (!findEmployee(employee.getFiscalCode())){
-                this.employees.add(employee);
+                this.employees.add(index, employee);
         }else{
                 throw new IllegalArgumentException(EMPLOYEE_ALREADY_EXISTING);
         }
@@ -140,29 +153,21 @@ public class Gym implements IGym, Serializable {
 
     @Override
     public void removeSubscriber(final int subscriberIndex){
+    	//this.setIncome(this.subscribers.get(subscriberIndex).getFee(), this.subscribers.get(subscriberIndex).getSubscriptionDate());
+    	final ISubscriber subscriberToRemove = this.subscribers.get(subscriberIndex);
+    	subscriberToRemove.getCourses().forEach(course -> {
+    		if(course.getCurrentMembers().contains(subscriberToRemove)) {
+    			course.removeMember(course.getCurrentMembers().indexOf(subscriberToRemove));
+    		}
+    	});
     	this.subscribers.remove(subscriberIndex);
+    	
     }
 
     @Override
     public void removeEmployee(final int employeeIndex){
+    	//this.setIncome(this.employees.get(employeeIndex).getSalary(), this.getCurrentCalendar());
     	this.employees.remove(employeeIndex);
-    }
-
-    @Override
-    public double computeMonthlyIncome(){
-    	double income = 0.0;
-    	
-    	for(final ISubscriber subscriber : this.subscribers){
-    		if(subscriber.getSubscriptionDate().get(Calendar.MONTH) == Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY).get(Calendar.MONTH)){
-    			income += subscriber.computeFee();
-    		}
-    	}
-    	
-    	for(final IEmployee employee : this.employees){
-    		income -= employee.getSalary();
-    	}
-    	
-        return income;
     }
 
     @Override
@@ -174,6 +179,8 @@ public class Gym implements IGym, Serializable {
 			prev = this.map.get(this.df.format(subscriptionCalendar.getTime()));
 		}
 		this.map.put(this.df.format(subscriptionCalendar.getTime()), amount + prev);
+		//this.map.put(this.df.format(subscriptionCalendar.getTime()), this.map.getOrDefault(this.df.format(subscriptionCalendar.getTime()), 0.0));
+		//credo si possa fare tutto con una sola riga ^
 	}
 
 	@Override
@@ -184,14 +191,20 @@ public class Gym implements IGym, Serializable {
 	@Override
 	public double getCurrentIncome(){
 		try{
-			return this.map.get(this.df.format(this.getCurrentDate()));
+			return this.map.get(this.df.format(this.getCurrentCalendar().getTime()));
 		}catch(Exception e){
 			return 0.0;
 		}
 	}
 	
-	private Date getCurrentDate() {
-		return Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY).getTime();
+	@Override
+	public void updateEmployeesCredit() {
+		this.employees.stream().filter(employee -> 
+		TimeUnit.MILLISECONDS.toDays(this.getCurrentCalendar().getTimeInMillis() - employee.getLastPayed().getTimeInMillis()) > 29).forEach(employee -> employee.setCredit(employee.getSalary()));
+	}
+	
+	private Calendar getCurrentCalendar() {
+		return Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
 	}
 	
     private boolean findSubscriber(final String cf){

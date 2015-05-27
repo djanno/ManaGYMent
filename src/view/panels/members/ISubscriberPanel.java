@@ -20,4 +20,5 @@ public interface ISubscriberPanel {
 	void showData(ISubscriber iSubscriber);
 	
 	void attachObserver(ISubscriberAddController observer);
+
 }

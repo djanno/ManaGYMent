@@ -1,10 +1,8 @@
 package controller.panels.members;
 
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
+
 import model.IModel;
 import model.gym.ICourse;
 import model.gym.members.Employee;
@@ -43,7 +41,7 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 			final IEmployee employee = createEmployee(mapToPass, salario);
 			this.model.getUser(this.frame.getActiveUser()).getGym().addEmployee(employee);
 			tableEmployeesController.createTable(this.model.getUser(this.frame.getActiveUser()).getGym().getEmployees());
-			this.model.getUser(this.frame.getActiveUser()).getGym().setIncome(- employee.getSalary(), Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));
+			//this.model.getUser(this.frame.getActiveUser()).getGym().setIncome(- employee.getSalary(), Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));
 			this.frame.getChild().closeDialog();
 		}catch (Exception e){
 			this.frame.displayError(e.getMessage());
