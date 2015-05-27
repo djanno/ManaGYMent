@@ -3,7 +3,9 @@ package controller.panels.members;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.swing.DefaultListModel;
 
@@ -12,8 +14,10 @@ import model.gym.ICourse;
 import model.gym.members.ISubscriber;
 import model.gym.members.Subscriber;
 import view.PrimaryFrame;
+import view.panels.members.FieldsCommon.EnumFieldsCommon;
 import view.panels.members.IFormField;
 import view.panels.members.ISubscriberPanel;
+import view.panels.members.SubscriberPanel;
 
 /**
  * The controller for {@link SubscriberPanel}.
@@ -23,16 +27,10 @@ import view.panels.members.ISubscriberPanel;
  */
 
 public class SubscriberAddController extends BaseController implements ISubscriberAddController{
-	private static final String WRONG_NAME = "Il nome deve essere lungo più di 1 carattere.";
-	private static final String WRONG_SURNAME = "Il cognome deve essere lungo più di 1 carattere.";
-	private static final String WRONG_CF = "Il codice fiscale deve essere di 15 caratteri esatti.";
-	private static final String WRONG_ADDRESS = "L'indirizzo deve essere lungo più di 7 caratteri.";
-	private static final String WRONG_TELEPHONE = "Il numero telefonico deve essere composto da soli numeri.";
-	private static final String WRONG_EMAIL = "L'E-mail inserita non è valida.";
+	
 	private static final String EMPTY_LIST = "Bisogna aggiungere almeno un corso.";
-	protected static final String NULL_DATA = "La data inserita non è valida.";
-	private static final String INVALID_EXPIRATION = "Le data di scadenza non è valida.";
-	private static final String INVALID_SUBSCRIPTION = "Le data di iscrizione non è valida.";
+	protected static final String NULL_DATA = "Inserire le date di iscrizione/scadenza.";
+	private static final String INVALID_DATES = "Le date d'iscrizione/scadenza non sono valide.";
 	
 	protected PrimaryFrame frame;
 	protected final ISubscriberPanel view;
@@ -59,28 +57,23 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 		this.view = subscriberView;
 		this.model = model;
 		this.tableSubscribersController = tableSubscribersController;
-		//this.currentSubscriptionCalendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
 		this.view.attachObserver(this);
 		this.view.setComboBox(this.model.getUser(this.frame.getActiveUser()).getGym().getCourses());
 	}
 	
 	@Override
 	public void cmdSave(final Map<IFormField, String> mapToPass, final Date subscriptionDate,
-			final  Date expirationDate, final DefaultListModel<String> list, final Calendar currentSubscriptionCalendar,
-			final Calendar currentExpirationCalendar) throws IllegalArgumentException {
-		try{
-			final ISubscriber subscriber = createSubscriber(mapToPass, dateToCalendar(subscriptionDate), dateToCalendar(expirationDate), list, 
-					currentSubscriptionCalendar, currentExpirationCalendar);
+			final  Date expirationDate, final DefaultListModel<String> list) throws IllegalArgumentException {
+		
+		try {
+			final ISubscriber subscriber = createSubscriber(mapToPass, dateToCalendar(subscriptionDate), dateToCalendar(expirationDate), list);
 			this.model.getUser(this.frame.getActiveUser()).getGym().addSubscriber(subscriber);
-			//for (final ICourse course : subscriber.getCourses()){
-			//	this.model.getGym(this.frame.getActiveUser()).getCourseByName(course.getCourseName()).addMember(subscriber);
-			//}
-			//countAddIncome(subscriber);
 			tableSubscribersController.createTable(this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers());
 			this.frame.getChild().closeDialog();
-		}catch (Throwable t){
+		} catch (Throwable t) {
 			this.frame.displayError(t.getMessage());
 		}		
+		
 	}
 	
 	@Override
@@ -126,30 +119,11 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	 * @throws Exception
 	 */
 	private Subscriber createSubscriber(final Map<IFormField, String> mapToPass, final Calendar subscriptionDate, 
-			final  Calendar expirationDate, final DefaultListModel<String> list, final Calendar currentSubscriptionCalendar,
-			final Calendar currentExpirationCalendar) throws Exception{
-		for(final IFormField f : mapToPass.keySet()){
-			if(! f.getPred().test(mapToPass.get(f))){	
-				if(f.getField().equals("Nome")){
-					throw new IllegalArgumentException(WRONG_NAME);
-				}
-				if(f.getField().equals("Cognome")){
-					throw new IllegalArgumentException(WRONG_SURNAME);
-				}
-				if(f.getField().equals("Codice fiscale")){
-					throw new IllegalArgumentException(WRONG_CF);
-				}
-				if(f.getField().equals("Indirizzo")){
-					throw new IllegalArgumentException(WRONG_ADDRESS);
-				}
-				if(f.getField().equals("Telefono")){
-					throw new IllegalArgumentException(WRONG_TELEPHONE);
-				}
-				if(f.getField().equals("E-Mail")){
-					throw new IllegalArgumentException(WRONG_EMAIL);
-				}
-			}
-		}
+			final  Calendar expirationDate, final DefaultListModel<String> list) throws Exception{
+		
+		final Map<IFormField, String> fields = this.getCommonFields(mapToPass);
+		final Calendar today = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
+		
 		if(list.isEmpty()){
 			throw new IllegalArgumentException(EMPTY_LIST);
 		}
@@ -158,63 +132,33 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 			throw new IllegalArgumentException(NULL_DATA);
 		}
 		
-		if(expirationDate.get(Calendar.YEAR) < currentExpirationCalendar.get(Calendar.YEAR)){
-			throw new IllegalArgumentException(INVALID_EXPIRATION);
-		}else{
-			if(expirationDate.get(Calendar.YEAR) == currentExpirationCalendar.get(Calendar.YEAR)
-					&& expirationDate.get(Calendar.MONTH) < currentExpirationCalendar.get(Calendar.MONTH)){
-				throw new IllegalArgumentException(INVALID_EXPIRATION);
-			}else{
-				if(expirationDate.get(Calendar.MONTH) == currentExpirationCalendar.get(Calendar.MONTH)
-						&& expirationDate.get(Calendar.DAY_OF_MONTH) < currentExpirationCalendar.get(Calendar.DAY_OF_MONTH)){
-					throw new IllegalArgumentException(INVALID_EXPIRATION);
-				}
-			}
-		}
-		
-		if(subscriptionDate.get(Calendar.YEAR) < currentSubscriptionCalendar.get(Calendar.YEAR)){
-			throw new IllegalArgumentException(INVALID_SUBSCRIPTION);
-		}else{
-			if(subscriptionDate.get(Calendar.YEAR) == currentSubscriptionCalendar.get(Calendar.YEAR)
-					&& subscriptionDate.get(Calendar.MONTH) < currentSubscriptionCalendar.get(Calendar.MONTH)){
-				throw new IllegalArgumentException(INVALID_SUBSCRIPTION);
-			}else{
-				if(subscriptionDate.get(Calendar.MONTH) == currentSubscriptionCalendar.get(Calendar.MONTH)
-						&& subscriptionDate.get(Calendar.DAY_OF_MONTH) < currentSubscriptionCalendar.get(Calendar.DAY_OF_MONTH)){
-					throw new IllegalArgumentException(INVALID_SUBSCRIPTION);
-				}
-			}
-		}
+		this.checkForDateExceptions(subscriptionDate, today);
+		this.checkForDateExceptions(expirationDate, today);
 		
 		if(compareCalendars(subscriptionDate, expirationDate)) {
 			throw new IllegalArgumentException("La data di scadenza non può coincidere con quella di iscrizione.");
 		}
 		
-		String name = "";
-		String surname = "";
-		String fiscalCode = "";
-		String address = "";
-		String phoneNumber = "";
-		String email = "";
-
-		for (final IFormField f : mapToPass.keySet()){
-			switch (f.getField()){
-				case "Nome":  name = new String( mapToPass.get(f).trim());
-	            	break;
-				case "Cognome":  surname = new String( mapToPass.get(f).trim());
-	        		break;
-				case "Codice fiscale":  fiscalCode = new String( mapToPass.get(f));
-	        		break;
-				case "Indirizzo":  address = new String( mapToPass.get(f));
-	        		break;
-				case "Telefono":  phoneNumber = new String( mapToPass.get(f));
-	        		break;
-				case "E-Mail":  email = new String( mapToPass.get(f));
-	        		break;
-	        	default:
-	        		break;
+		return new Subscriber(fields.get(EnumFieldsCommon.NOME), fields.get(EnumFieldsCommon.COGNOME), fields.get(EnumFieldsCommon.CODICE_FISCALE), 
+				fields.get(EnumFieldsCommon.INDIRIZZO), fields.get(EnumFieldsCommon.TELEFONO), fields.get(EnumFieldsCommon.EMAIL), this.model.getUser(this.frame.getActiveUser()).getGym(), subscriptionDate, expirationDate, convertList(list, this.model.getUser(this.frame.getActiveUser()).getGym().getCourses()));
+	}
+	
+	
+	private void checkForDateExceptions(final Calendar date, final Calendar lowerLimit) {
+		
+		if(date.get(Calendar.YEAR) < lowerLimit.get(Calendar.YEAR)) {
+			throw new IllegalArgumentException(INVALID_DATES);
+		}
+		
+		else {
+			if(date.get(Calendar.YEAR) == lowerLimit.get(Calendar.YEAR) && date.get(Calendar.MONTH) < lowerLimit.get(Calendar.MONTH)) {
+				throw new IllegalArgumentException(INVALID_DATES);
+			}
+			
+			else if(date.get(Calendar.MONTH) == lowerLimit.get(Calendar.MONTH) && date.get(Calendar.DAY_OF_MONTH) < lowerLimit.get(Calendar.DAY_OF_MONTH)){
+				throw new IllegalArgumentException(INVALID_DATES);
 			}
 		}
-		return new Subscriber(name, surname, fiscalCode, address, phoneNumber, email, this.model.getUser(this.frame.getActiveUser()).getGym(), subscriptionDate, expirationDate, convertList(list, this.model.getUser(this.frame.getActiveUser()).getGym().getCourses()));
+		
 	}
 }

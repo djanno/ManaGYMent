@@ -7,9 +7,9 @@ public abstract class AbstractGymMember implements IGymMember, Serializable {
 	
 	private static final long serialVersionUID = 5354356285190012285L;
 	
-	private final String name;
-    private final String surname;
-    private final String fiscalCode;
+	private String name;
+    private String surname;
+    private String fiscalCode;
     private String address;
     private String phoneNumber;
     private String email;
@@ -68,6 +68,21 @@ public abstract class AbstractGymMember implements IGymMember, Serializable {
     @Override
     public IGym getGym(){
     	return this.gym;
+    }
+    
+    @Override
+    public void setName(final String name) {
+    	this.name = name;
+    }
+    
+    @Override
+    public void setSurname(final String surname) {
+    	this.surname = surname;
+    }
+    
+    @Override
+    public void setFiscalCode(final String fiscalCode) {
+    	this.fiscalCode = fiscalCode;
     }
     
     @Override

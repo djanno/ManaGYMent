@@ -1,6 +1,5 @@
 package controller.panels.members;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +36,5 @@ public interface ISubscriberAddController {
 	 * 		the subscriber's courses 
 	 */
 	void cmdSave(final Map<IFormField, String> mapToPass, final Date subscriptionDate, 
-			final Date expirationDate, final DefaultListModel<String> list, 
-			final Calendar currentSubscriptionCalendar, 
-			final Calendar currentExpirationCalendar);
+			final Date expirationDate, final DefaultListModel<String> list);
 }
