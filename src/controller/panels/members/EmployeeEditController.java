@@ -33,8 +33,8 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
 	 * 		the primary frame
 	 * @param employeeView
 	 * 		the employee panel
-	 * @param model
-	 * 		the model
+	 * @param gym
+	 * 		the gym
 	 * @param tableEmployeesController
 	 * 		the table employees controller
 	 * @param index
@@ -68,13 +68,21 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
 		view.showData(this.gym.getEmployees().get(this.index));
 	}
 	
-	private void editEmployee(final Map<IFormField, String> mapToPass, final String salario) {
+	/**
+	 * Edits the employee in the model
+	 * 
+	 * @param mapToPass
+	 * 		the employee's common fields
+	 * @param salary
+	 * 		the salary
+	 */
+	private void editEmployee(final Map<IFormField, String> mapToPass, final String salary) {
 		
 		//caso in cui l'impiegato è appena stato aggiunto -> si modifica anche il credito.
 		if(this.exEmployee.getSalary() == this.exEmployee.getCredit()) {	
 			this.gym.removeEmployee(this.index);
 			final int size = this.gym.getEmployees().size();
-			super.cmdSave(mapToPass, salario);
+			super.cmdSave(mapToPass, salary);
 			if(size == this.gym.getEmployees().size()) {
 				this.gym.addEmployee(this.index, exEmployee);
 			}
@@ -84,7 +92,7 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
 		else {
 			final Map<IFormField, String> fields = this.getCommonFields(mapToPass);
 			try {
-				Double.parseDouble(salario);
+				Double.parseDouble(salary);
 			} catch (NumberFormatException e) {
 				throw new IllegalArgumentException("Il salario specificato non è un numero valido.");
 			}
@@ -95,7 +103,7 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
 			this.exEmployee.setAddress(fields.get(EnumFieldsCommon.INDIRIZZO).trim());
 			this.exEmployee.setNumber(fields.get(EnumFieldsCommon.TELEFONO).trim());
 			this.exEmployee.setEmail(fields.get(EnumFieldsCommon.EMAIL).trim());
-			this.exEmployee.setSalary(Double.parseDouble(salario));
+			this.exEmployee.setSalary(Double.parseDouble(salary));
 			
 			this.frame.getChild().closeDialog();
 		}

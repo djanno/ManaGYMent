@@ -36,8 +36,8 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 	 * 		the primary frame
 	 * @param employeeView
 	 * 		the employee panel
-	 * @param model
-	 * 		the model
+	 * @param gym
+	 * 		the gym
 	 * @param tableEmployeesController
 	 * 		the table employees controller
 	 */

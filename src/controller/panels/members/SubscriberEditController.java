@@ -81,6 +81,18 @@ public class SubscriberEditController extends SubscriberAddController implements
                 this.view.showData(this.gym.getSubscribers().get(this.index));
         }
         
+        /**
+         * edits the subscriber in the model
+         * 
+         * @param mapToPass
+         * 		the subscriber's common fields
+         * @param subscriptionDate
+         * 		the subscriber's subscription date
+         * @param expirationDate
+         * 		the subscriber's expiration date
+         * @param list
+         * 		the subscriber's courses list
+         */
         private void editSubscriber(final Map<IFormField, String> mapToPass, final Date subscriptionDate, final Date expirationDate, final DefaultListModel<String> list) {
                 
                 if (compareCalendars(dateToCalendar(subscriptionDate), this.exSubscriber.getSubscriptionDate())
@@ -114,6 +126,12 @@ public class SubscriberEditController extends SubscriberAddController implements
                 }
         }
         
+        /**
+         * Re-add the subscriber if there is an exception
+         * 
+         * @param exSubscriber
+         * 		the subscriber before edit
+         */
         private void reAddExSubscriberToModel(final ISubscriber exSubscriber) {
                 try {
                         this.gym.addSubscriber(this.index, exSubscriber);

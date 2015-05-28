@@ -97,6 +97,15 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 		  return cal;
 	}
 	
+	/**
+	 * compares two calendars to see if they are equal
+	 * 
+	 * @param initialDate
+	 * 		the first date
+	 * @param finalDate
+	 * 		the second date
+	 * @return true if they are equal, false otherwise
+	 */
 	protected static boolean compareCalendars(final Calendar initialDate, final Calendar finalDate) {
 		return (initialDate.get(Calendar.DAY_OF_MONTH) == finalDate.get(Calendar.DAY_OF_MONTH) && 
 				initialDate.get(Calendar.MONTH) == finalDate.get(Calendar.MONTH) && 
@@ -144,6 +153,14 @@ public class SubscriberAddController extends BaseController implements ISubscrib
 	}
 	
 	
+	/**
+	 * Cheks the date
+	 * 
+	 * @param date
+	 * 		the date to check
+	 * @param lowerLimit
+	 * 		the limit date
+	 */
 	private void checkForDateExceptions(final Calendar date, final Calendar lowerLimit) {
 		
 		if(date.get(Calendar.YEAR) < lowerLimit.get(Calendar.YEAR)) {

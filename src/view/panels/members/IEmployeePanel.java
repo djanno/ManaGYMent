@@ -3,6 +3,13 @@ package view.panels.members;
 import model.gym.members.IEmployee;
 import controller.panels.members.IEmployeeAddController;
 
+
+/**
+ * Interface for {@link EmployeePanel}.
+ * 
+ * @author Davide Borficchia
+ *
+ */
 public interface IEmployeePanel {
 	
 	/**
