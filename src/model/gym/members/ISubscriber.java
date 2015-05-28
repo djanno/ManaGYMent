@@ -27,6 +27,10 @@ public interface ISubscriber extends IGymMember {
 
     void setCourses(final List<ICourse> courses);
 
+    void removeFromCourse(ICourse course);
+
+    void removeFromCourse(int courseIndex);
+
     void payFee();
 
 }

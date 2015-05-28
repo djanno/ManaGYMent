@@ -124,6 +124,7 @@ public class Course implements ICourse, Serializable {
         if (this.members.get(indexOfMember) == null) {
             throw new IllegalArgumentException("Iscritto non trovato.");
         } else {
+            //this.members.get(indexOfMember).removeFromCourse(this);
             this.members.remove(indexOfMember);
         }
     }
@@ -134,6 +135,7 @@ public class Course implements ICourse, Serializable {
         if (!this.members.contains(member)) {
             throw new IllegalArgumentException("Iscritto non trovato.");
         } else {
+            //this.members.get(this.members.indexOf(member)).removeFromCourse(this);
             this.members.remove(member);
         }
     }
