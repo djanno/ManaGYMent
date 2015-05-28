@@ -13,17 +13,15 @@ public class SignupStrategy implements ISignupStrategy {
 
     public enum SignupField implements ISignupField {
 
-        NAME("nome: ", 20, false, x -> (x.length() > 1 && x.length() < 20), "Inserire il proprio nome (max 20 caratteri)."), SURNAME("cognome: ", 20,
-                false, x -> (x.length() > 1 && x.length() < 20), "Inserire il proprio cognome (max 20 caratteri)."), GYM_NAME("nome palestra: ", 20,
-                false, x -> (x.length() > 1 && x.length() < 20), "Inserire il nome della palestra (max 20 caratteri)."), USERNAME("username: ", 20,
-                false, x -> (x.length() > 4 && x.length() < 20), "Inserire il proprio username (max 20 caratteri)."), PASSWORD("password: ", 20,
-                true, x -> (x.length() > 7), "Inserire la propria password (almeno 7 caratteri)."), CONFIRM_PASSWORD("conferma password: ", 20, true,
-                x -> (x.length() > 7), "Reinserire la propria password."), EMAIL("email: ", 20, false, x -> (Pattern
+        NAME("nome: ", 20, false, x -> (x.length() > 1 && x.length() < 20), "max 20 caratteri."), SURNAME("cognome: ", 20, false,
+                x -> (x.length() > 1 && x.length() < 20), "max 20 caratteri."), GYM_NAME("nome palestra: ", 20, false, x -> (x.length() > 1 && x
+                .length() < 20), "max 20 caratteri."), USERNAME("username: ", 20, false, x -> (x.length() > 4 && x.length() < 20),
+                "max 20 caratteri."), PASSWORD("password: ", 20, true, x -> (x.length() > 7), "almeno 8 caratteri."), CONFIRM_PASSWORD(
+                "conferma password: ", 20, true, x -> (x.length() > 7), "reinserire la propria password."), EMAIL("email: ", 20, false, x -> (Pattern
                 .compile(SignupField.EMAIL_PATTERN).matcher(x).matches() && (x.contains("@gmail.com") || x.contains("@yahoo.com") || x
-                .contains("@yahoo.it"))), "Inserire la propria email (solo gmail.com, yahoo.com o yahoo.it)."), CONFIRM_EMAIL("conferma email: ", 20,
-                false,
-                x -> (Pattern.compile(SignupField.EMAIL_PATTERN).matcher(x).matches() && (x.contains("@gmail.com") || x.contains("@yahoo.com") || x
-                        .contains("@yahoo.it"))), "Reinserire la propria email.");
+                .contains("@yahoo.it"))), "solo gmail.com, yahoo.com o yahoo.it."), CONFIRM_EMAIL("conferma email: ", 20, false, x -> (Pattern
+                .compile(SignupField.EMAIL_PATTERN).matcher(x).matches() && (x.contains("@gmail.com") || x.contains("@yahoo.com") || x
+                .contains("@yahoo.it"))), "reinserire la propria email.");
 
         private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 

@@ -11,6 +11,12 @@ import view.panels.gym.AddCoursePanel;
 import view.panels.gym.EditCoursePanel;
 import view.panels.gym.GymPanel;
 
+/**
+ * The controller for the {@link GymPanel}.
+ * 
+ * @author Federico Giannoni
+ *
+ */
 public class GymPanelController implements IGymPanelController {
 
     private static final String DIALOG_TITLE = "Aggiungi corso: ";
@@ -23,6 +29,16 @@ public class GymPanelController implements IGymPanelController {
     private final PrimaryFrame frame;
     private final GymPanel view;
 
+    /**
+     * The constructor for the controller.
+     * 
+     * @param gym
+     *            the data of the gym to be manipulated.
+     * @param frame
+     *            the primary frame of the application.
+     * @param view
+     *            the view.
+     */
     public GymPanelController(final IGym gym, final PrimaryFrame frame, final GymPanel view) {
         this.gym = gym;
         this.frame = frame;

@@ -6,8 +6,7 @@ import java.util.List;
 import model.IModel;
 import model.gym.members.IEmployee;
 import model.gym.members.ISubscriber;
-import controller.panels.email.SenderEmail;
-import view.IPrimaryFrame;
+import view.PrimaryFrame;
 import view.panels.email.SendEmailPanel;
 
 /**
@@ -19,7 +18,7 @@ import view.panels.email.SendEmailPanel;
 
 public class SendEmailPanelController implements ISendEmailPanelController {
 
-    private final IPrimaryFrame frame;
+    private final PrimaryFrame frame;
     private final SendEmailPanel view;
     private final IModel model;
 
@@ -34,7 +33,7 @@ public class SendEmailPanelController implements ISendEmailPanelController {
      * @param model
      *            the model
      */
-    public SendEmailPanelController(final IPrimaryFrame frame, final SendEmailPanel view, final IModel model) {
+    public SendEmailPanelController(final PrimaryFrame frame, final SendEmailPanel view, final IModel model) {
         this.frame = frame;
         this.view = view;
         this.view.attachObserver(this);
@@ -45,8 +44,8 @@ public class SendEmailPanelController implements ISendEmailPanelController {
     public void cmdSend(final String subject, final String body, final boolean employee, final boolean subscriber, final boolean exSubscriber,
             final char[] password) {
         try {
-            new SenderEmail(subject, body, getListRecipients(employee, subscriber, exSubscriber), this.model.getUser(this.frame.getActiveUser())
-                    .getEmail(), password).sendEmail();
+            new SenderEmail(subject, body, getListRecipients(employee, subscriber, exSubscriber),
+                    this.model.getUser(this.getLoggedUser()).getEmail(), password).sendEmail();
             this.view.showMessage(SENDED_EMAIL);
         } catch (Exception e) {
             this.frame.displayError(e.getMessage());
@@ -67,19 +66,19 @@ public class SendEmailPanelController implements ISendEmailPanelController {
         final List<String> destinatari = new ArrayList<String>();
         if (subscriber || employee || exSubscriber) {
             if (subscriber) {
-                for (final ISubscriber s : this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers()) {
+                for (final ISubscriber s : this.model.getUser(this.getLoggedUser()).getGym().getSubscribers()) {
                     if (!s.isExpired()) {
                         destinatari.add(s.getEmail());
                     }
                 }
             }
             if (employee) {
-                for (final IEmployee s : this.model.getUser(this.frame.getActiveUser()).getGym().getEmployees()) {
+                for (final IEmployee s : this.model.getUser(this.getLoggedUser()).getGym().getEmployees()) {
                     destinatari.add(s.getEmail());
                 }
             }
             if (exSubscriber) {
-                for (final ISubscriber s : this.model.getUser(this.frame.getActiveUser()).getGym().getSubscribers()) {
+                for (final ISubscriber s : this.model.getUser(this.getLoggedUser()).getGym().getSubscribers()) {
                     if (s.isExpired()) {
                         destinatari.add(s.getEmail());
                     }
@@ -89,5 +88,15 @@ public class SendEmailPanelController implements ISendEmailPanelController {
             throw new IllegalArgumentException(INVALID_RECIPIENTS);
         }
         return destinatari;
+    }
+
+    /**
+     * Returns the username of the user that is currently logged in. The purpose
+     * of this method is to avoid code duplication.
+     * 
+     * @return the username of the user that is currently logged in.
+     */
+    private String getLoggedUser() {
+        return this.frame.getPrimaryController().getActiveUser();
     }
 }

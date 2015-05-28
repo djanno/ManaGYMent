@@ -162,29 +162,13 @@ public class Gym implements IGym, Serializable {
     @Override
     public void removeCourse(final int courseIndex) {
         final ICourse courseToDelete = this.courses.get(courseIndex);
-        for (final Schedule schedule : this.getProgram().getCalendar().values()) {
-            courseToDelete.getCoaches().forEach(coach -> schedule.deletePair(new Pair<ICourse, IEmployee>(courseToDelete, coach)));
-        }
-
-        for (final ISubscriber sub : courseToDelete.getCurrentMembers()) {
-            final long daysLeft = TimeUnit.MILLISECONDS.toDays(sub.getExpirationDate().getTimeInMillis()
-                    - Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome")).getTimeInMillis());
-            sub.setFee(sub.getFee() - daysLeft * courseToDelete.getCoursePrice());
-        }
+        this.cleanScheduleAndRefundSubscribers(courseToDelete);
         this.courses.remove(courseIndex);
     }
 
     @Override
     public void removeCourse(final ICourse course) {
-        for (final Schedule schedule : this.getProgram().getCalendar().values()) {
-            course.getCoaches().forEach(coach -> schedule.deletePair(new Pair<ICourse, IEmployee>(course, coach)));
-        }
-
-        for (final ISubscriber sub : course.getCurrentMembers()) {
-            final long daysLeft = TimeUnit.MILLISECONDS.toDays(sub.getExpirationDate().getTimeInMillis()
-                    - Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome")).getTimeInMillis());
-            sub.setFee(sub.getFee() - daysLeft * course.getCoursePrice());
-        }
+        this.cleanScheduleAndRefundSubscribers(course);
         this.courses.remove(course);
     }
 
@@ -193,22 +177,14 @@ public class Gym implements IGym, Serializable {
         // this.setIncome(this.subscribers.get(subscriberIndex).getFee(),
         // this.subscribers.get(subscriberIndex).getSubscriptionDate());
         final ISubscriber subscriberToRemove = this.subscribers.get(subscriberIndex);
-        subscriberToRemove.getCourses().forEach(course -> {
-            if (course.getCurrentMembers().contains(subscriberToRemove)) {
-                course.removeMember(subscriberToRemove);
-            }
-        });
+        this.removeDeletedMembersFromCourses(subscriberToRemove);
         this.subscribers.remove(subscriberIndex);
 
     }
 
     @Override
     public void removeSubscriber(final ISubscriber subscriber) {
-        subscriber.getCourses().forEach(course -> {
-            if (course.getCurrentMembers().contains(subscriber)) {
-                course.removeMember(subscriber);
-            }
-        });
+        this.removeDeletedMembersFromCourses(subscriber);
         this.subscribers.remove(subscriber);
     }
 
@@ -217,19 +193,13 @@ public class Gym implements IGym, Serializable {
         // this.setIncome(this.employees.get(employeeIndex).getSalary(),
         // this.getCurrentCalendar());
         final IEmployee employeeToRemove = this.employees.get(employeeIndex);
-        this.courses.stream().filter(course -> course.getCoaches().contains(employeeToRemove)).forEach(course -> {
-            course.removeCoach(employeeToRemove);
-            this.calendar.getCalendar().forEach((day, schedule) -> schedule.deletePair(new Pair<ICourse, IEmployee>(course, employeeToRemove)));
-        });
+        this.cleanScheduleAndCoursesWithCoach(employeeToRemove);
         this.employees.remove(employeeIndex);
     }
 
     @Override
     public void removeEmployee(final IEmployee employee) {
-        this.courses.stream().filter(course -> course.getCoaches().contains(employee)).forEach(course -> {
-            course.removeCoach(employee);
-            this.calendar.getCalendar().forEach((day, schedule) -> schedule.deletePair(new Pair<ICourse, IEmployee>(course, employee)));
-        });
+        this.cleanScheduleAndCoursesWithCoach(employee);
         this.employees.remove(employee);
     }
 
@@ -269,6 +239,34 @@ public class Gym implements IGym, Serializable {
                         - employee.getLastPayed().getTimeInMillis()) > 29).forEach(employee -> employee.setCredit(employee.getSalary()));
     }
 
+    private void cleanScheduleAndRefundSubscribers(final ICourse courseToDelete) {
+        for (final Schedule schedule : this.getProgram().getCalendar().values()) {
+            courseToDelete.getCoaches().forEach(coach -> schedule.deletePair(new Pair<ICourse, IEmployee>(courseToDelete, coach)));
+        }
+
+        for (final ISubscriber sub : courseToDelete.getCurrentMembers()) {
+            final long daysLeft = TimeUnit.MILLISECONDS.toDays(sub.getExpirationDate().getTimeInMillis()
+                    - Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome")).getTimeInMillis());
+            sub.setFee(sub.getFee() - daysLeft * courseToDelete.getCoursePrice());
+            sub.removeFromCourse(courseToDelete);
+        }
+    }
+    
+    private void removeDeletedMembersFromCourses(final ISubscriber subscriberToRemove) {
+        subscriberToRemove.getCourses().forEach(course -> {
+            if (course.getCurrentMembers().contains(subscriberToRemove)) {
+                course.removeMember(subscriberToRemove);
+            }
+        });
+    }
+    
+    private void cleanScheduleAndCoursesWithCoach(final IEmployee employeeToRemove) {
+        this.courses.stream().filter(course -> course.getCoaches().contains(employeeToRemove)).forEach(course -> {
+            course.removeCoach(employeeToRemove);
+            this.calendar.getCalendar().forEach((day, schedule) -> schedule.deletePair(new Pair<ICourse, IEmployee>(course, employeeToRemove)));
+        });
+    }
+    
     private Calendar getCurrentCalendar() {
         return Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
     }
