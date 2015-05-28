@@ -38,6 +38,12 @@ public class BaseController implements IBaseController {
         return corsi;
     }
 
+    /**
+     * Checks if all fields are correct
+     * @param mapToPass
+     * 		the map of fields to check
+     * @return the map if there aren't exception
+     */
     protected Map<IFormField, String> getCommonFields(final Map<IFormField, String> mapToPass) {
 
         for (final IFormField f : mapToPass.keySet()) {
