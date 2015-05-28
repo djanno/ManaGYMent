@@ -36,8 +36,8 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
      *            the primary frame
      * @param employeeView
      *            the employee panel
-     * @param model
-     *            the model
+     * @param gym
+     *            the gym
      * @param tableEmployeesController
      *            the table employees controller
      */
@@ -85,8 +85,9 @@ public class EmployeeAddController extends BaseController implements IEmployeeAd
 
         final Map<IFormField, String> fields = this.getCommonFields(mapToPass);
 
-        return new Employee(fields.get(EnumFieldsCommon.NOME), fields.get(EnumFieldsCommon.COGNOME), fields.get(EnumFieldsCommon.CODICE_FISCALE),
-                fields.get(EnumFieldsCommon.INDIRIZZO), fields.get(EnumFieldsCommon.TELEFONO), fields.get(EnumFieldsCommon.EMAIL), this.gym,
-                doubleSalary);
+        return new Employee(fields.get(EnumFieldsCommon.NOME).trim(), fields.get(EnumFieldsCommon.COGNOME).trim(), 
+                fields.get(EnumFieldsCommon.CODICE_FISCALE).trim(), fields.get(EnumFieldsCommon.INDIRIZZO).trim(), 
+                fields.get(EnumFieldsCommon.TELEFONO).trim(), fields.get(EnumFieldsCommon.EMAIL).trim(), 
+                this.gym, doubleSalary);
     }
 }

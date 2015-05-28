@@ -60,9 +60,6 @@ public class SubscriberAddController extends BaseController implements ISubscrib
         this.view = subscriberView;
         this.gym = gym;
         this.tableSubscribersController = tableSubscribersController;
-        // this.currentSubscriptionCalendar =
-        // Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"),
-        // Locale.ITALY);
         this.view.attachObserver(this);
         this.view.setComboBox(this.gym.getCourses());
     }
@@ -102,6 +99,15 @@ public class SubscriberAddController extends BaseController implements ISubscrib
         return cal;
     }
 
+    /**
+     * compares two calendars to see if they are equal
+     * 
+     * @param initialDate
+     *            the first date
+     * @param finalDate
+     *            the second date
+     * @return true if they are equal, false otherwise
+     */
     protected static boolean compareCalendars(final Calendar initialDate, final Calendar finalDate) {
         return (initialDate.get(Calendar.DAY_OF_MONTH) == finalDate.get(Calendar.DAY_OF_MONTH)
                 && initialDate.get(Calendar.MONTH) == finalDate.get(Calendar.MONTH) && initialDate.get(Calendar.YEAR) == finalDate.get(Calendar.YEAR));
@@ -143,11 +149,19 @@ public class SubscriberAddController extends BaseController implements ISubscrib
             throw new IllegalArgumentException("La data di scadenza non può coincidere con quella di iscrizione.");
         }
 
-        return new Subscriber(fields.get(EnumFieldsCommon.NOME), fields.get(EnumFieldsCommon.COGNOME), fields.get(EnumFieldsCommon.CODICE_FISCALE),
-                fields.get(EnumFieldsCommon.INDIRIZZO), fields.get(EnumFieldsCommon.TELEFONO), fields.get(EnumFieldsCommon.EMAIL), this.gym,
-                subscriptionDate, expirationDate, convertList(list, this.gym.getCourses()));
+        return new Subscriber(fields.get(EnumFieldsCommon.NOME).trim(), fields.get(EnumFieldsCommon.COGNOME).trim(), fields.get(
+                EnumFieldsCommon.CODICE_FISCALE).trim(), fields.get(EnumFieldsCommon.INDIRIZZO).trim(), fields.get(EnumFieldsCommon.TELEFONO).trim(),
+                fields.get(EnumFieldsCommon.EMAIL).trim(), this.gym, subscriptionDate, expirationDate, convertList(list, this.gym.getCourses()));
     }
 
+    /**
+     * Cheks the date
+     * 
+     * @param date
+     *            the date to check
+     * @param lowerLimit
+     *            the limit date
+     */
     private void checkForDateExceptions(final Calendar date, final Calendar lowerLimit) {
 
         if (date.get(Calendar.YEAR) < lowerLimit.get(Calendar.YEAR)) {

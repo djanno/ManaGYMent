@@ -82,6 +82,18 @@ public class SubscriberEditController extends SubscriberAddController implements
         this.view.showData(this.gym.getSubscribers().get(this.index));
     }
 
+    /**
+     * edits the subscriber in the model
+     * 
+     * @param mapToPass
+     *            the subscriber's common fields
+     * @param subscriptionDate
+     *            the subscriber's subscription date
+     * @param expirationDate
+     *            the subscriber's expiration date
+     * @param list
+     *            the subscriber's courses list
+     */
     private void editSubscriber(final Map<IFormField, String> mapToPass, final Date subscriptionDate, final Date expirationDate,
             final DefaultListModel<String> list) {
 
@@ -91,12 +103,12 @@ public class SubscriberEditController extends SubscriberAddController implements
 
             final Map<IFormField, String> fields = this.getCommonFields(mapToPass);
 
-            this.exSubscriber.setName(fields.get(EnumFieldsCommon.NOME));
-            this.exSubscriber.setSurname(fields.get(EnumFieldsCommon.COGNOME));
-            this.exSubscriber.setFiscalCode(fields.get(EnumFieldsCommon.CODICE_FISCALE));
-            this.exSubscriber.setAddress(fields.get(EnumFieldsCommon.INDIRIZZO));
-            this.exSubscriber.setNumber(fields.get(EnumFieldsCommon.TELEFONO));
-            this.exSubscriber.setEmail(fields.get(EnumFieldsCommon.EMAIL));
+            this.exSubscriber.setName(fields.get(EnumFieldsCommon.NOME).trim());
+            this.exSubscriber.setSurname(fields.get(EnumFieldsCommon.COGNOME).trim());
+            this.exSubscriber.setFiscalCode(fields.get(EnumFieldsCommon.CODICE_FISCALE).trim());
+            this.exSubscriber.setAddress(fields.get(EnumFieldsCommon.INDIRIZZO).trim());
+            this.exSubscriber.setNumber(fields.get(EnumFieldsCommon.TELEFONO).trim());
+            this.exSubscriber.setEmail(fields.get(EnumFieldsCommon.EMAIL).trim());
 
             this.frame.getChild().closeDialog();
         }
@@ -116,6 +128,12 @@ public class SubscriberEditController extends SubscriberAddController implements
         }
     }
 
+    /**
+     * Re-add the subscriber if there is an exception
+     * 
+     * @param exSubscriber
+     *            the subscriber before edit
+     */
     private void reAddExSubscriberToModel(final ISubscriber exSubscriber) {
         try {
             this.gym.addSubscriber(this.index, exSubscriber);
@@ -124,3 +142,4 @@ public class SubscriberEditController extends SubscriberAddController implements
         }
     }
 }
+
