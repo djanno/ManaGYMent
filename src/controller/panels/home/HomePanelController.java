@@ -14,6 +14,12 @@ import view.panels.home.HomePanel.CoursesWrapper;
 import view.panels.home.LegendPanel;
 import view.panels.home.SetCalendarPanel;
 
+/**
+ * The controller for the {@link HomePanel}.
+ * 
+ * @author Federico Giannoni
+ *
+ */
 public class HomePanelController implements IHomePanelController {
 
     private static final String DIALOG_TITLE = "Modifica l'orario della giornata: ";
@@ -24,6 +30,16 @@ public class HomePanelController implements IHomePanelController {
     private final PrimaryFrame frame;
     private final HomePanel view;
 
+    /**
+     * The constructor for the controller.
+     * 
+     * @param gym
+     *            the data of the gym to be manipulated.
+     * @param frame
+     *            the primary frame of the application.
+     * @param view
+     *            the view.
+     */
     public HomePanelController(final IGym gym, final PrimaryFrame frame, final HomePanel view) {
         this.gym = gym;
         this.frame = frame;
@@ -97,8 +113,8 @@ public class HomePanelController implements IHomePanelController {
                 /*
                  * this.view.addDataRow(new Object[] {i +":00", new
                  * CoursesWrapper
-                 * (calendar.getCalendar().get(DaysOfWeek.LUNEDI).
-                 * getCoursesInHour (i),
+                 * (calendar.getCalendar().get(DaysOfWeek.LUNEDI).getCoursesInHour
+                 * (i),
                  * calendar.getCalendar().get(DaysOfWeek.LUNEDI).isGymOpenedAt
                  * (i)), new
                  * CoursesWrapper(calendar.getCalendar().get(DaysOfWeek
@@ -119,8 +135,8 @@ public class HomePanelController implements IHomePanelController {
                  * calendar.getCalendar
                  * ().get(DaysOfWeek.VENERDI).isGymOpenedAt(i)), new
                  * CoursesWrapper
-                 * (calendar.getCalendar().get(DaysOfWeek.SABATO).
-                 * getCoursesInHour (i),
+                 * (calendar.getCalendar().get(DaysOfWeek.SABATO).getCoursesInHour
+                 * (i),
                  * calendar.getCalendar().get(DaysOfWeek.SABATO).isGymOpenedAt
                  * (i)), new
                  * CoursesWrapper(calendar.getCalendar().get(DaysOfWeek

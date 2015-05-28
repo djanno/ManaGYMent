@@ -155,6 +155,7 @@ public class Course implements ICourse, Serializable {
         if (this.members.get(indexOfMember) == null) {
             throw new IllegalArgumentException("Iscritto non trovato.");
         } else {
+            //this.members.get(indexOfMember).removeFromCourse(this);
             this.members.remove(indexOfMember);
         }
     }
