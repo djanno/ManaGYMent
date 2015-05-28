@@ -99,7 +99,7 @@ public class SubscriberEditController extends SubscriberAddController implements
 
         if (compareCalendars(dateToCalendar(subscriptionDate), this.exSubscriber.getSubscriptionDate())
                 && compareCalendars(dateToCalendar(expirationDate), this.exSubscriber.getExpirationDate())
-                && convertList(list, this.gym.getCourses()).equals(this.exSubscriber.getCourses())) {
+                && convertList(list).equals(this.exSubscriber.getCourses())) {
 
             final Map<IFormField, String> fields = this.getCommonFields(mapToPass);
 

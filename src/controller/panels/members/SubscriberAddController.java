@@ -115,15 +115,20 @@ public class SubscriberAddController extends MemberAddController implements ISub
     }
 
     
-    protected List<ICourse> convertList(final DefaultListModel<String> list, final List<ICourse> gymCourses) {
+    protected List<ICourse> convertList(final DefaultListModel<String> list) {
         final List<ICourse> corsi = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            for (final ICourse c : gymCourses) {
-                if (list.getElementAt(i).equals(c.getCourseName())) {
-                    corsi.add(c);
-                }
-            }
+//        for (int i = 0; i < list.size(); i++) {
+//            for (final ICourse c : this.gym.getCourses()) {
+//                if (list.getElementAt(i).equals(c.getCourseName())) {
+//                    corsi.add(this.gym.getCourseByName(c.getCourseName()));
+//                }
+//            }
+//        }
+        
+        for(int i = 0; i < list.size(); i++) {
+            corsi.add(this.gym.getCourseByName(list.getElementAt(i)));
         }
+        
         return corsi;
     }
     
@@ -165,7 +170,7 @@ public class SubscriberAddController extends MemberAddController implements ISub
 
         return new Subscriber(fields.get(EnumFieldsCommon.NOME).trim(), fields.get(EnumFieldsCommon.COGNOME).trim(), fields.get(
                 EnumFieldsCommon.CODICE_FISCALE).trim(), fields.get(EnumFieldsCommon.INDIRIZZO).trim(), fields.get(EnumFieldsCommon.TELEFONO).trim(),
-                fields.get(EnumFieldsCommon.EMAIL).trim(), this.gym, subscriptionDate, expirationDate, convertList(list, this.gym.getCourses()));
+                fields.get(EnumFieldsCommon.EMAIL).trim(), this.gym, subscriptionDate, expirationDate, convertList(list));
     }
 
     /**
