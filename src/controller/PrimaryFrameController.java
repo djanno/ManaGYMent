@@ -28,12 +28,17 @@ import controller.panels.gym.IGymPanelController;
 import controller.panels.home.HomePanelController;
 import controller.panels.home.IHomePanelController;
 import controller.panels.login.LoginPanelController;
-import controller.panels.members.tables.AbstractTableMemberController;
+import controller.panels.members.tables.IAbstractTableMemberController;
 import controller.panels.members.tables.TableEmployeesController;
 import controller.panels.members.tables.TableSubscribersController;
 import controller.panels.profile.ProfilePanelController;
 import exceptions.NoCoursesInGymException;
 
+/**
+ * The controller for the {@link PrimaryFrame}.
+ * @author Federico Giannoni
+ *
+ */
 public class PrimaryFrameController implements IPrimaryFrameController {
 
 	private final static String SAVE_FILE_PATH = System.getProperty("user.home") + "/data.gym";
@@ -45,10 +50,28 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	private IModel model;
 	private final PrimaryFrame primaryFrame;
 	
+	private String activeUser;
+	
+	/**
+	 * The constructor for the controller.
+	 * @param model the data model to be manipulated.
+	 * @param frame the view and also the primary frame of the application.
+	 */
 	public PrimaryFrameController(final IModel model, final PrimaryFrame frame) {
 		this.model = model;
 		this.primaryFrame = frame;
 		this.primaryFrame.attachObserver(this);
+	}
+	
+	
+	@Override
+	public String getActiveUser() {
+		return this.activeUser;
+	}
+	
+	@Override
+	public void setActiveUser(final String username) {
+		this.activeUser = username;
 	}
 	
 	@Override
@@ -62,7 +85,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	public void buildHomePanel() {
 		this.cmdRefreshData();
 		final HomePanel panel = new HomePanel(BACKGROUND_PATH);
-		final IHomePanelController controller = new HomePanelController(this.model.getGym(this.primaryFrame.getActiveUser()), this.primaryFrame, panel);
+		final IHomePanelController controller = new HomePanelController(this.model.getGym(this.activeUser), this.primaryFrame, panel);
 		this.primaryFrame.setCurrentPanel(panel);	
 		controller.loadCalendar();
 	}
@@ -70,7 +93,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	@Override
 	public void buildSubPagePanel() {
 		this.cmdRefreshData();
-		if(this.model.getGym(this.primaryFrame.getActiveUser()).getCourses().isEmpty()){
+		if(this.model.getGym(this.activeUser).getCourses().isEmpty()){
 		    try {
                         throw new NoCoursesInGymException();
                     } catch (NoCoursesInGymException e) {
@@ -78,9 +101,9 @@ public class PrimaryFrameController implements IPrimaryFrameController {
                     }
 		}else{
 		    final TableMemberPanel panel = new TableMemberPanel(new SubscriberStrategy(), BACKGROUND_PATH);
-		    final AbstractTableMemberController observer = new TableSubscribersController(this.model.getGym(this.primaryFrame.getActiveUser()), this.primaryFrame, panel);
+		    final IAbstractTableMemberController observer = new TableSubscribersController(this.model.getGym(this.activeUser), this.primaryFrame, panel);
 		    this.primaryFrame.setCurrentPanel(panel);
-		    observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getSubscribers());
+		    observer.createTable(this.model.getGym(this.activeUser).getSubscribers());
 		}
 		
 	}
@@ -89,16 +112,16 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	public void buildEmployeePagePanel() {
 		this.cmdRefreshData();
 		final TableMemberPanel panel = new TableMemberPanel(new EmployeeStrategy(), BACKGROUND_PATH);
-		final AbstractTableMemberController observer = new TableEmployeesController(this.model.getGym(this.primaryFrame.getActiveUser()), this.primaryFrame, panel);
+		final IAbstractTableMemberController observer = new TableEmployeesController(this.model.getGym(this.activeUser), this.primaryFrame, panel);
 		this.primaryFrame.setCurrentPanel(panel);
-		observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getEmployees());
+		observer.createTable(this.model.getGym(this.activeUser).getEmployees());
 	}
 
 	@Override
 	public void buildGymPagePanel() {
 		this.cmdRefreshData();
 		final GymPanel panel = new GymPanel(BACKGROUND_PATH);
-		final IGymPanelController observer = new GymPanelController(this.model.getGym(this.primaryFrame.getActiveUser()), this.primaryFrame, panel);
+		final IGymPanelController observer = new GymPanelController(this.model.getGym(this.activeUser), this.primaryFrame, panel);
 		this.primaryFrame.setCurrentPanel(panel);
 		observer.loadIncomeTable();
 		observer.loadCoursesTable();
@@ -107,7 +130,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	@Override
 	public void buildProfilePagePanel() {
 		this.cmdRefreshData();
-		final ProfilePanel panel = new ProfilePanel(BACKGROUND_PATH, this.model.getUser(this.primaryFrame.getActiveUser()).getName());
+		final ProfilePanel panel = new ProfilePanel(BACKGROUND_PATH, this.model.getUser(this.activeUser).getName());
 		new ProfilePanelController(this.primaryFrame, panel, this.model);
 		this.primaryFrame.setCurrentPanel(panel);
 	}
@@ -124,7 +147,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	public void cmdLogout() {
 		final int n = JOptionPane.showConfirmDialog(this.primaryFrame, "Sei sicuro di volerti scollegare?", "Logging out...", JOptionPane.YES_NO_OPTION);
 		if(n == JOptionPane.YES_OPTION) {
-			this.primaryFrame.setActiveUser(null);
+			this.setActiveUser(null);
 			this.primaryFrame.setNavigationMenuEnabled(false);
 			this.buildLoginPanel();
 		}
@@ -166,7 +189,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 	public void cmdQuit() {
 		final int n = JOptionPane.showConfirmDialog(this.primaryFrame, PrimaryFrameController.EXIT_MSG, "Closing...", JOptionPane.YES_NO_OPTION);
 		if(n == JOptionPane.YES_OPTION) {
-			this.primaryFrame.setActiveUser(null);
+			this.setActiveUser(null);
 			this.cmdSave(null);
 			System.exit(0);
 		}
@@ -178,10 +201,10 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 			
 			@Override
 			public void run() {
-				model.getGym(primaryFrame.getActiveUser()).updateEmployeesCredit();
-				model.getGym(primaryFrame.getActiveUser()).setExpiredSubscribers();
-				model.getGym(primaryFrame.getActiveUser()).getCourses().forEach(course -> course.removeExpiredMembers());
-				model.getGym(primaryFrame.getActiveUser()).setIncome(0.0, Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));
+				model.getGym(activeUser).updateEmployeesCredit();
+				model.getGym(activeUser).setExpiredSubscribers();
+				model.getGym(activeUser).getCourses().forEach(course -> course.removeExpiredMembers());
+				model.getGym(activeUser).setIncome(0.0, Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));
 				primaryFrame.setCurrentPanel(primaryFrame.getCurrentPanel());
 			}
 		};
@@ -189,6 +212,11 @@ public class PrimaryFrameController implements IPrimaryFrameController {
 		refresh.start();
 	}
 	
+	/**
+	 * Checks if the specified data file exists.
+	 * @param path the path to the file.
+	 * @return true if the file exists, false otherwise.
+	 */
 	private boolean isFilePresent(final String path) {
 		final File data = new File(path);
 		return data.exists();

@@ -18,8 +18,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
+import org.jdesktop.xswingx.PromptSupport;
+
 import view.panels.Background;
 import controller.panels.signup.ISignupPanelController;
+
 
 public class SignupPanel extends Background implements ISignupPanel, ActionListener, KeyListener {
 
@@ -64,7 +67,7 @@ public class SignupPanel extends Background implements ISignupPanel, ActionListe
 				this.map.put(value, new JTextField(value.getLength()));
 			}
 			
-			this.map.get(value).setToolTipText(value.getToolTipText());
+			PromptSupport.setPrompt(value.getToolTipText(), this.map.get(value));
 			this.map.get(value).addKeyListener(this);
 			
 			cnst.gridx++;

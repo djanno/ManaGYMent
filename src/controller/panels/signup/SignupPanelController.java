@@ -15,6 +15,11 @@ import view.panels.signup.SignupPanel;
 import view.panels.signup.SignupStrategy.SignupField;
 import exceptions.UserAlreadyExistsException;
 
+/**
+ * The controller for the {@link SignupPanel}.
+ * @author Federico Giannoni
+ *
+ */
 public class SignupPanelController implements ISignupPanelController {
 	
 	private static final String REGISTRATION_SUCCESSFUL = "Utente registrato correttamente";
@@ -24,6 +29,12 @@ public class SignupPanelController implements ISignupPanelController {
 	private final PrimaryFrame frame;
 	private final IModel model;
 	
+	/**
+	 * The constructor for the controller.
+	 * @param frame the primary frame of the application.
+	 * @param model the data model to be manipulated.
+	 * @param view the view.
+	 */
 	public SignupPanelController(final PrimaryFrame frame, final IModel model, final SignupPanel view){
 		this.view = view;
 		this.model = model;

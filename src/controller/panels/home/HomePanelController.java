@@ -14,6 +14,11 @@ import view.panels.home.HomePanel.CoursesWrapper;
 import view.panels.home.LegendPanel;
 import view.panels.home.SetCalendarPanel;
 
+/**
+ * The controller for the {@link HomePanel}.
+ * @author Federico Giannoni
+ *
+ */
 public class HomePanelController implements IHomePanelController {
 
 	private static final String DIALOG_TITLE = "Modifica l'orario della giornata: ";
@@ -24,6 +29,12 @@ public class HomePanelController implements IHomePanelController {
 	private final PrimaryFrame frame;
 	private final HomePanel view;
 	
+	/**
+	 * The constructor for the controller.
+	 * @param gym the data of the gym to be manipulated.
+	 * @param frame the primary frame of the application.
+	 * @param view the view.
+	 */
 	public HomePanelController(final IGym gym, final PrimaryFrame frame, final HomePanel view) {
 		this.gym = gym;
 		this.frame = frame;
