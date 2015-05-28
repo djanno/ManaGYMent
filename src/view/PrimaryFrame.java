@@ -45,7 +45,6 @@ public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListene
     private static final int NAVIGATION_MENU_VOICES = 7; // ADD A LOGOUT OPTION.
     private static final int OPTION_MENU_VOICES = 2;
 
-    private String activeUser;
     private IPrimaryFrameController observer;
     private DialogWindow child;
 
@@ -165,11 +164,6 @@ public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListene
     }
 
     @Override
-    public String getActiveUser() {
-        return this.activeUser;
-    }
-
-    @Override
     public DialogWindow getChild() {
         return this.child;
     }
@@ -205,11 +199,6 @@ public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListene
         // vengano ripulite tutte le regioni "sporche" del pannello (altrimenti
         // non è detta
         // che vengano ripulite tutte).
-    }
-
-    @Override
-    public void setActiveUser(final String username) {
-        this.activeUser = username;
     }
 
     @Override

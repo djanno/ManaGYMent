@@ -48,7 +48,7 @@ public class ProfilePanelController implements IProfilePanelController {
             this.frame.displayError(NO_EMPTY_FIELDS);
         } else {
             if (this.checkPassword(psw, confirmPsw)) {
-                this.model.getUser(this.frame.getActiveUser()).setPassword(confirmPsw);
+                this.model.getUser(this.frame.getPrimaryController().getActiveUser()).setPassword(confirmPsw);
                 JOptionPane.showMessageDialog(this.frame, CHANGED_PASSWORD, "Password modificata", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 this.frame.displayError(NO_EQUAL_PASSWORD);
@@ -63,7 +63,7 @@ public class ProfilePanelController implements IProfilePanelController {
         } else {
             if (email.equals(confirmEmail)) {
                 if (email.contains("@gmail.com") || email.contains("@yahoo.com") || email.contains("@yahoo.it")) {
-                    this.model.getUser(this.frame.getActiveUser()).setEmail(confirmEmail);
+                    this.model.getUser(this.frame.getPrimaryController().getActiveUser()).setEmail(confirmEmail);
                     JOptionPane.showMessageDialog(this.frame, CHANGED_EMAIL, "Email modificata.", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     this.frame.displayError(INVALID_EMAIL);
