@@ -28,7 +28,7 @@ import controller.panels.gym.IGymPanelController;
 import controller.panels.home.HomePanelController;
 import controller.panels.home.IHomePanelController;
 import controller.panels.login.LoginPanelController;
-import controller.panels.members.tables.AbstractTableMemberController;
+import controller.panels.members.tables.IAbstractTableMemberController;
 import controller.panels.members.tables.TableEmployeesController;
 import controller.panels.members.tables.TableSubscribersController;
 import controller.panels.profile.ProfilePanelController;
@@ -79,7 +79,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
             }
         } else {
             final TableMemberPanel panel = new TableMemberPanel(new SubscriberStrategy(), BACKGROUND_PATH);
-            final AbstractTableMemberController observer = new TableSubscribersController(this.model.getGym(this.primaryFrame.getActiveUser()),
+            final IAbstractTableMemberController observer = new TableSubscribersController(this.model.getGym(this.primaryFrame.getActiveUser()),
                     this.primaryFrame, panel);
             this.primaryFrame.setCurrentPanel(panel);
             observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getSubscribers());
@@ -91,7 +91,7 @@ public class PrimaryFrameController implements IPrimaryFrameController {
     public void buildEmployeePagePanel() {
         this.cmdRefreshData();
         final TableMemberPanel panel = new TableMemberPanel(new EmployeeStrategy(), BACKGROUND_PATH);
-        final AbstractTableMemberController observer = new TableEmployeesController(this.model.getGym(this.primaryFrame.getActiveUser()),
+        final IAbstractTableMemberController observer = new TableEmployeesController(this.model.getGym(this.primaryFrame.getActiveUser()),
                 this.primaryFrame, panel);
         this.primaryFrame.setCurrentPanel(panel);
         observer.createTable(this.model.getGym(this.primaryFrame.getActiveUser()).getEmployees());

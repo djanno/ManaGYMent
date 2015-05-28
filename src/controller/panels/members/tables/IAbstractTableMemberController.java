@@ -46,6 +46,6 @@ public interface IAbstractTableMemberController {
      * @param index
      *            the index of member to be payed
      */
-    abstract void handlePaymentCmd(final int index);
+    void handlePaymentCmd(final int index);
 
 }

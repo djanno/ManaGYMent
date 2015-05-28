@@ -11,7 +11,7 @@ import view.panels.members.IFormField;
  *
  */
 
-public interface IEmployeeEditController {
+public interface IEmployeeEditController extends IEmployeeAddController{
 
     /**
      * 

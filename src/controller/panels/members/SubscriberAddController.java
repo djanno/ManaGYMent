@@ -1,5 +1,6 @@
 package controller.panels.members;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,7 @@ import controller.panels.members.tables.TableSubscribersController;
  *
  */
 
-public class SubscriberAddController extends BaseController implements ISubscriberAddController {
+public class SubscriberAddController extends MemberAddController implements ISubscriberAddController {
 
     private static final String EMPTY_LIST = "Bisogna aggiungere almeno un corso.";
     protected static final String NULL_DATA = "Inserire le date di iscrizione/scadenza.";
@@ -113,6 +114,19 @@ public class SubscriberAddController extends BaseController implements ISubscrib
                 && initialDate.get(Calendar.MONTH) == finalDate.get(Calendar.MONTH) && initialDate.get(Calendar.YEAR) == finalDate.get(Calendar.YEAR));
     }
 
+    
+    protected List<ICourse> convertList(final DefaultListModel<String> list, final List<ICourse> gymCourses) {
+        final List<ICourse> corsi = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            for (final ICourse c : gymCourses) {
+                if (list.getElementAt(i).equals(c.getCourseName())) {
+                    corsi.add(c);
+                }
+            }
+        }
+        return corsi;
+    }
+    
     /**
      * 
      * Creates new subscriber from GUI

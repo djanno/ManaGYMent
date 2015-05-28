@@ -12,6 +12,11 @@ import utility.UtilityClass;
 //import exceptions.CourseIsFullException;
 import exceptions.CourseIsFullException;
 
+/**
+ * @author Simone Letizi
+ * @author Federico Giannoni
+ * This class represent a generic gym's course 
+ */
 public class Course implements ICourse, Serializable {
 
     private static final long serialVersionUID = 6012814332577508826L;
@@ -25,6 +30,18 @@ public class Course implements ICourse, Serializable {
     private int maxMembers;
     private Color color;
 
+    /**
+     * Construct a course without members and coaches
+     * 
+     * @param name
+     *          the name of the course
+     * @param color
+     *          the color of the course
+     * @param price
+     *          the price of the course
+     * @param maxMembers
+     *          the number of max member that the course can reach
+     */
     public Course(final String name, final Color color, final double price, final int maxMembers) {
         super();
         this.name = name;
@@ -35,6 +52,20 @@ public class Course implements ICourse, Serializable {
         this.coaches = new ArrayList<>();
     }
 
+    /**
+     * @param name
+     *          the name of the course
+     * @param color
+     *          the color of the course
+     * @param price
+     *          the price of the course
+     * @param maxMembers
+     *          the number of max member that the course can reach
+     * @param coaches
+     *          the list of coaches
+     * @param members
+     *          the list of members
+     */
     public Course(final String name, final Color color, final double price, final int maxMembers, final List<IEmployee> coaches,
             final List<ISubscriber> members) {
         this(name, color, price, maxMembers);
@@ -131,10 +162,10 @@ public class Course implements ICourse, Serializable {
     @Override
     public void removeMember(final ISubscriber member) throws IllegalArgumentException {
         // potrebbero essere inutili i controlli nel nostro caso
-        if (!this.members.contains(member)) {
-            throw new IllegalArgumentException("Iscritto non trovato.");
-        } else {
+        if (this.members.contains(member)) {
             this.members.remove(member);
+        } else {
+            throw new IllegalArgumentException("Iscritto non trovato.");
         }
     }
 
@@ -156,10 +187,10 @@ public class Course implements ICourse, Serializable {
     @Override
     public void removeCoach(final IEmployee coach) throws IllegalArgumentException {
         // potrebbero essere inutili i controlli nel nostro caso
-        if (!this.coaches.contains(coach)) {
-            throw new IllegalArgumentException("Coach non trovato.");
-        } else {
+        if (this.coaches.contains(coach)) {
             this.coaches.remove(coach);
+        } else {
+            throw new IllegalArgumentException("Coach non trovato.");
         }
     }
 

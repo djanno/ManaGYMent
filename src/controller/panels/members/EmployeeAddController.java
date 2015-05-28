@@ -19,7 +19,7 @@ import controller.panels.members.tables.TableEmployeesController;
  *
  */
 
-public class EmployeeAddController extends BaseController implements IEmployeeAddController {
+public class EmployeeAddController extends MemberAddController implements IEmployeeAddController {
 
     private static final String WRONG_SALARY = "Il salario specificato non è un numero valido";
 

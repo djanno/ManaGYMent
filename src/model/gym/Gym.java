@@ -21,6 +21,10 @@ import model.gym.members.ISubscriber;
 import utility.UtilityClass;
 import exceptions.CourseIsFullException;
 
+/**
+ * @author simone
+ * This class represent a generic gym
+ */
 public class Gym implements IGym, Serializable {
 
     private static final long serialVersionUID = 3617529257067437822L;
@@ -36,6 +40,11 @@ public class Gym implements IGym, Serializable {
     private final Map<String, Double> map;
     private final DateFormat df;
 
+    /**
+     * Construct a gym by name
+     * @param gymName
+     *          the name of the gym
+     */
     public Gym(final String gymName) {
         super();
         this.gymName = gymName;
@@ -89,44 +98,44 @@ public class Gym implements IGym, Serializable {
 
     @Override
     public void addSubscriber(final ISubscriber subscriber) throws IllegalArgumentException, CourseIsFullException {
-        if (!findMember(this.subscribers, subscriber.getFiscalCode())) {
-//            subscriber.getCourses().forEach(course-> course.addMember(subscriber));
+        if (findMember(this.subscribers, subscriber.getFiscalCode())) {
+            throw new IllegalArgumentException(CF_ALREADY_EXISTING);
+        } else {
+            //            subscriber.getCourses().forEach(course-> course.addMember(subscriber));
             for (final ICourse course : subscriber.getCourses()) {
                 course.addMember(subscriber);
             }
             this.subscribers.add(subscriber);
-        } else {
-            throw new IllegalArgumentException(CF_ALREADY_EXISTING);
         }
     }
 
     @Override
     public void addSubscriber(final int index, final ISubscriber subscriber) throws IllegalArgumentException, CourseIsFullException {
-        if (!findMember(this.subscribers, subscriber.getFiscalCode())) {
+        if (findMember(this.subscribers, subscriber.getFiscalCode())) {
+            throw new IllegalArgumentException(CF_ALREADY_EXISTING);
+        } else {
             for (final ICourse course : subscriber.getCourses()) {
                 course.addMember(subscriber);
             }
             this.subscribers.add(index, subscriber);
-        } else {
-            throw new IllegalArgumentException(CF_ALREADY_EXISTING);
         }
     }
 
     @Override
     public void addEmployee(final IEmployee employee) throws IllegalArgumentException {
-        if (!findMember(this.employees, employee.getFiscalCode())) {
-            this.employees.add(employee);
-        } else {
+        if (findMember(this.employees, employee.getFiscalCode())) {
             throw new IllegalArgumentException(CF_ALREADY_EXISTING);
+        } else {
+            this.employees.add(employee);
         }
     }
 
     @Override
     public void addEmployee(final int index, final IEmployee employee) throws IllegalArgumentException {
-        if (!findMember(this.employees, employee.getFiscalCode())) {
-            this.employees.add(index, employee);
-        } else {
+        if (findMember(this.employees, employee.getFiscalCode())) {
             throw new IllegalArgumentException(CF_ALREADY_EXISTING);
+        } else {
+            this.employees.add(index, employee);
         }
     }
 

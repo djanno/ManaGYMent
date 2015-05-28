@@ -1,12 +1,7 @@
 package controller.panels.members;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import javax.swing.DefaultListModel;
-
-import model.gym.ICourse;
 import view.panels.members.IFormField;
 
 /**
@@ -16,7 +11,7 @@ import view.panels.members.IFormField;
  *
  */
 
-public class BaseController implements IBaseController {
+public abstract class MemberAddController {
 
     private static final String WRONG_NAME = "Il nome deve essere lungo più di 1 carattere.";
     private static final String WRONG_SURNAME = "Il cognome deve essere lungo più di 1 carattere.";
@@ -25,18 +20,6 @@ public class BaseController implements IBaseController {
     private static final String WRONG_TELEPHONE = "Il numero telefonico deve essere composto da soli numeri.";
     private static final String WRONG_EMAIL = "L'E-mail inserita non è valida.";
 
-    @Override
-    public List<ICourse> convertList(final DefaultListModel<String> list, final List<ICourse> gymCourses) {
-        final List<ICourse> corsi = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            for (final ICourse c : gymCourses) {
-                if (list.getElementAt(i).equals(c.getCourseName())) {
-                    corsi.add(c);
-                }
-            }
-        }
-        return corsi;
-    }
 
     /**
      * Checks if all fields are correct
