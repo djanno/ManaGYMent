@@ -90,6 +90,16 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
         this.fee = 0.0;
         // usiamo la data di iscrizione o la data in cui avviene il pagamento?
     }
+    
+    @Override
+    public void removeFromCourse(final ICourse course) {
+        this.courses.remove(course);
+    }
+    
+    @Override
+    public void removeFromCourse(final int courseIndex) {
+        this.courses.remove(courseIndex);
+    }
 
     @Override
     public Object[] createRow() {
