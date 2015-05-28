@@ -13,7 +13,7 @@ public interface IEmployee extends IGymMember {
     void setSalary(final double salary);
 
     void setCredit(final double credit);
-    
+
     void setLastPayed(final Calendar lastPayed);
 
     void settleCredit();

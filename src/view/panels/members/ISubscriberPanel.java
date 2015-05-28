@@ -15,36 +15,38 @@ import controller.panels.members.ISubscriberAddController;
  */
 
 public interface ISubscriberPanel {
-	/**
-	 * Attachs the observer to the {@link LoginPanel}.
-	 * @param observer the observer.
-	 */
-	void attachObserver(ISubscriberAddController observer);
+    /**
+     * Attachs the observer to the {@link LoginPanel}.
+     * 
+     * @param observer
+     *            the observer.
+     */
+    void attachObserver(ISubscriberAddController observer);
 
-	/**
-	 * 
-	 * Gets the CommonPanels to the GUI
-	 * 
-	 * @return the CommonPanel
-	 */
-	CommonPanel getCommonPanel();
-	
-	/**
-	 * 
-	 * Sets the courses in the view's combobox
-	 * 
-	 * @param list
-	 * 		the courses' list to set in the view
-	 */
-	void setComboBox(List<ICourse> list);
-	
-	/**
-	 * 
-	 * Show data of subscriber in the GUI
-	 * 
-	 * @param subscriber
-	 * 		the subscriber to show
-	 */
-	void showData(ISubscriber subscriber);
+    /**
+     * 
+     * Gets the CommonPanels to the GUI
+     * 
+     * @return the CommonPanel
+     */
+    CommonPanel getCommonPanel();
+
+    /**
+     * 
+     * Sets the courses in the view's combobox
+     * 
+     * @param list
+     *            the courses' list to set in the view
+     */
+    void setComboBox(List<ICourse> list);
+
+    /**
+     * 
+     * Show data of subscriber in the GUI
+     * 
+     * @param subscriber
+     *            the subscriber to show
+     */
+    void showData(ISubscriber subscriber);
 
 }

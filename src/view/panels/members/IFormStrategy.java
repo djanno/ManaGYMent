@@ -10,12 +10,12 @@ import java.util.List;
  */
 
 public interface IFormStrategy {
-		
-	/**
-	 * 
-	 * Gets the fields of enumerator
-	 * 
-	 * @return the list of fields
-	 */
-	List<IFormField> getFields();
+
+    /**
+     * 
+     * Gets the fields of enumerator
+     * 
+     * @return the list of fields
+     */
+    List<IFormField> getFields();
 }

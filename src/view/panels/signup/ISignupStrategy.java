@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface ISignupStrategy {
 
-	List<ISignupField> fields();
-	
+    List<ISignupField> fields();
+
 }

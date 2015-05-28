@@ -4,6 +4,6 @@ import controller.panels.login.ILoginPanelController;
 
 public interface ILoginPanel {
 
-	void attachObserver(final ILoginPanelController controller);
-	
+    void attachObserver(final ILoginPanelController controller);
+
 }

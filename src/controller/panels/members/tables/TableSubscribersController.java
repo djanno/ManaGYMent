@@ -11,7 +11,9 @@ import controller.panels.members.SubscriberAddController;
 import controller.panels.members.SubscriberEditController;
 
 /**
- * a specification of {@link AbstractTableMemberController} based on a specific members, like Subscribers
+ * a specification of {@link AbstractTableMemberController} based on a specific
+ * members, like Subscribers
+ * 
  * @author simone
  */
 public class TableSubscribersController extends AbstractTableMemberController {
@@ -23,19 +25,19 @@ public class TableSubscribersController extends AbstractTableMemberController {
      * Constructor
      * 
      * @param model
-     *          the model
+     *            the model
      * @param frame
-     *          the application's frame
+     *            the application's frame
      * @param view
-     *          the view
+     *            the view
      */
-    public TableSubscribersController(final IGym gym,
-            final PrimaryFrame frame, final TableMemberPanel view) {
+    public TableSubscribersController(final IGym gym, final PrimaryFrame frame, final TableMemberPanel view) {
         super(gym, frame, view);
     }
 
-    /* 
-     * @see controller.panels.members.AbstractTableMemberController#addMemberCmd()
+    /*
+     * @see
+     * controller.panels.members.AbstractTableMemberController#addMemberCmd()
      */
     @Override
     public void addMemberCmd() {
@@ -45,8 +47,10 @@ public class TableSubscribersController extends AbstractTableMemberController {
 
     }
 
-    /* 
-     * @see controller.panels.members.AbstractTableMemberController#editMemberCmd(int)
+    /*
+     * @see
+     * controller.panels.members.AbstractTableMemberController#editMemberCmd
+     * (int)
      */
     @Override
     public void editMemberCmd(final int index) {
@@ -55,29 +59,31 @@ public class TableSubscribersController extends AbstractTableMemberController {
         frame.new DialogWindow("Modifica iscritto", WIDTH_PANEL, HEIGHT_PANEL, this.frame, editSubscriberPanel);
     }
 
-    /* 
-     * @see controller.panels.members.AbstractTableMemberController#deleteMember(int)
+    /*
+     * @see
+     * controller.panels.members.AbstractTableMemberController#deleteMember(int)
      */
     @Override
     protected void deleteMember(final int index) {
-        /*final ISubscriber subsriber = this.gym.getSubscribers().get(index);
-        this.gym.getCourses()
-                .stream()
-                .filter(course -> course.getCurrentMembers().contains(subsriber))
-                .forEach(course -> course.removeMember(subsriber));*/
+        /*
+         * final ISubscriber subsriber = this.gym.getSubscribers().get(index);
+         * this.gym.getCourses() .stream() .filter(course ->
+         * course.getCurrentMembers().contains(subsriber)) .forEach(course ->
+         * course.removeMember(subsriber));
+         */
         this.gym.removeSubscriber(index);
         this.createTable(this.gym.getSubscribers());
     }
-  
-  @Override
-  public void handlePaymentCmd(final int index) {
-	 final ISubscriber subscriber = this.gym.getSubscribers().get(index);
-  	final int n = JOptionPane.showConfirmDialog(this.frame, "Vuoi confermare il pagamento dell'abbonamento di " + subscriber.getName() + " " + subscriber.getSurname() + "?",
-  			"Conferma", JOptionPane.OK_CANCEL_OPTION);
-  	
-  	if(n == JOptionPane.OK_OPTION) {
-  		subscriber.payFee();
-  		this.createTable(this.gym.getSubscribers());
-  	}
-  }
+
+    @Override
+    public void handlePaymentCmd(final int index) {
+        final ISubscriber subscriber = this.gym.getSubscribers().get(index);
+        final int n = JOptionPane.showConfirmDialog(this.frame, "Vuoi confermare il pagamento dell'abbonamento di " + subscriber.getName() + " "
+                + subscriber.getSurname() + "?", "Conferma", JOptionPane.OK_CANCEL_OPTION);
+
+        if (n == JOptionPane.OK_OPTION) {
+            subscriber.payFee();
+            this.createTable(this.gym.getSubscribers());
+        }
+    }
 }

@@ -17,69 +17,79 @@ import javax.swing.JTextField;
 
 import view.panels.Background;
 
-public class EssentialPanelCourse extends Background implements IEssentialPanelCourse{
+/**
+ * @author simone
+ * This class display the essential information for add a new course like name, color, price and maxMember
+ */
+public class EssentialPanelCourse extends Background implements IEssentialPanelCourse {
 
     private static final long serialVersionUID = 8205150569897367407L;
-    private static final int LONG_TEXT_FIELD=10;
+    private static final int LONG_TEXT_FIELD = 10;
     private final JTextField courseName;
     private final JTextField price;
     private final JTextField maxMember;
     private final JButton chooseColor;
     private final JButton chooseNColor;
-    private  JDialog dialog;
+    private JDialog dialog;
     private final JColorChooser dialJColorChooser;
-    
+
+    /**
+     * Construct a panel that contains the essential information of a course
+     * @param path
+     *          the background image path
+     */
     public EssentialPanelCourse(final String path) {
-    	super(path);
-    	
-        this.courseName=new JTextField(LONG_TEXT_FIELD);
-        this.price=new JTextField(LONG_TEXT_FIELD);
-        this.maxMember=new JTextField(LONG_TEXT_FIELD);
-        
-        this.chooseColor=new JButton("Scegli colore");
-        this.chooseNColor=new JButton();
-        
-        this.dialog=new JDialog();
-        this.dialJColorChooser=new JColorChooser();
-        
+        super(path);
+
+        this.courseName = new JTextField(LONG_TEXT_FIELD);
+        this.price = new JTextField(LONG_TEXT_FIELD);
+        this.maxMember = new JTextField(LONG_TEXT_FIELD);
+
+        this.chooseColor = new JButton("Scegli colore");
+        this.chooseNColor = new JButton();
+
+        this.dialog = new JDialog();
+        this.dialJColorChooser = new JColorChooser();
+
         this.setLayout(new GridBagLayout());
-        
-        this.chooseColor.addActionListener(e->dialog.setVisible(true));
-        
-        this.dialog = JColorChooser.createDialog(this.chooseColor, "Pick a Color", true, this.dialJColorChooser, event->chooseNColor.setBackground(dialJColorChooser.getColor()), null); 
-        
-        final Insets insets=new Insets(6, 8, 6, 8);
-        
-        this.chooseNColor.setPreferredSize(new Dimension(30,30));
+
+        this.chooseColor.addActionListener(e -> dialog.setVisible(true));
+
+        this.dialog = JColorChooser.createDialog(this.chooseColor, "Pick a Color", true, this.dialJColorChooser,
+                event -> chooseNColor.setBackground(dialJColorChooser.getColor()), null);
+
+        final Insets insets = new Insets(6, 8, 6, 8);
+
+        this.chooseNColor.setPreferredSize(new Dimension(30, 30));
         this.chooseNColor.setEnabled(false);
         this.chooseNColor.setBackground(Color.WHITE);
-        
-        final JLabel lblCouseName=new JLabel("Nome Corso:");
-        final GridBagConstraints gbcLblCourseName= new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,CENTER,NONE,insets,1,1);
-        this.add(lblCouseName,gbcLblCourseName);
-        
-        final GridBagConstraints gbcTextCourseName= new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,CENTER,NONE,insets,1,1);
-        this.add(courseName,gbcTextCourseName);
-        
-        final GridBagConstraints gbcBtnChooseColor= new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,CENTER,NONE,insets,1,1);
-        this.add(chooseColor,gbcBtnChooseColor);
-        
-        final GridBagConstraints gbcBtnChooseNColor= new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,CENTER,NONE,insets,1,1);
-        this.add(chooseNColor,gbcBtnChooseNColor);
-        
-        final JLabel lblPrice=new JLabel("Prezzo giornaliero:");
-        final GridBagConstraints gbcLblPrice= new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,CENTER,NONE,insets,1,1);
-        this.add(lblPrice,gbcLblPrice);
-    
-        final GridBagConstraints gbcTxtPrice= new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,CENTER,NONE,insets,1,1);
-        this.add(price,gbcTxtPrice);
-        
+
+        final JLabel lblCouseName = new JLabel("Nome Corso:");
+        final GridBagConstraints gbcLblCourseName = new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, CENTER, NONE, insets, 1, 1);
+        this.add(lblCouseName, gbcLblCourseName);
+
+        final GridBagConstraints gbcTextCourseName = new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, CENTER, NONE, insets, 1, 1);
+        this.add(courseName, gbcTextCourseName);
+
+        final GridBagConstraints gbcBtnChooseColor = new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, CENTER, NONE, insets, 1, 1);
+        this.add(chooseColor, gbcBtnChooseColor);
+
+        final GridBagConstraints gbcBtnChooseNColor = new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, CENTER, NONE, insets, 1, 1);
+        this.add(chooseNColor, gbcBtnChooseNColor);
+
+        final JLabel lblPrice = new JLabel("Prezzo giornaliero:");
+        final GridBagConstraints gbcLblPrice = new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, CENTER, NONE, insets, 1, 1);
+        this.add(lblPrice, gbcLblPrice);
+
+        final GridBagConstraints gbcTxtPrice = new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, CENTER, NONE, insets, 1, 1);
+        this.add(price, gbcTxtPrice);
+
         final JLabel lblMaxMembers = new JLabel("Membri massimi:");
-        final GridBagConstraints gbcLblMaxMembers= new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,CENTER,NONE,insets,1,1);
-        this.add(lblMaxMembers,gbcLblMaxMembers);
-    
-        final GridBagConstraints gbcTxtMaxMembers= new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,CENTER,NONE,insets,1,1);
-        this.add(maxMember,gbcTxtMaxMembers);
+        final GridBagConstraints gbcLblMaxMembers = new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0, CENTER, NONE, insets, 1, 1);
+        this.add(lblMaxMembers, gbcLblMaxMembers);
+
+        final GridBagConstraints gbcTxtMaxMembers = new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, CENTER, NONE, insets, 1, 1);
+        this.add(maxMember, gbcTxtMaxMembers);
     }
 
     @Override

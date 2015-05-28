@@ -2,6 +2,12 @@ package view.panels.members.tables;
 
 import controller.panels.members.tables.IAbstractTableMemberController;
 
+/**
+ * Defines the {@link TableMemberPanel}
+ * 
+ * @author simone
+ *
+ */
 public interface ITableMemberPanel {
     /**
      * Changes the current {@link IAbstractTableMemberController}.

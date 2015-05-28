@@ -26,13 +26,13 @@ public class LegendPanel extends JScrollPane {
     private static final int BUTTON_FOR_ROW = 6;
     private static final int BUTTON_WIDTH = 120;
     private static final int BUTTON_HEIGHT = 25;
-    
+
     private final ICourse closed = new Course("chiuso", Color.BLACK, 0, 0);
     private final ICourse opened = new Course("no corsi", Color.WHITE, 0, 0);
     private final Collection<JButtonCourse> buttons;
     private final List<ICourse> list;
     private final JPanel wrapperPanel;
-    
+
     public LegendPanel(final List<ICourse> courses) {
         super();
         this.list = new ArrayList<ICourse>(courses);
@@ -52,7 +52,8 @@ public class LegendPanel extends JScrollPane {
         gbcButtons.gridx = 0;
         gbcButtons.gridy = 0;
         for (final ICourse course : list) {
-            final JButtonCourse legendCourse = new JButtonCourse(course.getCourseName(),course.getCourseColor(), BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_FONT);
+            final JButtonCourse legendCourse = new JButtonCourse(course.getCourseName(), course.getCourseColor(), BUTTON_WIDTH, BUTTON_HEIGHT,
+                    BUTTON_FONT);
             this.buttons.add(legendCourse);
             this.wrapperPanel.add(legendCourse, gbcButtons);
             gbcButtons.gridx++;
@@ -63,10 +64,10 @@ public class LegendPanel extends JScrollPane {
         }
         return wrapperPanel;
     }
-       
-    class JButtonCourse extends JButton{
+
+    class JButtonCourse extends JButton {
         private static final long serialVersionUID = 5560195479526786254L;
-        
+
         public JButtonCourse(final String courseName, final Color courseColor, final int width, final int height, final Font f) {
             super(courseName);
             this.setBackground(courseColor);
@@ -75,5 +76,4 @@ public class LegendPanel extends JScrollPane {
             this.setEnabled(false);
         }
     }
-}    
-    
+}

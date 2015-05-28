@@ -17,44 +17,46 @@ import view.panels.gym.EditCoursePanel;
 import view.panels.gym.IAddCoursePanel;
 
 /**
- * the {@link EditCoursePanel} observer, used for edit a course already present in gym
+ * the {@link EditCoursePanel} observer, used for edit a course already present
+ * in gym
+ * 
  * @author simone
  *
  */
-public class EditCourseController extends AddCourseController implements
-        IEditCourseController {
+public class EditCourseController extends AddCourseController implements IEditCourseController {
 
     private static final String CONFIRM_REMOVE = "Se il coach che si tenta di rimuovere è accoppiato al corso nel calendario la coppia verrà rimossa.\nSei sicuro di voler procedere con la cancellazione?";
     private final ICourse courseToEdit;
     private final ICourse temp;
     private final IGymCalendar tempCalendar;
-    
+
     /**
      * Constructor
      * 
-     * @param frame 
-     *          the application's frame
+     * @param frame
+     *            the application's frame
      * @param gym
-     *          the gym
-     * @param view 
-     *          the view
-     * @param gymPanelController 
-     *          the controller of panel that open EditCoursePanel JDialog
-     * @param courseToEdit 
-     *          course to be edit
+     *            the gym
+     * @param view
+     *            the view
+     * @param gymPanelController
+     *            the controller of panel that open EditCoursePanel JDialog
+     * @param courseToEdit
+     *            course to be edit
      */
-    public EditCourseController(final PrimaryFrame frame, final IGym gym,
-            final IAddCoursePanel view, final GymPanelController gymPanelController, final ICourse courseToEdit) {
+    public EditCourseController(final PrimaryFrame frame, final IGym gym, final IAddCoursePanel view, final GymPanelController gymPanelController,
+            final ICourse courseToEdit) {
         super(frame, gym, view, gymPanelController);
         this.courseToEdit = courseToEdit;
-        this.temp = new Course(courseToEdit.getCourseName(),courseToEdit.getCourseColor(), courseToEdit.getCoursePrice(), courseToEdit.getMaxMembers(), courseToEdit.getCoaches(),courseToEdit.getCurrentMembers());
-        this.tempCalendar=new GymCalendar();
-        for(final DaysOfWeek day:DaysOfWeek.values()){
+        this.temp = new Course(courseToEdit.getCourseName(), courseToEdit.getCourseColor(), courseToEdit.getCoursePrice(),
+                courseToEdit.getMaxMembers(), courseToEdit.getCoaches(), courseToEdit.getCurrentMembers());
+        this.tempCalendar = new GymCalendar();
+        for (final DaysOfWeek day : DaysOfWeek.values()) {
             final Schedule schedule = this.gym.getProgram().getCalendar().get(day);
-            this.tempCalendar.setSchedule(day, new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour().orElse(null), schedule.getProgram())); 
+            this.tempCalendar.setSchedule(day, new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour()
+                    .orElse(null), schedule.getProgram()));
         }
-        
-        
+
     }
 
     @Override
@@ -82,7 +84,7 @@ public class EditCourseController extends AddCourseController implements
     }
 
     @Override
-    public void removeCoachCmd(final int index) {     
+    public void removeCoachCmd(final int index) {
         final int option = JOptionPane.showConfirmDialog(this.frame.getChild(), CONFIRM_REMOVE, "Warning", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             final Schedule.Pair<ICourse, IEmployee> pairToDelete = new Schedule.Pair<>(this.temp, this.temp.getCoaches().get(index));
@@ -93,8 +95,7 @@ public class EditCourseController extends AddCourseController implements
     }
 
     @Override
-    public void editCourseCmd(final String courseName, final Color courseColor,
-            final String price, final String maxMembers) {
+    public void editCourseCmd(final String courseName, final Color courseColor, final String price, final String maxMembers) {
         final int indexInList = this.gym.getCourses().indexOf(this.courseToEdit);
         try {
             this.gym.removeCourse(indexInList);
@@ -112,16 +113,20 @@ public class EditCourseController extends AddCourseController implements
         }
         this.gymPanelController.loadCoursesTable();
     }
-    
-    /* 
-     * @see controller.panels.gym.AddCourseController#checkError(java.lang.String, java.awt.Color, java.lang.String, java.lang.String)
+
+    /*
+     * @see
+     * controller.panels.gym.AddCourseController#checkError(java.lang.String,
+     * java.awt.Color, java.lang.String, java.lang.String)
      */
-    protected void checkError(final String courseName, final Color courseColor, final String price, final String maxMembers) throws IllegalArgumentException{
+    protected void checkError(final String courseName, final Color courseColor, final String price, final String maxMembers)
+            throws IllegalArgumentException {
         super.checkError(courseName, courseColor, price, maxMembers);
-        if(Integer.parseInt(maxMembers)<this.temp.getCurrentMembers().size()){
-            throw new IllegalArgumentException("impossibile diminuire i membri del corso perchè al momento gli iscritti sono già " + this.temp.getCurrentMembers().size());
+        if (Integer.parseInt(maxMembers) < this.temp.getCurrentMembers().size()) {
+            throw new IllegalArgumentException("impossibile diminuire i membri del corso perchè al momento gli iscritti sono già "
+                    + this.temp.getCurrentMembers().size());
         }
-        
+
     }
 
 }

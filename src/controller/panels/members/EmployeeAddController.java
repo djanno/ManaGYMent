@@ -19,74 +19,74 @@ import controller.panels.members.tables.TableEmployeesController;
  *
  */
 
-public class EmployeeAddController extends BaseController implements IEmployeeAddController{
+public class EmployeeAddController extends BaseController implements IEmployeeAddController {
 
-	private static final String WRONG_SALARY = "Il salario specificato non è un numero valido";
-	
-	protected final IEmployeePanel view;
-	protected IPrimaryFrame frame;
-	protected final IGym gym;
-	protected final TableEmployeesController tableEmployeesController;
+    private static final String WRONG_SALARY = "Il salario specificato non è un numero valido";
 
-	/**
-	 * 
-	 * Constructor
-	 * 
-	 * @param frame
-	 * 		the primary frame
-	 * @param employeeView
-	 * 		the employee panel
-	 * @param model
-	 * 		the model
-	 * @param tableEmployeesController
-	 * 		the table employees controller
-	 */
-	public EmployeeAddController (final IPrimaryFrame frame, final IEmployeePanel employeeView, final IGym gym, final TableEmployeesController tableEmployeesController){
-		super();
-		this.frame = frame;
-		this.view = employeeView;
-		this.gym = gym;
-		this.tableEmployeesController = tableEmployeesController;
-		this.view.attachObserver(this);
-	}
-	
-	@Override
-	public void cmdSave(final Map<IFormField, String> mapToPass, final String salario){
-		try{
-			final IEmployee employee = createEmployee(mapToPass, salario);
-			this.gym.addEmployee(employee);
-			tableEmployeesController.createTable(this.gym.getEmployees());
-			this.frame.getChild().closeDialog();
-		}catch (Exception e){
-			this.frame.displayError(e.getMessage());
-		}
-	}
-	
-	/**
-	 * 
-	 * Creates new employee from GUI
-	 * 
-	 * @param mapToPass
-	 * 		the common fields of employee
-	 * @param salary
-	 * 		the employee's salary
-	 * @return the new employee
-	 * @throws IllegalArgumentException
-	 */
-	
-	private Employee createEmployee(final Map<IFormField, String> mapToPass, final String salary) throws IllegalArgumentException {
-		Double doubleSalary;
-		try{
-			doubleSalary = Double.parseDouble(salary);
-		}catch (NumberFormatException e){
-			throw new IllegalArgumentException(WRONG_SALARY);
-		}
-		
-		final Map<IFormField, String> fields = this.getCommonFields(mapToPass);
-		
-		return new Employee(fields.get(EnumFieldsCommon.NOME), fields.get(EnumFieldsCommon.COGNOME), 
-				fields.get(EnumFieldsCommon.CODICE_FISCALE), fields.get(EnumFieldsCommon.INDIRIZZO), 
-				fields.get(EnumFieldsCommon.TELEFONO), fields.get(EnumFieldsCommon.EMAIL), 
-				this.gym, doubleSalary);
-	}
+    protected final IEmployeePanel view;
+    protected IPrimaryFrame frame;
+    protected final IGym gym;
+    protected final TableEmployeesController tableEmployeesController;
+
+    /**
+     * 
+     * Constructor
+     * 
+     * @param frame
+     *            the primary frame
+     * @param employeeView
+     *            the employee panel
+     * @param model
+     *            the model
+     * @param tableEmployeesController
+     *            the table employees controller
+     */
+    public EmployeeAddController(final IPrimaryFrame frame, final IEmployeePanel employeeView, final IGym gym,
+            final TableEmployeesController tableEmployeesController) {
+        super();
+        this.frame = frame;
+        this.view = employeeView;
+        this.gym = gym;
+        this.tableEmployeesController = tableEmployeesController;
+        this.view.attachObserver(this);
+    }
+
+    @Override
+    public void cmdSave(final Map<IFormField, String> mapToPass, final String salario) {
+        try {
+            final IEmployee employee = createEmployee(mapToPass, salario);
+            this.gym.addEmployee(employee);
+            tableEmployeesController.createTable(this.gym.getEmployees());
+            this.frame.getChild().closeDialog();
+        } catch (Exception e) {
+            this.frame.displayError(e.getMessage());
+        }
+    }
+
+    /**
+     * 
+     * Creates new employee from GUI
+     * 
+     * @param mapToPass
+     *            the common fields of employee
+     * @param salary
+     *            the employee's salary
+     * @return the new employee
+     * @throws IllegalArgumentException
+     */
+
+    private Employee createEmployee(final Map<IFormField, String> mapToPass, final String salary) throws IllegalArgumentException {
+        Double doubleSalary;
+        try {
+            doubleSalary = Double.parseDouble(salary);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(WRONG_SALARY);
+        }
+
+        final Map<IFormField, String> fields = this.getCommonFields(mapToPass);
+
+        return new Employee(fields.get(EnumFieldsCommon.NOME), fields.get(EnumFieldsCommon.COGNOME), fields.get(EnumFieldsCommon.CODICE_FISCALE),
+                fields.get(EnumFieldsCommon.INDIRIZZO), fields.get(EnumFieldsCommon.TELEFONO), fields.get(EnumFieldsCommon.EMAIL), this.gym,
+                doubleSalary);
+    }
 }

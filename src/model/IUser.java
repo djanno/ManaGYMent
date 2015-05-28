@@ -21,7 +21,7 @@ public interface IUser {
     void setPassword(final char[] passw);
 
     void setEmail(final String email);
-    
+
     void sendEmail(final List<String> emailAddresses);
 
 }

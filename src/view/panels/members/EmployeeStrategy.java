@@ -12,26 +12,25 @@ import java.util.function.Predicate;
  * 
  **/
 
-public class EmployeeStrategy implements IFormStrategy{
+public class EmployeeStrategy implements IFormStrategy {
 
     private FieldsCommon fieldsCommon;
-    
+
     /**
      * Constructor
      */
     public EmployeeStrategy() {
-        this.fieldsCommon=new FieldsCommon();
+        this.fieldsCommon = new FieldsCommon();
     }
-    
-    public enum EnumFieldsEmployee implements IFormField{
-        
-        SALARIO("Salario"),
-        CREDITO("Credito");
-                
+
+    public enum EnumFieldsEmployee implements IFormField {
+
+        SALARIO("Salario"), CREDITO("Credito");
+
         private String fieldName;
         private Predicate<String> pred;
-        
-        private EnumFieldsEmployee(final String fieldName){
+
+        private EnumFieldsEmployee(final String fieldName) {
             this.fieldName = fieldName;
         }
 
@@ -39,17 +38,17 @@ public class EmployeeStrategy implements IFormStrategy{
         public String getField() {
             return this.fieldName;
         }
-        
+
         @Override
         public Predicate<String> getPred() {
             return this.pred;
         }
-       
+
     }
-    
+
     @Override
     public List<IFormField> getFields() {
-    	final List<IFormField> list= new ArrayList<IFormField>(fieldsCommon.getFields());
+        final List<IFormField> list = new ArrayList<IFormField>(fieldsCommon.getFields());
         list.addAll(Arrays.asList(EnumFieldsEmployee.values()));
         return list;
     }

@@ -10,11 +10,13 @@ import controller.panels.profile.IProfilePanelController;
  */
 
 public interface IProfilePanel {
-	
-	/**
-	 * Attach the observer to this panel.
-	 * @param observer the observer
-	 */
-	void attachObserver(final IProfilePanelController observer);
+
+    /**
+     * Attach the observer to this panel.
+     * 
+     * @param observer
+     *            the observer
+     */
+    void attachObserver(final IProfilePanelController observer);
 
 }

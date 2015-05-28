@@ -10,19 +10,19 @@ import java.util.function.Predicate;
  */
 
 public interface IFormField {
-	
-	/**
-	 * Gets the field's name
-	 * 
-	 * @return the field's name
-	 */
-	String getField();
-	
-	/**
-	 * 
-	 * Gets the field's predicate
-	 * 
-	 * @return the predicate
-	 */
-	Predicate<String> getPred();
+
+    /**
+     * Gets the field's name
+     * 
+     * @return the field's name
+     */
+    String getField();
+
+    /**
+     * 
+     * Gets the field's predicate
+     * 
+     * @return the predicate
+     */
+    Predicate<String> getPred();
 }

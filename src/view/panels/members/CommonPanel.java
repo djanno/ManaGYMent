@@ -17,57 +17,56 @@ import javax.swing.JTextField;
  *
  */
 
-public class CommonPanel extends JPanel implements ICommonPanel{
+public class CommonPanel extends JPanel implements ICommonPanel {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private final Map<IFormField, JTextField> map = new HashMap<>();
-	
-	/**
-	 * Constructor
-	 */
-	public CommonPanel(){
-		this.setLayout(new GridBagLayout());
-		final IFormStrategy strat = new FieldsCommon();
-		final List<IFormField> fields = strat.getFields();
-		GridBagConstraints limits = new GridBagConstraints();
-		limits.gridx = 0;
-		limits.gridy = 0;
-		limits.weightx = 0.33;
-		limits.insets.top = 5;
-		limits.insets.left = 5;
+    private static final long serialVersionUID = 1L;
+    private final Map<IFormField, JTextField> map = new HashMap<>();
 
-		limits.fill = GridBagConstraints.HORIZONTAL;
-		
-		for(final IFormField f : fields){
-			this.add(new JLabel(f.getField()), limits);
-			limits.gridx++;
-			
-			map.put(f, new JTextField(20));
-			this.add(map.get(f), limits);
+    /**
+     * Constructor
+     */
+    public CommonPanel() {
+        this.setLayout(new GridBagLayout());
+        final IFormStrategy strat = new FieldsCommon();
+        final List<IFormField> fields = strat.getFields();
+        GridBagConstraints limits = new GridBagConstraints();
+        limits.gridx = 0;
+        limits.gridy = 0;
+        limits.weightx = 0.33;
+        limits.insets.top = 5;
+        limits.insets.left = 5;
 
-			limits.gridy++;
-			limits.gridx = 0;
-		}
-		
-		limits.fill = GridBagConstraints.HORIZONTAL;
-		limits.gridwidth = 2;	
-	}
-	
-	@Override
-	public void setMap(final IFormField field, final String value){
-		this.map.get(field).setText(value);
-	}
-	
-	@Override
-	public Map<IFormField, String> getMapToPass(){
-		final Map<IFormField, String> mapToPass = new HashMap<>();
-		for (final IFormField f: map.keySet()){
-			mapToPass.put(f, map.get(f).getText());
-		}
-		return mapToPass;
-	}
+        limits.fill = GridBagConstraints.HORIZONTAL;
+
+        for (final IFormField f : fields) {
+            this.add(new JLabel(f.getField()), limits);
+            limits.gridx++;
+
+            map.put(f, new JTextField(20));
+            this.add(map.get(f), limits);
+
+            limits.gridy++;
+            limits.gridx = 0;
+        }
+
+        limits.fill = GridBagConstraints.HORIZONTAL;
+        limits.gridwidth = 2;
+    }
+
+    @Override
+    public void setMap(final IFormField field, final String value) {
+        this.map.get(field).setText(value);
+    }
+
+    @Override
+    public Map<IFormField, String> getMapToPass() {
+        final Map<IFormField, String> mapToPass = new HashMap<>();
+        for (final IFormField f : map.keySet()) {
+            mapToPass.put(f, map.get(f).getText());
+        }
+        return mapToPass;
+    }
 }
-
