@@ -22,7 +22,9 @@ import utility.UtilityClass;
 import exceptions.CourseIsFullException;
 
 /**
- * @author simone
+ * @author Simone Letizi
+ * @author Federico Giannoni
+ * @author Davide Borficchia
  * This class represent a generic gym
  */
 public class Gym implements IGym, Serializable {
@@ -161,46 +163,72 @@ public class Gym implements IGym, Serializable {
 
     @Override
     public void removeCourse(final int courseIndex) {
-        final ICourse courseToDelete = this.courses.get(courseIndex);
-        this.cleanScheduleAndRefundSubscribers(courseToDelete);
-        this.courses.remove(courseIndex);
+        if (courseIndex < this.courses.size() || courseIndex >= 0){
+            final ICourse courseToDelete = this.courses.get(courseIndex);
+            this.cleanScheduleAndRefundSubscribers(courseToDelete);
+            this.courses.remove(courseIndex);
+        }else{
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
     public void removeCourse(final ICourse course) {
-        this.cleanScheduleAndRefundSubscribers(course);
-        this.courses.remove(course);
+        if(this.courses.contains(course)){
+            this.cleanScheduleAndRefundSubscribers(course);
+            this.courses.remove(course);
+        }else{
+            throw new IllegalArgumentException();
+        }
+        
     }
 
     @Override
     public void removeSubscriber(final int subscriberIndex) {
         // this.setIncome(this.subscribers.get(subscriberIndex).getFee(),
         // this.subscribers.get(subscriberIndex).getSubscriptionDate());
-        final ISubscriber subscriberToRemove = this.subscribers.get(subscriberIndex);
-        this.removeDeletedMembersFromCourses(subscriberToRemove);
-        this.subscribers.remove(subscriberIndex);
-
+        if (subscriberIndex < this.subscribers.size() || subscriberIndex >= 0){
+            final ISubscriber subscriberToRemove = this.subscribers.get(subscriberIndex);
+            this.removeDeletedMembersFromCourses(subscriberToRemove);
+            this.subscribers.remove(subscriberIndex);
+        }else{
+            throw new IllegalArgumentException();
+        }
+        
     }
 
     @Override
     public void removeSubscriber(final ISubscriber subscriber) {
-        this.removeDeletedMembersFromCourses(subscriber);
-        this.subscribers.remove(subscriber);
+        if (this.subscribers.contains(subscriber)){
+            this.removeDeletedMembersFromCourses(subscriber);
+            this.subscribers.remove(subscriber);
+        }else{
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
     public void removeEmployee(final int employeeIndex) {
         // this.setIncome(this.employees.get(employeeIndex).getSalary(),
         // this.getCurrentCalendar());
-        final IEmployee employeeToRemove = this.employees.get(employeeIndex);
-        this.cleanScheduleAndCoursesWithCoach(employeeToRemove);
-        this.employees.remove(employeeIndex);
+        if (employeeIndex < this.employees.size() || employeeIndex >= 0){
+            final IEmployee employeeToRemove = this.employees.get(employeeIndex);
+            this.cleanScheduleAndCoursesWithCoach(employeeToRemove);
+            this.employees.remove(employeeIndex);
+        }else{
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
     public void removeEmployee(final IEmployee employee) {
-        this.cleanScheduleAndCoursesWithCoach(employee);
-        this.employees.remove(employee);
+        if(this.employees.contains(employee)){
+            this.cleanScheduleAndCoursesWithCoach(employee);
+            this.employees.remove(employee);
+        }else{
+            throw new IllegalArgumentException();
+        }
+        
     }
 
     @Override
