@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import model.gym.GymCalendar.DaysOfWeek;
 import model.gym.ICourse;
 import model.gym.IGym;
+import model.gym.ISchedule;
 import model.gym.Schedule;
 import model.gym.Schedule.Pair;
 import model.gym.members.IEmployee;
@@ -59,7 +60,7 @@ public class SetCalendarController implements ISetCalendarController {
         this.homeController = homeController;
         this.frame = frame;
         this.day = day;
-        final Schedule schedule = this.gym.getProgram().getCalendar().get(this.day);
+        final ISchedule schedule = this.gym.getProgram().getCalendar().get(this.day);
         this.temp = new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour().orElse(null),
                 schedule.getProgram());
         this.view.attachViewObserver(this);

@@ -22,6 +22,8 @@ public class Course implements ICourse, Serializable {
     private static final long serialVersionUID = 6012814332577508826L;
 
     private static final String COACH_ALREDY_PRESENT = "Questo coach insegna già in questo corso";
+    private static final String EMPLOYEE_NOT_FOUND = "Coach non trovato";
+    private static final String SUBSCRIBER_NOT_FOUND = "Iscritto non trovato";
 
     private String name;
     private double price;
@@ -152,10 +154,10 @@ public class Course implements ICourse, Serializable {
     @Override
     public void removeMember(final int indexOfMember) throws IllegalArgumentException {
         // potrebbero essere inutili i controlli nel nostro caso
-        if (indexOfMember >= this.members.size() || indexOfMember < 0) {
-            throw new IllegalArgumentException("Iscritto non trovato.");
-        } else {
+        if (indexOfMember < this.members.size() || indexOfMember >= 0) {
             this.members.remove(indexOfMember);
+        } else {
+            throw new IllegalArgumentException(SUBSCRIBER_NOT_FOUND);
         }
     }
 
@@ -165,7 +167,7 @@ public class Course implements ICourse, Serializable {
         if (this.members.contains(member)) {
             this.members.remove(member);
         } else {
-            throw new IllegalArgumentException("Iscritto non trovato.");
+            throw new IllegalArgumentException(SUBSCRIBER_NOT_FOUND);
         }
     }
 
@@ -177,10 +179,10 @@ public class Course implements ICourse, Serializable {
     @Override
     public void removeCoach(final int indexOfCoach) throws IllegalArgumentException {
         // potrebbero essere inutili i controlli nel nostro caso
-        if (indexOfCoach >= this.coaches.size() || indexOfCoach < 0) {
-            throw new IllegalArgumentException("Coach non trovato.");
-        } else {
+        if (indexOfCoach < this.coaches.size() || indexOfCoach >= 0) {
             this.coaches.remove(indexOfCoach);
+        } else {
+            throw new IllegalArgumentException(EMPLOYEE_NOT_FOUND);
         }
     }
 
@@ -190,7 +192,7 @@ public class Course implements ICourse, Serializable {
         if (this.coaches.contains(coach)) {
             this.coaches.remove(coach);
         } else {
-            throw new IllegalArgumentException("Coach non trovato.");
+            throw new IllegalArgumentException(EMPLOYEE_NOT_FOUND);
         }
     }
 

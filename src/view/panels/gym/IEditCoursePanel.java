@@ -2,6 +2,7 @@ package view.panels.gym;
 
 import java.util.List;
 
+import view.panels.IGenericTable;
 import model.gym.ICourse;
 import model.gym.members.IEmployee;
 
@@ -9,7 +10,7 @@ import model.gym.members.IEmployee;
  * @author simone
  *Defines the {@link EditCoursePanel}
  */
-public interface IEditCoursePanel extends IAddCoursePanel {
+public interface IEditCoursePanel extends IAddCoursePanel, IGenericTable {
 
     /**
      * @param course

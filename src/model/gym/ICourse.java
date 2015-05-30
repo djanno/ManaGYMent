@@ -88,7 +88,7 @@ public interface ICourse {
      * @param fiscalCode
      *          the fiscal code of coach to search
      * @return
-     *          the employee that have the fiscal code insert as parameter
+     *          the employee that has the fiscal code specified.
      */
     IEmployee getCoachByFiscalCode(String fiscalCode);
 
