@@ -30,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
 
 import model.gym.GymCalendar.DaysOfWeek;
 import model.gym.ICourse;
-import model.gym.Schedule;
+import model.gym.ISchedule;
 import model.gym.members.IEmployee;
 import utility.UtilityClass;
 import view.panels.GenericTable;
@@ -191,7 +191,7 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel 
     }
 
     @Override
-    public void loadFields(final DaysOfWeek day, final Schedule schedule, final List<ICourse> gymCourses, final List<IEmployee> gymCoaches) {
+    public void loadFields(final DaysOfWeek day, final ISchedule schedule, final List<ICourse> gymCourses, final List<IEmployee> gymCoaches) {
         this.lblDay.setText(day.getName());
         this.isOpened.setSelected(schedule.isOpened());
         this.observer.formTable();

@@ -10,6 +10,7 @@ import model.gym.GymCalendar.DaysOfWeek;
 import model.gym.ICourse;
 import model.gym.IGym;
 import model.gym.IGymCalendar;
+import model.gym.ISchedule;
 import model.gym.Schedule;
 import model.gym.members.IEmployee;
 import view.PrimaryFrame;
@@ -52,7 +53,7 @@ public class EditCourseController extends AddCourseController implements IEditCo
                 courseToEdit.getMaxMembers(), courseToEdit.getCoaches(), courseToEdit.getCurrentMembers());
         this.tempCalendar = new GymCalendar();
         for (final DaysOfWeek day : DaysOfWeek.values()) {
-            final Schedule schedule = this.gym.getProgram().getCalendar().get(day);
+            final ISchedule schedule = this.gym.getProgram().getCalendar().get(day);
             this.tempCalendar.setSchedule(day, new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour()
                     .orElse(null), schedule.getProgram()));
         }
