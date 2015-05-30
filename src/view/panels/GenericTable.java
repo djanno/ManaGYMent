@@ -40,7 +40,7 @@ public class GenericTable extends Background implements IGenericTable{
      * @author simone
      * The table model of a wrapped table 
      */
-    public class ManagymentTableModel extends DefaultTableModel {
+    private class ManagymentTableModel extends DefaultTableModel {
 
         private static final long serialVersionUID = -1466761511787501273L;
 

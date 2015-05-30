@@ -7,7 +7,7 @@ import model.gym.GymCalendar.DaysOfWeek;
 import model.gym.ICourse;
 import model.gym.IGym;
 import model.gym.IGymCalendar;
-import model.gym.Schedule;
+import model.gym.ISchedule;
 import view.PrimaryFrame;
 import view.panels.home.HomePanel;
 import view.panels.home.HomePanel.CoursesWrapper;
@@ -57,7 +57,7 @@ public class HomePanelController implements IHomePanelController {
         int maxHour = 1;
         boolean empty = true;
 
-        Schedule schedule = null;
+        ISchedule schedule = null;
 
         for (final DaysOfWeek day : calendar.getCalendar().keySet()) {
             schedule = calendar.getCalendar().get(day);

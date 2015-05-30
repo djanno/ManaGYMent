@@ -1,5 +1,6 @@
 package view.panels.home;
 
+import view.panels.IGenericTable;
 import controller.panels.home.IHomePanelController;
 
 /**
@@ -7,7 +8,7 @@ import controller.panels.home.IHomePanelController;
  * @author Federico Giannoni
  *
  */
-public interface IHomePanel {
+public interface IHomePanel extends IGenericTable{
 
     /**
      * Attaches the specified observer to the {@link HomePanel}.

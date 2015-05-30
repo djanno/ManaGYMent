@@ -1,5 +1,6 @@
 package view.panels.gym;
 
+import view.panels.IGenericTable;
 import controller.panels.gym.IGymPanelController;
 
 /**
@@ -7,7 +8,7 @@ import controller.panels.gym.IGymPanelController;
  * @author Federico Giannoni
  *
  */
-public interface IGymPanel {
+public interface IGymPanel extends IGenericTable{
 
     /**
      * Sets the specified string as the header title of the panel. In the application, the string is supposed
