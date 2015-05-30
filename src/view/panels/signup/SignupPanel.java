@@ -23,6 +23,11 @@ import org.jdesktop.xswingx.PromptSupport;
 import view.panels.Background;
 import controller.panels.signup.ISignupPanelController;
 
+/**
+ * The panel for the registration of new {@link User}.
+ * @author Federico Giannoni
+ *
+ */
 public class SignupPanel extends Background implements ISignupPanel, ActionListener, KeyListener {
 
     private static final long serialVersionUID = 5362097461793303394L;
@@ -39,6 +44,10 @@ public class SignupPanel extends Background implements ISignupPanel, ActionListe
     private final JButton signupButton;
     private final JButton cancelButton;
 
+    /**
+     * Constructs a default signup panel.
+     * @param path the path to the image to be used as background for the panel.
+     */
     public SignupPanel(final String path) {
         super(path);
 

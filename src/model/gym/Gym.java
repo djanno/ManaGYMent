@@ -232,7 +232,7 @@ public class Gym implements IGym, Serializable {
     }
 
     @Override
-    public void setIncome(final Double amount, final Calendar subscriptionCalendar) throws IllegalArgumentException {
+    public void setIncome(final Double amount, final Calendar subscriptionCalendar) {
         // double prev = 0;
         //
         // this.df.format(subscriptionCalendar.getTime());
@@ -267,6 +267,11 @@ public class Gym implements IGym, Serializable {
                         - employee.getLastPayed().getTimeInMillis()) > 29).forEach(employee -> employee.setCredit(employee.getSalary()));
     }
 
+    /**
+     * After a {@link ICourse} has been deleted from the gym, the same course is also removed from the {@link GymCalendar} and
+     * from the subscribers' membership and refunds those subscribers. 
+     * @param courseToDelete the course that has been deleted from the gym.
+     */
     private void cleanScheduleAndRefundSubscribers(final ICourse courseToDelete) {
         for (final ISchedule schedule : this.getProgram().getCalendar().values()) {
             courseToDelete.getCoaches().forEach(coach -> schedule.deletePair(new Pair<ICourse, IEmployee>(courseToDelete, coach)));
@@ -280,6 +285,11 @@ public class Gym implements IGym, Serializable {
         }
     }
     
+    /**
+     * After a {@link ISubscriber} has been removed from the list of members, such subscriber is also removed from
+     * the various {@link ICourse} of which he/she was a member.
+     * @param subscriberToRemove the subscriber that has been deleted from the gym.
+     */
     private void removeDeletedMembersFromCourses(final ISubscriber subscriberToRemove) {
         subscriberToRemove.getCourses().forEach(course -> {
             if (course.getCurrentMembers().contains(subscriberToRemove)) {
@@ -288,6 +298,11 @@ public class Gym implements IGym, Serializable {
         });
     }
     
+    /**
+     * After a {@link IEmployee} has been removed from the gym, it is also removed from the {@link ICourse} in which
+     * he used to be assigned as a coach. These changes are also applied to the {@link IGymCalendar}.
+     * @param employeeToRemove the employee that has been removed from the gym.
+     */
     private void cleanScheduleAndCoursesWithCoach(final IEmployee employeeToRemove) {
         this.courses.stream().filter(course -> course.getCoaches().contains(employeeToRemove)).forEach(course -> {
             course.removeCoach(employeeToRemove);
@@ -295,6 +310,10 @@ public class Gym implements IGym, Serializable {
         });
     }
     
+    /**
+     * Returns an instance of {@link Calendar} with the current date and time.
+     * @return a calendar with the current date and time.
+     */
     private Calendar getCurrentCalendar() {
         return Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
     }
@@ -318,6 +337,13 @@ public class Gym implements IGym, Serializable {
 //        return false;
 //    }
     
+    /**
+     * Checks if a {@link IGymMember} exists in this {@link IGym}.
+     * @param list the list (subscribers or employees) in which to search for the member.
+     * @param cf the fiscal code of the member to find.
+     * @return true if the member with the specified fiscal code has been found in the specified list, false
+     * otherwise.
+     */
     private boolean findMember(final List<? extends IGymMember> list, final String cf){
         return list.stream().anyMatch(s->s.getFiscalCode().equals(cf));
     }

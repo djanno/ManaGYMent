@@ -10,12 +10,20 @@ import model.gym.IGym;
 import exceptions.UserAlreadyExistsException;
 import exceptions.WrongCredentialsException;
 
+/**
+ * The model of the application.
+ * @author Federico Giannoni
+ *
+ */
 public class Model implements IModel, Serializable {
 
     private static final long serialVersionUID = -7892915667915120441L;
 
     private final Map<String, IUser> users;
 
+    /**
+     * Constructs a new empty model.
+     */
     public Model() {
         super();
         this.users = new HashMap<>();
