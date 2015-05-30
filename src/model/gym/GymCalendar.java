@@ -10,7 +10,7 @@ public class GymCalendar implements IGymCalendar, Serializable {
 
     private static final long serialVersionUID = 1198724186646197873L;
 
-    private Map<DaysOfWeek, Schedule> calendar;
+    private Map<DaysOfWeek, ISchedule> calendar;
 
     public GymCalendar() {
         super();
@@ -25,12 +25,12 @@ public class GymCalendar implements IGymCalendar, Serializable {
     }
 
     @Override
-    public Map<DaysOfWeek, Schedule> getCalendar() {
-        return new HashMap<DaysOfWeek, Schedule>(this.calendar);
+    public Map<DaysOfWeek, ISchedule> getCalendar() {
+        return new HashMap<DaysOfWeek, ISchedule>(this.calendar);
     }
 
     @Override
-    public void setSchedule(final DaysOfWeek day, final Schedule schedule) {
+    public void setSchedule(final DaysOfWeek day, final ISchedule schedule) {
         calendar.replace(day, schedule);
     }
 

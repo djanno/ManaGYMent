@@ -268,7 +268,7 @@ public class Gym implements IGym, Serializable {
     }
 
     private void cleanScheduleAndRefundSubscribers(final ICourse courseToDelete) {
-        for (final Schedule schedule : this.getProgram().getCalendar().values()) {
+        for (final ISchedule schedule : this.getProgram().getCalendar().values()) {
             courseToDelete.getCoaches().forEach(coach -> schedule.deletePair(new Pair<ICourse, IEmployee>(courseToDelete, coach)));
         }
 

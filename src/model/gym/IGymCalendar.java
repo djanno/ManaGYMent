@@ -6,8 +6,8 @@ import model.gym.GymCalendar.DaysOfWeek;
 
 public interface IGymCalendar {
 
-    Map<DaysOfWeek, Schedule> getCalendar();
+    Map<DaysOfWeek, ISchedule> getCalendar();
 
-    void setSchedule(final DaysOfWeek day, final Schedule schedule);
+    void setSchedule(final DaysOfWeek day, final ISchedule schedule);
 
 }

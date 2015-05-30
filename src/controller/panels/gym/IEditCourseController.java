@@ -8,7 +8,7 @@ import java.awt.Color;
  * @author simone
  *
  */
-public interface IEditCourseController {
+public interface IEditCourseController extends IAddCourseController{
 
     /**
      * load a coach list present in model

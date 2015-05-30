@@ -1,5 +1,6 @@
 package view.panels.members.tables;
 
+import view.panels.IGenericTable;
 import controller.panels.members.tables.IAbstractTableMemberController;
 
 /**
@@ -8,7 +9,7 @@ import controller.panels.members.tables.IAbstractTableMemberController;
  * @author simone
  *
  */
-public interface ITableMemberPanel {
+public interface ITableMemberPanel extends IGenericTable{
     /**
      * Changes the current {@link IAbstractTableMemberController}.
      * 
