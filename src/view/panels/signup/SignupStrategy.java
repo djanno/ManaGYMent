@@ -5,12 +5,25 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+/**
+ * Strategy class to make it so that the {@link SignupPanel} is more easily adjustable and extensible.
+ * @author Federico Giannoni
+ *
+ */
 public class SignupStrategy implements ISignupStrategy {
 
+    /**
+     * Constructor.
+     */
     public SignupStrategy() {
         super();
     }
 
+    /**
+     * Enumerator that defines all the field required for the registration of a new {@link User}.
+     * @author Federico Giannoni
+     *
+     */
     public enum SignupField implements ISignupField {
 
         NAME("nome: ", 20, false, x -> (x.length() > 1 && x.length() < 20), "max 20 caratteri."), SURNAME("cognome: ", 20, false,

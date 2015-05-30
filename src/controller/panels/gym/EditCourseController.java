@@ -12,6 +12,7 @@ import model.gym.IGym;
 import model.gym.IGymCalendar;
 import model.gym.ISchedule;
 import model.gym.Schedule;
+import model.gym.Schedule.Pair;
 import model.gym.members.IEmployee;
 import view.PrimaryFrame;
 import view.panels.gym.EditCoursePanel;
@@ -54,6 +55,12 @@ public class EditCourseController extends AddCourseController implements IEditCo
         this.tempCalendar = new GymCalendar();
         for (final DaysOfWeek day : DaysOfWeek.values()) {
             final ISchedule schedule = this.gym.getProgram().getCalendar().get(day);
+            schedule.getProgram().forEach((hour, pairs) -> pairs.forEach(pair -> {
+            	if(pair.getX().equals(this.courseToEdit)) {
+            		schedule.removePairInHour(pair, hour);
+            		schedule.putPairInHour(new Pair<ICourse, IEmployee>(this.temp, pair.getY()), hour, hour + 1);
+            	}
+            }));
             this.tempCalendar.setSchedule(day, new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour()
                     .orElse(null), schedule.getProgram()));
         }

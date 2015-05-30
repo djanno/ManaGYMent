@@ -1,10 +1,14 @@
 package model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import model.gym.IGym;
 
+/**
+ * User of the application.
+ * @author Federico Giannoni
+ *
+ */
 public class User implements IUser, Serializable {
 
     private static final long serialVersionUID = -3416885631818258828L;
@@ -16,6 +20,15 @@ public class User implements IUser, Serializable {
     private final IGym gym;
     private String email;
 
+    /**
+     * Constructs a new user with the informations provided in input.
+     * @param name the name of the new user.
+     * @param surname the surname of the new user.
+     * @param username the username associated to the new user.
+     * @param psw the password of the new user.
+     * @param gym the gym associated to the new user.
+     * @param email the email of the new user.
+     */
     public User(final String name, final String surname, final String username, final char[] psw, final IGym gym, final String email) {
         this.name = name;
         this.surname = surname;
@@ -63,11 +76,6 @@ public class User implements IUser, Serializable {
     @Override
     public void setEmail(final String email) {
         this.email = email;
-    }
-
-    @Override
-    public void sendEmail(final List<String> emailAddresses) {
-
     }
 
 }
