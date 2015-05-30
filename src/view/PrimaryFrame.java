@@ -85,10 +85,10 @@ public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListene
         this.navigationMenu = new JMenu("Menu");
         this.navigationMenuVoices = new JMenuItem[NAVIGATION_MENU_VOICES];
         this.navigationMenuVoices[HOME_INDEX] = new JMenuItem("Home");
-        this.navigationMenuVoices[SUB_PAGE_INDEX] = new JMenuItem("Subscribers");
-        this.navigationMenuVoices[EMPLOYEE_PAGE_INDEX] = new JMenuItem("Employees");
-        this.navigationMenuVoices[GYM_PAGE_INDEX] = new JMenuItem("Gym");
-        this.navigationMenuVoices[PROFILE_INDEX] = new JMenuItem("Profile");
+        this.navigationMenuVoices[SUB_PAGE_INDEX] = new JMenuItem("Iscritti");
+        this.navigationMenuVoices[EMPLOYEE_PAGE_INDEX] = new JMenuItem("Personale");
+        this.navigationMenuVoices[GYM_PAGE_INDEX] = new JMenuItem("La mia palestra");
+        this.navigationMenuVoices[PROFILE_INDEX] = new JMenuItem("Profilo");
         this.navigationMenuVoices[EMAIL_INDEX] = new JMenuItem("Email");
         this.navigationMenuVoices[LOGOUT_INDEX] = new JMenuItem("Logout");
 
