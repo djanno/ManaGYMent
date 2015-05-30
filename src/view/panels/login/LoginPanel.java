@@ -17,6 +17,11 @@ import javax.swing.JTextField;
 import view.panels.Background;
 import controller.panels.login.ILoginPanelController;
 
+/**
+ * The login view of the application.
+ * @author Federico Giannoni
+ *
+ */
 public class LoginPanel extends Background implements ILoginPanel, ActionListener, KeyListener {
 
     private static final long serialVersionUID = 3301612740714431369L;
@@ -35,6 +40,10 @@ public class LoginPanel extends Background implements ILoginPanel, ActionListene
     private final JTextField idField;
     private final JPasswordField pswField;
 
+    /**
+     * Constructs a login panel.
+     * @param path the path to the image to be used as the background of the panel.
+     */
     public LoginPanel(final String path) {
         super(path);
         this.setLayout(new GridBagLayout());

@@ -21,6 +21,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import view.panels.Background;
 import controller.IPrimaryFrameController;
 
+/**
+ * The primary frame in which all the panels of the application are drawn.
+ * @author Federico Giannoni
+ *
+ */
 public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListener {
 
     private static final long serialVersionUID = 3170409204135126317L;
@@ -57,6 +62,9 @@ public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListene
     private JPanel mainPanel;
     private final JFileChooser fileChooser;
 
+    /**
+     * Constructs a default primary frame.
+     */
     public PrimaryFrame() {
         super(TITLE);
         this.setSize(WIDTH, HEIGHT);
@@ -223,16 +231,36 @@ public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListene
         this.observer = observer;
     }
 
+    /**
+     * Sets the specified dialog window as the child component of the {@link PrimaryFrame}.
+     * @param window the dialog window to be designed as the child component of the frame of the application.
+     */
     private void setChild(final DialogWindow window) {
         this.child = window;
     }
 
+    /**
+     * A dialog window built on the go on top of the {@link PrimaryFrame}. This window is used mainly to contain
+     * panels used to add/edit specific informations.
+     * @author Federico Giannoni
+     *
+     */
     public class DialogWindow extends JDialog {
 
         private static final long serialVersionUID = -4405596479287846731L;
 
         private final PrimaryFrame father;
 
+        /**
+         * Constructs a dialog window containing the specified panel and sets it as the child component of a designed {@link PrimaryFrame}.
+         * Keep in mind that the parent component of the dialog will be disabled until the dialog is closed. This has the purpose to make it
+         * impossible for the user of the application to perform operations that are not allowed.
+         * @param title the title of the dialog window.
+         * @param width the width of the dialog window.
+         * @param height the height of the dialog window.
+         * @param father the father component of the dialog window.
+         * @param panel the panel to be displayed inside the dialog window.
+         */
         public DialogWindow(final String title, final int width, final int height, final PrimaryFrame father, final JPanel panel) {
             super();
 
@@ -269,6 +297,9 @@ public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListene
         // sempre sopra il frame.
         // windowClosing -> mainFrame.setEnabled(true) e DISPOSE del dialog.
 
+        /**
+         * Closes the dialog and re-enables its parent component.
+         */
         public void closeDialog() {
             this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         }

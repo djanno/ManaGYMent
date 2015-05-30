@@ -24,6 +24,11 @@ import view.panels.Background;
 import view.panels.GenericTable;
 import controller.panels.gym.IGymPanelController;
 
+/**
+ * The view that displays the data of the logged user's gym.
+ * @author Federico Giannoni
+ *
+ */
 public class GymPanel extends GenericTable implements IGymPanel {
 
     private static final long serialVersionUID = -3885713318419080990L;
@@ -43,6 +48,10 @@ public class GymPanel extends GenericTable implements IGymPanel {
     private final JButton editBtn = new JButton("Dettagli");
     private final JButton delBtn = new JButton("Elimina");
 
+    /**
+     * Constructs a panel.
+     * @param path the path to the image to be used as the background of the panel.
+     */
     public GymPanel(final String path) {
         super(COLUMNS, path);
 
@@ -107,12 +116,20 @@ public class GymPanel extends GenericTable implements IGymPanel {
         this.observer = observer;
     }
 
+    /**
+     * Adds the action listeners to the panel and defines their behavior.
+     */
     private void setHandlers() {
         this.addBtn.addActionListener(e -> this.observer.cmdAddCourse());
         this.editBtn.addActionListener(e -> this.observer.cmdEditCourse(this.table.getSelectedRow()));
         this.delBtn.addActionListener(e -> this.observer.cmdDeleteCourse(this.table.getSelectedRow()));
     }
 
+    /**
+     * The view that displays the data regarding the income of the logged user's gym.
+     * @author Federico Giannoni
+     * @author Davide Borficchia
+     */
     public class IncomePanel extends GenericTable {
 
         private static final long serialVersionUID = 1L;
@@ -129,6 +146,12 @@ public class GymPanel extends GenericTable implements IGymPanel {
 
     }
 
+    /**
+     * A renderer used to display the Color data type in the JTable containing courses, that is contained in
+     * the {@link GymPanel}.
+     * @author Federico Giannoni
+     *
+     */
     class CourseColorRenderer extends JLabel implements TableCellRenderer {
 
         private static final long serialVersionUID = -4877549038078530092L;
