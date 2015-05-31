@@ -47,11 +47,6 @@ public class HomePanel extends GenericTable implements IHomePanel, ActionListene
 
     private IHomePanelController observer;
 
-    // private final String[] columnHeaders = new
-    // String[DaysOfWeek.values().length + 1];
-    // private Object[][] data;
-    // private final JTable table;
-
     /**
      * Constructs a default home panel.
      * @param path the path to the image to be used as background.
@@ -59,17 +54,6 @@ public class HomePanel extends GenericTable implements IHomePanel, ActionListene
     public HomePanel(final String path) {
         super(HEADERS, path);
         this.setLayout(new BorderLayout());
-
-        // columnHeaders[0] = "";
-        // for(int i = 1; i < columnHeaders.length; i++) {
-        // columnHeaders[i] = DaysOfWeek.values()[i - 1].getName();
-        // }
-        // this.columnHeaders = (String[])
-        // DaysOfWeek.namesOfDayVector().stream().toArray();
-        // this.data = new Object[][]{};
-
-        // this.table = new JTable(new CalendarioTableModel(this.data,
-        // this.columnHeaders));
         this.table.setTableHeader(new JTableHeader(this.table.getColumnModel()) {
 
             private static final long serialVersionUID = 1L;
@@ -96,7 +80,6 @@ public class HomePanel extends GenericTable implements IHomePanel, ActionListene
 
         final JScrollPane scroll = new JScrollPane(this.table);
         this.add(scroll, BorderLayout.CENTER);
-        // this.loadTableData(); va lanciato dal controller
     }
 
     @Override
@@ -106,8 +89,6 @@ public class HomePanel extends GenericTable implements IHomePanel, ActionListene
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        // questa parte di codice va in un else se ci sono altri bottoni nel
-        // pannello.
         final String command = e.getActionCommand();
         this.observer.cmdEditDaySchedule(command);
     }
@@ -209,9 +190,7 @@ public class HomePanel extends GenericTable implements IHomePanel, ActionListene
             final double weightx = (double) CoursesWrapperRenderer.MAX_COLORS_PER_ROW / 100;
             final double weighty = ((double) courses.size() / CoursesWrapperRenderer.MAX_COLORS_PER_ROW) / 100;
 
-            if (courses.isEmpty()) { // se non ci sono corsi in quell'ora, la
-                                     // palestra è chiusa in quell'ora -> lbl
-                                     // nero.
+            if (courses.isEmpty()) { 
 
                 if (opened) {
                     label = this.createLabel(Color.WHITE);
@@ -284,7 +263,6 @@ public class HomePanel extends GenericTable implements IHomePanel, ActionListene
             this.addActionListener(listener);
             this.click = false;
 
-            // DUPLICAZIONE DI QUESTE RIGHE -> RISOLVERE?
             if (this.table != null && this.table.getTableHeader() != null) {
                 this.table.getTableHeader().addMouseListener(this);
             }
@@ -300,15 +278,7 @@ public class HomePanel extends GenericTable implements IHomePanel, ActionListene
             }
 
             this.column = column;
-            this.setActionCommand(DaysOfWeek.values()[column - 1].getName()); // column
-                                                                              // +
-                                                                              // 1
-                                                                              // perchè
-                                                                              // la
-                                                                              // prima
-                                                                              // colonna
-                                                                              // è
-                                                                              // vuota.
+            this.setActionCommand(DaysOfWeek.values()[column - 1].getName()); 
             this.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
             return this;
         }

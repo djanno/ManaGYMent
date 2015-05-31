@@ -14,7 +14,6 @@ import javax.swing.JTable;
  */
 public final class UtilityClass {
 
-    // Suppresses default constructor, ensuring non-instantiability
     private UtilityClass() {
     };
 

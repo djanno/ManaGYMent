@@ -65,12 +65,6 @@ public class TableSubscribersController extends AbstractTableMemberController {
      */
     @Override
     protected void deleteMember(final int index) {
-        /*
-         * final ISubscriber subsriber = this.gym.getSubscribers().get(index);
-         * this.gym.getCourses() .stream() .filter(course ->
-         * course.getCurrentMembers().contains(subsriber)) .forEach(course ->
-         * course.removeMember(subsriber));
-         */
         this.gym.removeSubscriber(index);
         this.createTable(this.gym.getSubscribers());
     }

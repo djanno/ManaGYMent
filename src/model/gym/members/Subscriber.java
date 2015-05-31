@@ -27,7 +27,6 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     private boolean expired;
     private List<ICourse> courses;
 
-    // Deciso di utilizzare Calendar invece di Date.
     /**
      * Constructs a new subscriber with the given data.
      * @param name the name of the subscriber.
@@ -107,7 +106,6 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     public void payFee() {
         this.getGym().setIncome(this.fee, this.subscriptionDate);
         this.fee = 0.0;
-        // usiamo la data di iscrizione o la data in cui avviene il pagamento?
     }
     
     @Override
@@ -134,8 +132,7 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     public Object[] createRow() {
         return new Object[] { this.getName(), this.getSurname(), this.getFiscalCode(), this.getAddress(), this.getNumber(), this.getEmail(),
                 this.getExpirationDate(), this.getFee() };
-    }// sarebbe meglio usare direttamente i campi anzichè i metodi
-
+    }
     /**
      * Returns the number of days between the subscription and expiration of the subscriber's membership.
      * @return the number of days between the subscription and expiration of the subscriber's membership.

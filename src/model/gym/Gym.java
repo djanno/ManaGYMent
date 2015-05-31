@@ -31,8 +31,7 @@ public class Gym implements IGym, Serializable {
 
     private static final long serialVersionUID = 3617529257067437822L;
 
-    private static final String CF_ALREADY_EXISTING = "Il codice fiscale inserito √® gi√† stato assegnato a un membro della palestra";
-//    private static final String EMPLOYEE_ALREADY_EXISTING = "L'impiegato che si vuole aggiungere esiste gi√†.";
+    private static final String CF_ALREADY_EXISTING = "Il codice fiscale inserito Ë gi‡† stato assegnato a un membro della palestra";
 
     private final String gymName;
     private final List<ISubscriber> subscribers;
@@ -103,7 +102,6 @@ public class Gym implements IGym, Serializable {
         if (findMember(this.subscribers, subscriber.getFiscalCode())) {
             throw new IllegalArgumentException(CF_ALREADY_EXISTING);
         } else {
-            //            subscriber.getCourses().forEach(course-> course.addMember(subscriber));
             for (final ICourse course : subscriber.getCourses()) {
                 course.addMember(subscriber);
             }
@@ -185,8 +183,6 @@ public class Gym implements IGym, Serializable {
 
     @Override
     public void removeSubscriber(final int subscriberIndex) {
-        // this.setIncome(this.subscribers.get(subscriberIndex).getFee(),
-        // this.subscribers.get(subscriberIndex).getSubscriptionDate());
         if (subscriberIndex < this.subscribers.size() || subscriberIndex >= 0){
             final ISubscriber subscriberToRemove = this.subscribers.get(subscriberIndex);
             this.removeDeletedMembersFromCourses(subscriberToRemove);
@@ -209,8 +205,6 @@ public class Gym implements IGym, Serializable {
 
     @Override
     public void removeEmployee(final int employeeIndex) {
-        // this.setIncome(this.employees.get(employeeIndex).getSalary(),
-        // this.getCurrentCalendar());
         if (employeeIndex < this.employees.size() || employeeIndex >= 0){
             final IEmployee employeeToRemove = this.employees.get(employeeIndex);
             this.cleanScheduleAndCoursesWithCoach(employeeToRemove);
@@ -233,14 +227,6 @@ public class Gym implements IGym, Serializable {
 
     @Override
     public void setIncome(final Double amount, final Calendar subscriptionCalendar) {
-        // double prev = 0;
-        //
-        // this.df.format(subscriptionCalendar.getTime());
-        // if
-        // (this.map.keySet().contains(this.df.format(subscriptionCalendar.getTime())))
-        // {
-        // prev = this.map.get(this.df.format(subscriptionCalendar.getTime()));
-        // }
         this.map.put(this.df.format(subscriptionCalendar.getTime()),
                 amount + this.map.getOrDefault(this.df.format(subscriptionCalendar.getTime()), 0.0));
     }
@@ -317,25 +303,6 @@ public class Gym implements IGym, Serializable {
     private Calendar getCurrentCalendar() {
         return Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
     }
-
-//    private boolean findSubscriber(final String cf) {
-////        for (final ISubscriber s : this.subscribers) {
-////            if (s.getFiscalCode().equals(cf)) {
-////                return true;
-////            }
-////        }
-////        return false;
-//        return this.subscribers.stream().anyMatch(s->s.getFiscalCode().equals(cf));
-//    }
-
-//    private boolean findEmployee(final String cf) {
-//        for (final IEmployee e : this.employees) {
-//            if (e.getFiscalCode().equals(cf)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
     
     /**
      * Checks if a {@link IGymMember} exists in this {@link IGym}.

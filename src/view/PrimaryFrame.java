@@ -50,7 +50,7 @@ public final class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionL
     private static final int LOAD_INDEX = 0;
     private static final int SAVE_INDEX = 1;
 
-    private static final int NAVIGATION_MENU_VOICES = 7; // ADD A LOGOUT OPTION.
+    private static final int NAVIGATION_MENU_VOICES = 7; 
     private static final int OPTION_MENU_VOICES = 2;
 
     private IPrimaryFrameController observer;
@@ -203,17 +203,6 @@ public final class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionL
         this.getContentPane().add(this.mainPanel, BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
-        // revalidate, stando ai tutorial di eclipse, va chiamata ogni volta che
-        // si
-        // cancella uno o più componenti dal contentPane. Serve a comunicare al
-        // layout
-        // manager di resettarsi in base alla nuova lista di componenti. Il
-        // tutorial dice
-        // inoltre di chiamare anche repaint dopo ogni revalidate, per
-        // assicurarsi che
-        // vengano ripulite tutte le regioni "sporche" del pannello (altrimenti
-        // non è detta
-        // che vengano ripulite tutte).
     }
 
     @Override
@@ -221,11 +210,7 @@ public final class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionL
         for (final JMenuItem item : this.navigationMenuVoices) {
             item.setEnabled(enabled);
         }
-        this.optionMenuVoices[LOAD_INDEX].setEnabled(!enabled); // when you can
-                                                                // navigate, you
-                                                                // can not load
-                                                                // and
-                                                                // viceversa.
+        this.optionMenuVoices[LOAD_INDEX].setEnabled(!enabled); 
     }
 
     @Override
@@ -298,12 +283,6 @@ public final class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionL
 
         }
 
-        // costruttore di dialog window che accetta una dimensione.
-        // DO_NOTHING_ON_CLOSE come defaultcloseop
-        // setEnabled(false) al mainFrame e fare in modo che il dialog sia
-        // sempre sopra il frame.
-        // windowClosing -> mainFrame.setEnabled(true) e DISPOSE del dialog.
-
         /**
          * Closes the dialog and re-enables its parent component.
          */
@@ -313,6 +292,3 @@ public final class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionL
     }
 
 }
-
-// OCCORRE UN BOTTONE LOGOUT, INOLTRE BISOGNA GESTIRE BENE IL DIALOG.
-// AL MOMENTO DI CHIUSURA, SI PULISCE IL DIALOG E SI RENDE INVISIBILE.

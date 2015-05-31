@@ -21,8 +21,6 @@ public abstract class AbstractGymMember implements IGymMember, Serializable {
     private String email;
     private final IGym gym;
 
-    // le eccezioni andranno catturate nel controller. Possibilità di utilizzo
-    // strategy.
     /**
      * Constructs a new gym member with the data provided in input.
      * @param name the name of the new member.
@@ -45,11 +43,9 @@ public abstract class AbstractGymMember implements IGymMember, Serializable {
         this.gym = gym;
     }
 
-    // aggiunto
     @Override
     public abstract Object[] createRow();
 
-    // aggiunto
     @Override
     public String alternativeToString() {
         return this.getName() + " " + this.getSurname() + " " + this.getFiscalCode();
