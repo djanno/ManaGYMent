@@ -62,15 +62,20 @@ public class Employee extends AbstractGymMember implements IEmployee, Serializab
 
     @Override
     public void setCredit(final double credit) {
-        this.credit += credit;
-        this.lastPayed = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
+        this.credit = credit;
     }
-
+    
     @Override
     public void setLastPayed(final Calendar lastPayed) {
         this.lastPayed = lastPayed;
     }
 
+    @Override
+    public void updateCredit(final double credit) {
+        this.credit += credit;
+        this.lastPayed = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
+    }
+    
     @Override
     public void settleCredit() {
         this.getGym().setIncome(-this.credit, Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));

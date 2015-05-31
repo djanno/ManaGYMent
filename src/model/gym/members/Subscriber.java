@@ -111,6 +111,16 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     }
     
     @Override
+    public void addToCourse(final ICourse course) {
+        this.courses.add(course);
+    }
+    
+    @Override
+    public void addToCourse(final int courseIndex, final ICourse course) {
+        this.courses.add(courseIndex, course);
+    }
+    
+    @Override
     public void removeFromCourse(final ICourse course) {
         this.courses.remove(course);
     }

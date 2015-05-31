@@ -264,7 +264,7 @@ public class Gym implements IGym, Serializable {
         this.employees
                 .stream()
                 .filter(employee -> TimeUnit.MILLISECONDS.toDays(this.getCurrentCalendar().getTimeInMillis()
-                        - employee.getLastPayed().getTimeInMillis()) > 29).forEach(employee -> employee.setCredit(employee.getSalary()));
+                        - employee.getLastPayed().getTimeInMillis()) > 29).forEach(employee -> employee.updateCredit(employee.getSalary()));
     }
 
     /**

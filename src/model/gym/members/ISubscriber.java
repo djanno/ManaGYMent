@@ -71,6 +71,19 @@ public interface ISubscriber extends IGymMember {
      * @param courses the new list of courses.
      */
     void setCourses(final List<ICourse> courses);
+    
+    /**
+     * Adds the {@link ICourse} to the list of courses in which the subscriber takes part.
+     * @param course the new course.
+     */
+    void addToCourse(final ICourse course);
+    
+    /**
+     * Adds the {@link ICourse} to the list of courses in which the subscriber takes part in the specified index.
+     * @param courseIndex the index in which the course will be added.
+     * @param course the new course.
+     */
+    void addToCourse(final int courseIndex, final ICourse course);
 
     /**
      * Removes the given {@link Course} from the list of courses of which the subscriber is a member.

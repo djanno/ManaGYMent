@@ -36,10 +36,12 @@ public interface IEmployee extends IGymMember {
     void setSalary(final double salary);
 
     /**
-     * Sets the credit of the employee, increasing it by an amount equals to the employee's salary.
+     * Sets the credit of the employee.
      * @param credit the new credit.
      */
     void setCredit(final double credit);
+    
+    
 
     /**
      * Sets the date of the last update of the employee's credit.
@@ -52,4 +54,11 @@ public interface IEmployee extends IGymMember {
      */
     void settleCredit();
 
+    /**
+     * Updates the credit of the employee, increasing it by an amount equals to
+     * the employee's salary.
+     * 
+     * @param credit the new credit.
+     */
+    void updateCredit(final double credit);
 }

@@ -65,7 +65,7 @@ public class CommonPanel extends JPanel implements ICommonPanel {
     public Map<IFormField, String> getMapToPass() {
         final Map<IFormField, String> mapToPass = new HashMap<>();
         for (final IFormField f : map.keySet()) {
-            mapToPass.put(f, map.get(f).getText());
+            mapToPass.put(f, map.get(f).getText().trim());
         }
         return mapToPass;
     }

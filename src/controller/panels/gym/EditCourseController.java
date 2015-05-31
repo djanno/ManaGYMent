@@ -1,6 +1,8 @@
 package controller.panels.gym;
 
 import java.awt.Color;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
@@ -14,6 +16,7 @@ import model.gym.ISchedule;
 import model.gym.Schedule;
 import model.gym.Schedule.Pair;
 import model.gym.members.IEmployee;
+import model.gym.members.ISubscriber;
 import view.PrimaryFrame;
 import view.panels.gym.EditCoursePanel;
 import view.panels.gym.IAddCoursePanel;
@@ -55,14 +58,17 @@ public class EditCourseController extends AddCourseController implements IEditCo
         this.tempCalendar = new GymCalendar();
         for (final DaysOfWeek day : DaysOfWeek.values()) {
             final ISchedule schedule = this.gym.getProgram().getCalendar().get(day);
-            schedule.getProgram().forEach((hour, pairs) -> pairs.forEach(pair -> {
+            final ISchedule tempSchedule = new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour()
+                    .orElse(null), schedule.getProgram());
+            
+            tempSchedule.getProgram().forEach((hour, pairs) -> pairs.forEach(pair -> {
             	if(pair.getX().equals(this.courseToEdit)) {
-            		schedule.removePairInHour(pair, hour);
-            		schedule.putPairInHour(new Pair<ICourse, IEmployee>(this.temp, pair.getY()), hour, hour + 1);
+            		tempSchedule.removePairInHour(pair, hour);
+            		tempSchedule.putPairInHour(new Pair<ICourse, IEmployee>(this.temp, pair.getY()), hour, hour + 1);
             	}
             }));
-            this.tempCalendar.setSchedule(day, new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour()
-                    .orElse(null), schedule.getProgram()));
+            
+            this.tempCalendar.setSchedule(day, tempSchedule );
         }
 
     }
@@ -105,6 +111,8 @@ public class EditCourseController extends AddCourseController implements IEditCo
     @Override
     public void editCourseCmd(final String courseName, final Color courseColor, final String price, final String maxMembers) {
         final int indexInList = this.gym.getCourses().indexOf(this.courseToEdit);
+        final List<ISubscriber> membershipsToEdit = this.gym.getSubscribers().stream()
+                .filter(subscriber -> subscriber.getCourses().contains(this.courseToEdit)).collect(Collectors.toList());
         try {
             this.gym.removeCourse(indexInList);
             this.checkError(courseName, courseColor, price, maxMembers);
@@ -113,11 +121,13 @@ public class EditCourseController extends AddCourseController implements IEditCo
             temp.setCoursePrice(Double.parseDouble(price));
             temp.setMaxMembers(Integer.parseInt(maxMembers));
             this.gym.addCourse(indexInList, temp);
+            membershipsToEdit.forEach(subscriber -> subscriber.addToCourse(this.temp));
             this.gym.setCalendar(this.tempCalendar);
             this.frame.getChild().closeDialog();
         } catch (final Exception exc) {
             this.frame.displayError(exc.getMessage());
             this.gym.addCourse(indexInList, courseToEdit);
+            membershipsToEdit.forEach(subscriber -> subscriber.addToCourse(this.courseToEdit));
         }
         this.gymPanelController.loadCoursesTable();
     }
@@ -136,5 +146,5 @@ public class EditCourseController extends AddCourseController implements IEditCo
         }
 
     }
-
+    
 }
