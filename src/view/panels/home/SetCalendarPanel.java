@@ -82,6 +82,7 @@ public class SetCalendarPanel extends GenericTable implements ISetCalendarPanel 
 
         this.courses = new JComboBox<String>();
         this.coachesPerCourse = new JComboBox<String>();
+        this.coachesPerCourse.setPreferredSize(new Dimension(250, 20));
         this.add = new JButton("Aggiungi corso");
         this.remove = new JButton("Rimuovi");
         this.remove.setEnabled(false);
