@@ -7,6 +7,12 @@ import java.util.TimeZone;
 
 import model.gym.IGym;
 
+/**
+ * An employee of the {@link Gym}.
+ * @author Federico Giannoni
+ * @author Simone Letizi
+ *
+ */
 public class Employee extends AbstractGymMember implements IEmployee, Serializable {
 
     private static final long serialVersionUID = 4856734291021213699L;
@@ -15,6 +21,17 @@ public class Employee extends AbstractGymMember implements IEmployee, Serializab
     private double credit;
     private Calendar lastPayed;
 
+    /**
+     * Constructs an employee with the given data.
+     * @param name the name of the employee.
+     * @param surname the surname of the employee.
+     * @param fiscalCode the fiscal code of the employee.
+     * @param address the address of the employee.
+     * @param phoneNumber the phone number of the employee.
+     * @param email the email of the employee.
+     * @param gym the gym of the employee.
+     * @param salary the salary of the employee.
+     */
     public Employee(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber,
             final String email, final IGym gym, final double salary) {
         super(name, surname, fiscalCode, address, phoneNumber, email, gym);

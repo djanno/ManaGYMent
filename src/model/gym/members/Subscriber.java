@@ -11,6 +11,12 @@ import utility.UtilityClass;
 import model.gym.ICourse;
 import model.gym.IGym;
 
+/**
+ * A subscriber of the {@link Gym}.
+ * @author Federico Giannoni
+ * @author Simone Letizi
+ *
+ */
 public class Subscriber extends AbstractGymMember implements ISubscriber, Serializable {
 
     private static final long serialVersionUID = -1414275393882247088L;
@@ -22,6 +28,19 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
     private List<ICourse> courses;
 
     // Deciso di utilizzare Calendar invece di Date.
+    /**
+     * Constructs a new subscriber with the given data.
+     * @param name the name of the subscriber.
+     * @param surname the surname of the subscriber.
+     * @param fiscalCode the fiscal code of the subscriber.
+     * @param address the address of the subscriber.
+     * @param phoneNumber the phone number of the subscriber.
+     * @param email the email of the subscriber.
+     * @param gym the gym of which the subscriber is a member.
+     * @param subscriptionDate the subscription date of the subscriber.
+     * @param expirationDate the expiration date of the subscriber.
+     * @param courses the courses of which the subscriber is a member.
+     */
     public Subscriber(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber,
             final String email, final IGym gym, final Calendar subscriptionDate, final Calendar expirationDate, final List<ICourse> courses) {
         super(name, surname, fiscalCode, address, phoneNumber, email, gym);
@@ -107,6 +126,10 @@ public class Subscriber extends AbstractGymMember implements ISubscriber, Serial
                 this.getExpirationDate(), this.getFee() };
     }// sarebbe meglio usare direttamente i campi anzichè i metodi
 
+    /**
+     * Returns the number of days between the subscription and expiration of the subscriber's membership.
+     * @return the number of days between the subscription and expiration of the subscriber's membership.
+     */
     private long getDays() {
         return TimeUnit.MILLISECONDS.toDays(this.expirationDate.getTimeInMillis() - this.subscriptionDate.getTimeInMillis());
     }
