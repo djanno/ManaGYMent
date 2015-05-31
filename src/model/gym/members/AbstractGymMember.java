@@ -3,6 +3,12 @@ package model.gym.members;
 import java.io.Serializable;
 import model.gym.IGym;
 
+/**
+ * A generic gym member.
+ * @author Federico Giannoni
+ * @author Simone Letizi
+ *
+ */
 public abstract class AbstractGymMember implements IGymMember, Serializable {
 
     private static final long serialVersionUID = 5354356285190012285L;
@@ -17,6 +23,16 @@ public abstract class AbstractGymMember implements IGymMember, Serializable {
 
     // le eccezioni andranno catturate nel controller. Possibilità di utilizzo
     // strategy.
+    /**
+     * Constructs a new gym member with the data provided in input.
+     * @param name the name of the new member.
+     * @param surname the surname of the new member.
+     * @param fiscalCode the fiscal code of the new member.
+     * @param address the address of the new member.
+     * @param phoneNumber the phone number of the new member.
+     * @param email the email of the new member.
+     * @param gym the gym of the new member.
+     */
     public AbstractGymMember(final String name, final String surname, final String fiscalCode, final String address, final String phoneNumber,
             final String email, final IGym gym) {
         super();
@@ -30,9 +46,11 @@ public abstract class AbstractGymMember implements IGymMember, Serializable {
     }
 
     // aggiunto
+    @Override
     public abstract Object[] createRow();
 
     // aggiunto
+    @Override
     public String alternativeToString() {
         return this.getName() + " " + this.getSurname() + " " + this.getFiscalCode();
     }
