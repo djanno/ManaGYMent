@@ -31,7 +31,7 @@ public class Gym implements IGym, Serializable {
 
     private static final long serialVersionUID = 3617529257067437822L;
 
-    private static final String CF_ALREADY_EXISTING = "Il codice fiscale inserito Ë gi‡† stato assegnato a un membro della palestra";
+    private static final String CF_ALREADY_EXISTING = "Il codice fiscale inserito √® gi√† stato assegnato a un membro della palestra";
 
     private final String gymName;
     private final List<ISubscriber> subscribers;
