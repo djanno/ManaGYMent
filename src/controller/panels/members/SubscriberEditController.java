@@ -115,8 +115,8 @@ public class SubscriberEditController extends SubscriberAddController implements
         }
 
         else {
-            throw new IllegalArgumentException("Non è possibile modificare l'abbonamento di questo iscritto, in quanto non ha"
-                    + "ancora pagato\n la sua quota d'iscrizione (Se si ritiene necessario modificarlo, occorrerà  eliminarlo e reinserirlo).");
+            throw new IllegalArgumentException("Non Ã¨ possibile modificare l'abbonamento di questo iscritto, in quanto non ha"
+                    + "ancora pagato\n la sua quota d'iscrizione (Se si ritiene necessario modificarlo, occorrerÃ  eliminarlo e reinserirlo).");
         }
     }
 
@@ -130,7 +130,7 @@ public class SubscriberEditController extends SubscriberAddController implements
         try {
             this.gym.addSubscriber(this.index, exSubscriber);
         } catch (CourseIsFullException e) {
-            this.frame.displayError("Non è possibile aggiungere l'iscritto perchè alcuni dei corsi selezionati sono pieni.");
+            this.frame.displayError("Non ï¿½ possibile aggiungere l'iscritto perchï¿½ alcuni dei corsi selezionati sono pieni.");
         }
     }
 }
