@@ -26,9 +26,12 @@ import controller.IPrimaryFrameController;
  * @author Federico Giannoni
  *
  */
-public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListener {
+public final class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListener {
 
-    private static final long serialVersionUID = 3170409204135126317L;
+	private static final long serialVersionUID = 3170409204135126317L;
+	
+	private static final PrimaryFrame SINGLETON_PRIMARY_FRAME= new PrimaryFrame();
+	
     private static final String TITLE = "ManaGYMent";
     private static final String ICON_PATH = "/icon.png";
     private static final String HEADER_PATH = "/header.png";
@@ -65,7 +68,7 @@ public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListene
     /**
      * Constructs a default primary frame.
      */
-    public PrimaryFrame() {
+    private PrimaryFrame() {
         super(TITLE);
         this.setSize(WIDTH, HEIGHT);
         this.setLocationRelativeTo(null);
@@ -120,6 +123,10 @@ public class PrimaryFrame extends JFrame implements IPrimaryFrame, ActionListene
 
     }
 
+    public static PrimaryFrame getPrimaryFrame(){
+    	return SINGLETON_PRIMARY_FRAME;
+    }
+    
     @Override
     public void actionPerformed(final ActionEvent event) {
         final Object source = event.getSource();
