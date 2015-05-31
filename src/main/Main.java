@@ -12,8 +12,8 @@ public final class Main {
     }
 
     public static void main(String[] args) {
-        final IModel model = new Model();
-        final PrimaryFrame view = new PrimaryFrame();
+        final IModel model = Model.getModel();
+        final PrimaryFrame view = PrimaryFrame.getPrimaryFrame();
         final IPrimaryFrameController controller = new PrimaryFrameController(model, view);
 
         controller.cmdLoad(null);
