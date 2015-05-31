@@ -56,20 +56,7 @@ public class EditCourseController extends AddCourseController implements IEditCo
         this.temp = new Course(courseToEdit.getCourseName(), courseToEdit.getCourseColor(), courseToEdit.getCoursePrice(),
                 courseToEdit.getMaxMembers(), courseToEdit.getCoaches(), courseToEdit.getCurrentMembers());
         this.tempCalendar = new GymCalendar();
-        for (final DaysOfWeek day : DaysOfWeek.values()) {
-            final ISchedule schedule = this.gym.getProgram().getCalendar().get(day);
-            final ISchedule tempSchedule = new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour()
-                    .orElse(null), schedule.getProgram());
-            
-            tempSchedule.getProgram().forEach((hour, pairs) -> pairs.forEach(pair -> {
-            	if(pair.getX().equals(this.courseToEdit)) {
-            		tempSchedule.removePairInHour(pair, hour);
-            		tempSchedule.putPairInHour(new Pair<ICourse, IEmployee>(this.temp, pair.getY()), hour, hour + 1);
-            	}
-            }));
-            
-            this.tempCalendar.setSchedule(day, tempSchedule );
-        }
+        this.swapCoursesInCalendar(this.courseToEdit, this.temp, this.tempCalendar);
 
     }
 
@@ -113,7 +100,10 @@ public class EditCourseController extends AddCourseController implements IEditCo
         final int indexInList = this.gym.getCourses().indexOf(this.courseToEdit);
         final List<ISubscriber> membershipsToEdit = this.gym.getSubscribers().stream()
                 .filter(subscriber -> subscriber.getCourses().contains(this.courseToEdit)).collect(Collectors.toList());
+        final IGymCalendar backupCalendar = new GymCalendar();
+        
         try {
+            this.swapCoursesInCalendar(this.temp, this.courseToEdit, backupCalendar);
             this.gym.removeCourse(indexInList);
             this.checkError(courseName, courseColor, price, maxMembers);
             temp.setCourseName(courseName);
@@ -127,6 +117,7 @@ public class EditCourseController extends AddCourseController implements IEditCo
         } catch (final Exception exc) {
             this.frame.displayError(exc.getMessage());
             this.gym.addCourse(indexInList, courseToEdit);
+            this.gym.setCalendar(backupCalendar);
             membershipsToEdit.forEach(subscriber -> subscriber.addToCourse(this.courseToEdit));
         }
         this.gymPanelController.loadCoursesTable();
@@ -147,4 +138,26 @@ public class EditCourseController extends AddCourseController implements IEditCo
 
     }
     
+    /**
+     * Swaps the courses in the provided gym calendar.
+     * @param oldCourse the course to be swapped out.
+     * @param newCourse the course to be swapped in.
+     * @param calendar the calendar in which the courses will be swapped.
+     */
+    private void swapCoursesInCalendar(final ICourse oldCourse, final ICourse newCourse, final IGymCalendar calendar) {
+        for (final DaysOfWeek day : DaysOfWeek.values()) {
+            final ISchedule schedule = this.gym.getProgram().getCalendar().get(day);
+            final ISchedule tempSchedule = new Schedule(schedule.isOpened(), schedule.getOpeningHour().orElse(null), schedule.getClosingHour()
+                    .orElse(null), schedule.getProgram());
+            
+            tempSchedule.getProgram().forEach((hour, pairs) -> pairs.forEach(pair -> {
+                if(pair.getX().equals(oldCourse)) {
+                        tempSchedule.removePairInHour(pair, hour);
+                        tempSchedule.putPairInHour(new Pair<ICourse, IEmployee>(newCourse, pair.getY()), hour, hour + 1);
+                }
+            }));
+            
+            calendar.setSchedule(day, tempSchedule);
+        }
+    }
 }
