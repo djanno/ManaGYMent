@@ -1,10 +1,7 @@
 package controller.panels.members;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -30,7 +27,6 @@ public class SubscriberEditController extends SubscriberAddController implements
 
     private final ISubscriber exSubscriber;
     private final int index;
-    private final Calendar exceptionCalendar; // a cosa cazzo serve?
 
     /**
      * 
@@ -50,10 +46,6 @@ public class SubscriberEditController extends SubscriberAddController implements
     public SubscriberEditController(final PrimaryFrame frame, final ISubscriberPanel subscriberView, final IGym gym,
             final TableSubscribersController tableSubscribersController, final int index) {
         super(frame, subscriberView, gym, tableSubscribersController);
-        this.exceptionCalendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
-        this.exceptionCalendar.set(Calendar.YEAR, 1900);
-        this.exceptionCalendar.set(Calendar.MONTH, 1);
-        this.exceptionCalendar.set(Calendar.DAY_OF_MONTH, 1);
         this.index = index;
         this.exSubscriber = this.gym.getSubscribers().get(this.index);
     }
@@ -123,8 +115,8 @@ public class SubscriberEditController extends SubscriberAddController implements
         }
 
         else {
-            throw new IllegalArgumentException("Non √® possibile modificare l'abbonamento di questo iscritto, in quanto non ha"
-                    + "ancora pagato\n la sua quota d'iscrizione (Se si ritiene necessario modificarlo, occorrer√† eliminarlo e reinserirlo).");
+            throw new IllegalArgumentException("Non Ë possibile modificare l'abbonamento di questo iscritto, in quanto non ha"
+                    + "ancora pagato\n la sua quota d'iscrizione (Se si ritiene necessario modificarlo, occorrer‡† eliminarlo e reinserirlo).");
         }
     }
 
@@ -138,7 +130,7 @@ public class SubscriberEditController extends SubscriberAddController implements
         try {
             this.gym.addSubscriber(this.index, exSubscriber);
         } catch (CourseIsFullException e) {
-            this.frame.displayError("Non √® possibile aggiungere l'iscritto perch√® alcuni dei corsi selezionati sono pieni.");
+            this.frame.displayError("Non Ë possibile aggiungere l'iscritto perchË alcuni dei corsi selezionati sono pieni.");
         }
     }
 }

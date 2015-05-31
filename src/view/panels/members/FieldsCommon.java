@@ -46,14 +46,7 @@ public class FieldsCommon implements IFormStrategy {
          */
         private static boolean isNumber(String s) {
             try {
-                return Optional.ofNullable(new Long(s)).isPresent();// ritrona
-                                                                    // true se �
-                                                                    // riuscito
-                                                                    // a
-                                                                    // convertirlo,
-                                                                    // altrimenti
-                                                                    // ritorna
-                                                                    // false
+                return Optional.ofNullable(new Long(s)).isPresent();
             } catch (NumberFormatException e) {
                 return false;
             }

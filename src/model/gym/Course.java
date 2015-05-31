@@ -122,19 +122,13 @@ public class Course implements ICourse, Serializable {
 
     @Override
     public IEmployee getCoachByFiscalCode(final String fiscalCode) {
-//        for (final IEmployee employee : this.coaches) {
-//            if (employee.getFiscalCode().equalsIgnoreCase(fiscalCode)) {
-//                return employee;
-//            }
-//        }
         return this.coaches.stream().filter(employee->employee.getFiscalCode().equalsIgnoreCase(fiscalCode)).findAny().orElseThrow(IllegalArgumentException::new);
     }
 
     @Override
-    public void addMember(final ISubscriber member) throws CourseIsFullException { // CourseIsFullException
-                                                                                   // {
+    public void addMember(final ISubscriber member) throws CourseIsFullException {                                                                              
         if (this.members.size() == this.maxMembers) {
-            throw new CourseIsFullException(); // CourseIsFullException("Impossibile aggiungere altri iscritti al corso. Numero massimo di iscritti al corso raggiunto.");
+            throw new CourseIsFullException(); 
         } else {
             this.members.add(member);
         }
@@ -142,8 +136,6 @@ public class Course implements ICourse, Serializable {
 
     @Override
     public void addCoach(final IEmployee coach) {
-        // facciamo in modo che gli impiegati possano svolgere solo determinati
-        // corsi?
         if (coaches.contains(coach)) {
             throw new IllegalArgumentException(COACH_ALREDY_PRESENT);
         } else {
@@ -153,7 +145,6 @@ public class Course implements ICourse, Serializable {
 
     @Override
     public void removeMember(final int indexOfMember) throws IllegalArgumentException {
-        // potrebbero essere inutili i controlli nel nostro caso
         if (indexOfMember < this.members.size() || indexOfMember >= 0) {
             this.members.remove(indexOfMember);
         } else {
@@ -163,7 +154,6 @@ public class Course implements ICourse, Serializable {
 
     @Override
     public void removeMember(final ISubscriber member) throws IllegalArgumentException {
-        // potrebbero essere inutili i controlli nel nostro caso
         if (this.members.contains(member)) {
             this.members.remove(member);
         } else {
@@ -178,7 +168,6 @@ public class Course implements ICourse, Serializable {
 
     @Override
     public void removeCoach(final int indexOfCoach) throws IllegalArgumentException {
-        // potrebbero essere inutili i controlli nel nostro caso
         if (indexOfCoach < this.coaches.size() || indexOfCoach >= 0) {
             this.coaches.remove(indexOfCoach);
         } else {
@@ -188,7 +177,6 @@ public class Course implements ICourse, Serializable {
 
     @Override
     public void removeCoach(final IEmployee coach) throws IllegalArgumentException {
-        // potrebbero essere inutili i controlli nel nostro caso
         if (this.coaches.contains(coach)) {
             this.coaches.remove(coach);
         } else {
@@ -218,10 +206,4 @@ public class Course implements ICourse, Serializable {
     public void setCourseColor(Color color) {
         this.color = color;
     }
-
-    // gli ultimi 2 controlli non sono necessari, la rimozione di un iscritto da
-    // un corso
-    // viene fatta quando scade l'iscrizione. Per un coach dalla pagina del
-    // coach.
-
 }

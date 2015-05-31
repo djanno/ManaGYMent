@@ -48,7 +48,6 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
     
     @Override
     public void cmdSave(final Map<IFormField, String> mapToPass, final String salario) {
-            //this.model.getUser(this.frame.getActiveUser()).getGym().removeEmployee(this.index);
             try{
                     final int n = JOptionPane.showConfirmDialog(this.frame.getChild(), "Vuoi confermare le modifiche fatte ?", "Scegli", JOptionPane.OK_CANCEL_OPTION);
                     if (n == JOptionPane.OK_OPTION) {
@@ -56,7 +55,6 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
                         this.tableEmployeesController.createTable(this.gym.getEmployees());
                     }
                     
-                    //this.model.getUser(this.frame.getActiveUser()).getGym().setIncome(exEmployee.getSalary() - Double.parseDouble(salario) , Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY));
             }catch (IllegalArgumentException e){
                 this.frame.displayError(e.getMessage());
                 this.tableEmployeesController.createTable(this.gym.getEmployees());
@@ -78,7 +76,6 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
      */
     private void editEmployee(final Map<IFormField, String> mapToPass, final String salary) {
             
-            //caso in cui l'impiegato è appena stato aggiunto -> si modifica anche il credito.
             if(this.exEmployee.getSalary() == this.exEmployee.getCredit()) {        
                     this.gym.removeEmployee(this.index);
                     final int size = this.gym.getEmployees().size();
@@ -88,7 +85,6 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
                     }
             }
             
-            //caso in cui l'impiegato ha credito in sospeso -> l'aumento verrà registrato dal prossimo stipendio.
             else {
                     final Map<IFormField, String> fields = this.getCommonFields(mapToPass);
                     try {
@@ -107,6 +103,5 @@ public class EmployeeEditController extends EmployeeAddController implements IEm
                     
                     this.frame.getChild().closeDialog();
             }
-            
     }
 }

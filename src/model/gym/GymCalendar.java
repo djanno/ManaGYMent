@@ -97,7 +97,4 @@ public class GymCalendar implements IGymCalendar, Serializable {
             return names;
         }
     }
-
-    // serve un metodo per modificare la mappa
-
 }

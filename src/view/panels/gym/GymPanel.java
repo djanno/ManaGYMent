@@ -36,9 +36,6 @@ public class GymPanel extends GenericTable implements IGymPanel {
     private static final String[] COLUMNS = { "Corso", "Colore", "Prezzo (abbonamento giornaliero)" };
     private static final Font HEADER_FONT = new Font("Arial", Font.BOLD + Font.PLAIN, 20);
 
-    // private final JTable table;
-    // private Object[][] data;
-
     private IGymPanelController observer;
 
     private final Background top;
@@ -64,8 +61,6 @@ public class GymPanel extends GenericTable implements IGymPanel {
 
         final JPanel bottom = new JPanel(new BorderLayout());
 
-        // this.table = new JTable(new CoursesManagerTableModel(this.data,
-        // GymPanel.COLUMNS));
         this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.table.getTableHeader().setReorderingAllowed(false);
         this.table.setRowSelectionAllowed(true);

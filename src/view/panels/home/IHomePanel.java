@@ -16,5 +16,4 @@ public interface IHomePanel extends IGenericTable{
      */
     void attachObserver(final IHomePanelController observer);
 
-    // void loadTableData(final IGymCalendar calendar);
 }

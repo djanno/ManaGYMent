@@ -31,10 +31,6 @@ public class Schedule implements Serializable, ISchedule {
     private Integer closingHour;
     private Map<Integer, List<Pair<ICourse, IEmployee>>> program;
 
-    // considerare l'opzione Map<ICourse, InnerPair<IEmployee, Set<Integer>>
-    // in tale mappa sarebbero salvati corso -> coppia impiegato ore lavorative
-    // se si vuole salvare il nome del coach nel calendario.
-
     /**
      * Constructs a specific schedule with the parameters provided in input.
      * @param opened whether the gym is opened or not.
@@ -107,11 +103,6 @@ public class Schedule implements Serializable, ISchedule {
     public void setOpeningHourAndClosingHour(final Integer openingHour, final Integer closingHour) {
         this.openingHour = openingHour;
         this.closingHour = closingHour;
-        /*
-         * for(Integer i = openingHour; i < closingHour; i++) {
-         * this.program.putIfAbsent(i, new ArrayList<Pair<ICourse,
-         * IEmployee>>()); }
-         */
     }
 
     @Override
@@ -144,15 +135,6 @@ public class Schedule implements Serializable, ISchedule {
 
     @Override
     public void deletePair(final Pair<ICourse, IEmployee> pair) {
-        // final List<Pair<ICourse, IEmployee>> pairsToDelete = new
-        // ArrayList<>();
-        /*
-         * for(final List<Pair<ICourse, IEmployee>> list :
-         * this.program.values()) { for(final Pair<ICourse, IEmployee> pair :
-         * list) { if(pair.getX().equals(course)) { pairsToDelete.add(pair); } }
-         * }
-         */
-        // this.program.values().stream()forEach(action);
         this.program.keySet().stream().collect(Collectors.toList()).forEach(hour -> removePairInHour(pair, hour));
         if (this.program.keySet().isEmpty()) {
             this.setOpened(false);

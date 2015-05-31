@@ -162,9 +162,6 @@ public class PrimaryFrameController implements IPrimaryFrameController {
     public void cmdLoad(final String path) {
         try {
             if (this.isFilePresent(path == null ? SAVE_FILE_PATH : path)) {
-                // final BufferedInputStream bistream = new
-                // BufferedInputStream(new FileInputStream(path == null ?
-                // SAVE_FILE_PATH : path));
                 final ObjectInputStream oistream = new ObjectInputStream(new FileInputStream(path == null ? SAVE_FILE_PATH : path));
                 this.model = (IModel) oistream.readObject();
                 this.primaryFrame.setNavigationMenuEnabled(false);
@@ -180,9 +177,6 @@ public class PrimaryFrameController implements IPrimaryFrameController {
     @Override
     public void cmdSave(final String path) {
         try {
-            // final BufferedOutputStream bostream = new
-            // BufferedOutputStream(new FileOutputStream(path == null ?
-            // SAVE_FILE_PATH : path + ".gym"));
             final ObjectOutputStream oostream = new ObjectOutputStream(new FileOutputStream(path == null ? SAVE_FILE_PATH : path + ".gym"));
             oostream.writeObject(this.model);
             oostream.close();

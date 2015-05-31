@@ -82,9 +82,6 @@ public class SetCalendarController implements ISetCalendarController {
 
     public void formTable() {
         this.view.refreshTable();
-        // final Schedule s =
-        // this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
-        // .get(day);
         for (final Integer i : this.temp.getProgram().keySet()) {
             for (final Pair<ICourse, IEmployee> pair : this.temp.getProgram().get(i)) {
                 final Object[] row = new Object[] { i, i + 1, pair.getX().getCourseName(), pair.getY().getName() + " " + pair.getY().getSurname(),
@@ -102,9 +99,6 @@ public class SetCalendarController implements ISetCalendarController {
             final ICourse course = this.gym.getCourseByName(courseName);
             final IEmployee employee = course.getCoachByFiscalCode(fiscalCode);
             final Pair<ICourse, IEmployee> pairInHour = new Pair<>(course, employee);
-            // final Schedule sch =
-            // this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
-            // .get(day);
             this.temp.putPairInHour(pairInHour, hourFrom, hourTo);
             this.formTable();
         } catch (IllegalArgumentException exc) {
@@ -113,9 +107,6 @@ public class SetCalendarController implements ISetCalendarController {
     }
 
     public void removePairInHourCmd(final Integer time, final String courseName, final String fiscalCode) {
-        // final Schedule sch =
-        // this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar()
-        // .get(day);
         final ICourse courseToBeRemoved = this.gym.getCourseByName(courseName);
         final Pair<ICourse, IEmployee> pair = new Pair<>(courseToBeRemoved, courseToBeRemoved.getCoachByFiscalCode(fiscalCode));
         this.temp.removePairInHour(pair, time);
@@ -125,9 +116,6 @@ public class SetCalendarController implements ISetCalendarController {
     @Override
     public void endCmd(final Boolean isOpen, final Integer openingTime, final Integer closingTime) {
         try {
-            // final Schedule sch =
-            // this.model.getGym(this.frame.getActiveUser()).getProgram().getCalendar().get(this.day);
-
             if (isOpen) {
                 this.finalControl(openingTime, closingTime);
                 this.temp.setOpened(isOpen);
@@ -146,9 +134,6 @@ public class SetCalendarController implements ISetCalendarController {
                     this.frame.getChild().closeDialog();
                 }
             }
-
-            // io l ho messo tutto dentro un'else mentre prima veniva fatto dopo
-            // e prima c era un return
         } catch (final IllegalArgumentException e) {
             this.frame.displayError(e.getMessage());
         }
