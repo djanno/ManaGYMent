@@ -1,1 +1,1 @@
-ManaGYMent is a Gym Management application developed by me, Davide Borficchia and Simone Letizi in 2015, as an assignment for an Object Oriented Programming course. It was mostly just an exercise to acquire confidence with the paradigm and the MVC pattern.
+ManaGYMent is a gym management application developed by me, Davide Borficchia and Simone Letizi in 2015, as an assignment for an Object Oriented Programming course. It was mostly just an exercise to acquire confidence with the paradigm and the MVC pattern.
